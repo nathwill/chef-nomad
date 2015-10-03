@@ -39,7 +39,7 @@ module Nomad
       enable_syslog: { kind_of: [TrueClass, FalseClass] },
       syslog_facility: { kind_of: String },
       disable_update_check: { kind_of: [TrueClass, FalseClass] },
-      disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] },
+      disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] }
     }
   end
 
@@ -50,7 +50,7 @@ module Nomad
       data_dir: { kind_of: String },
       protocol_version: { kind_of: String },
       num_schedulers: { kind_of: Integer },
-      enabled_schedulers: { kind_of: Array },
+      enabled_schedulers: { kind_of: Array }
     }
   end
 
@@ -64,7 +64,7 @@ module Nomad
       network_speed: { kind_of: Integer },
       node_id: { kind_of: String },
       node_class: { kind_of: String },
-      meta: { kind_of: Hash },
+      meta: { kind_of: Hash }
     }
   end
 
@@ -73,7 +73,7 @@ module Nomad
       infrastructure: { kind_of: String },
       token: { kind_of: String },
       join: { kind_of: [TrueClass, FalseClass] },
-      endpoint: { kind_of: String },
+      endpoint: { kind_of: String }
     }
   end
 end

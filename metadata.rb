@@ -15,6 +15,6 @@ supports 'ubuntu', '>= 12.04'
 end
 
 unless defined?(Ridley::Chef::Cookbook::Metadata)
-  source_url       'https://github.com/nathwill/chef-nomad'
-  issues_url       'https://github.com/nathwill/chef-nomad/issues'
+  source_url 'https://github.com/nathwill/chef-nomad'
+  issues_url 'https://github.com/nathwill/chef-nomad/issues'
 end

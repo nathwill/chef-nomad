@@ -35,7 +35,5 @@ default['nomad'].tap do |nomad|
         nomad_0.1.0_windows_amd64.zip
         f0d11709e1e204187fa9d9c4135710f4a1e48d8603651cac87c3f22426ba0d71
       )
-    else
-      Chef::Log.fatal!("Unsupported platform!")
     end
 end

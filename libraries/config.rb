@@ -127,14 +127,14 @@ class Chef::Provider
     provides :nomad_config
     %w( server client atlas ).each do |sec|
       provides "nomad_#{sec}_config".to_sym
-    end 
+    end
 
     %i( create delete ).each do |a|
       action a do
         r = new_resource
 
         directory r.path do
-          not_if { a == :delete }
+          not_if { r.action == :delete }
         end
 
         f = file ::File.join(r.path, "#{r.name}.hcl") do

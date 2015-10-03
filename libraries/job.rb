@@ -22,12 +22,10 @@ require 'chef/provider/lwrp_base'
 
 class Chef::Resource
   class NomadJob < Chef::Resource::LWRPBase
-
   end
 end
 
 class Chef::Provider
   class NomadJob < Chef::Provider::LWRPBase
-
   end
 end
