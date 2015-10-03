@@ -1,0 +1,16 @@
+# nomad - nomad job file
+
+description "Nomad System Scheduler"
+author "Nathan Williams <nath.e.will@gmail.com>"
+
+# When to start the service
+start on runlevel [2345]
+
+# When to stop the service
+stop on runlevel [016]
+
+# Automatically restart if crashed
+respawn
+
+# Start the process
+exec /usr/local/bin/nomad agent -config=<%= @conf_root %>
