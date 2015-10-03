@@ -16,11 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-Chef::Log.info("Configuring #{cookbook_name}")
-
 nomad = node['nomad']
-
-directory Nomad::Helpers::CONFIG_ROOT
 
 nomad_config '00-agent' do
   data_dir nomad['data_dir']

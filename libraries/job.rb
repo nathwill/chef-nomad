@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Attributes:: manage
+# Library:: Chef::Resource::NomadJob
 #
 # Copyright 2015 The Authors
 #
@@ -15,4 +15,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
+require 'chef/resource/lwrp_base'
+require 'chef/provider/lwrp_base'
+
+class Chef::Resource
+  class NomadJob < Chef::Resource::LWRPBase
+
+  end
+end
+
+class Chef::Provider
+  class NomadJob < Chef::Provider::LWRPBase
+
+  end
+end

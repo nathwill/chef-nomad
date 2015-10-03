@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Library:: Chef::Resource::NomadConfig
+# Library:: Chef::Resource::Nomad{Base,Config,ClientConfig,ServerConfig}
 #
 # Copyright 2015 The Authors
 #
@@ -18,6 +18,7 @@
 #
 
 require 'chef/resource/lwrp_base'
+require 'chef/provider/lwrp_base'
 require_relative 'helpers'
 
 class Chef::Resource
@@ -27,6 +28,8 @@ class Chef::Resource
 
     actions :create, :delete
     default_action :create
+
+    attribute :path, kind_of: String, default: Nomad::Helpers::CONFIG_ROOT
 
     def self.option_attributes(options = {})
       options.each_pair { |name, opts| attribute name, opts }
@@ -130,7 +133,11 @@ class Chef::Provider
       action a do
         r = new_resource
 
-        f = file ::File.join(Nomad::Helpers::CONFIG_ROOT, "#{r.name}.hcl") do
+        directory r.path do
+          not_if { a == :delete }
+        end
+
+        f = file ::File.join(r.path, "#{r.name}.hcl") do
           content r.to_json
           action a
         end
