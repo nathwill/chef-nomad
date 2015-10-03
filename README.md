@@ -1,4 +1,4 @@
 # nomad
 
-TODO: Enter the cookbook description here.
+cookbook for installing/managing nomad
 
