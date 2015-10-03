@@ -44,6 +44,8 @@ module Nomad
       state_dir: { kind_of: String },
       alloc_dir: { kind_of: String },
       servers: { kind_of: Array },
+      network_interface: { kind_of: String },
+      network_speed: { kind_of: Integer },
       node_id: { kind_of: String },
       node_class: { kind_of: String },
       meta: { kind_of: Hash },
