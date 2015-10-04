@@ -24,7 +24,6 @@ end
 
 nomad_server_config '00-server' do
   enabled nomad['server_enabled']
-  bootstrap_expect nomad['bootstrap_expect']
 end
 
 nomad_client_config '00-client' do

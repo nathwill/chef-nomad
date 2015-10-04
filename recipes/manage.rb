@@ -16,6 +16,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+args = node['nomad']['daemon_args'].map do |k, v|
+  Nomad::Helpers.to_cli_arg(k, v)
+end.join(' ')
+
 systemd_service 'nomad' do
   description 'Nomad System Scheduler'
   documentation 'https://nomadproject.io/docs/index.html'
@@ -23,7 +27,7 @@ systemd_service 'nomad' do
     wanted_by %w( multi-user.target )
   end
   service do
-    exec_start "/usr/local/bin/nomad agent -config=#{Nomad::Helpers::CONFIG_ROOT}" # rubocop: disable LineLength
+    exec_start "/usr/local/bin/nomad agent #{args}"
     restart 'on-failure'
   end
   action :create
@@ -32,7 +36,7 @@ end
 
 template '/etc/init/nomad.conf' do
   source 'upstart.conf.erb'
-  variables conf_root: Nomad::Helpers::CONFIG_ROOT
+  variables daemon_args: args
   action :create
   only_if { ::File.executable?('/sbin/initctl') }
 end

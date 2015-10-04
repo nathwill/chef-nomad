@@ -115,7 +115,7 @@ class Chef::Resource
     default_action :create
 
     attribute :cookbook, kind_of: String
-    attribute :path, kind_of: String, default: '/etc/nomad-jobs.d'
+    attribute :path, kind_of: String, default: Nomad::Helpers::JOB_ROOT
     attribute :source, kind_of: String, required: true
     attribute :variables, kind_of: Hash
   end

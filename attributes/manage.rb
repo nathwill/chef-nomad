@@ -15,3 +15,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+default['nomad'].tap do |nomad|
+  nomad['daemon_args'].tap do |args|
+    args['config'] = Nomad::Helpers::CONFIG_ROOT
+  end
+end

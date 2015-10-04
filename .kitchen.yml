@@ -20,4 +20,5 @@ suites:
     attributes:
       nomad:
         server_enabled: true
-        bootstrap_expect: 1
+        daemon_args:
+          dev: []
