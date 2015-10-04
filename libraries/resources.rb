@@ -171,7 +171,7 @@ class Chef::Provider
         t = template ::File.join(r.path, "#{r.name}.hcl") do
           cookbook r.cookbook
           source r.source
-          variables r.variables
+          variables r.variables if r.variables
           action a
           if Chef::VERSION.to_f >= 12
             verify { |path| "nomad validate #{path}" }

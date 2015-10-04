@@ -1,0 +1,17 @@
+job "redis" {
+	region = "us"
+
+	datacenters = ["dc1"]
+
+	group "monitoring" {
+		driver = "docker"
+
+		config {
+			image = "redis"
+		}
+
+		resources {
+			memory = 128
+		}
+	}
+}
