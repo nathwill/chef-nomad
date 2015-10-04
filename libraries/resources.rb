@@ -19,10 +19,6 @@
 
 require 'chef/resource/lwrp_base'
 require 'chef/provider/lwrp_base'
-
-require 'chef/resource/template'
-require 'chef/provider/template'
-
 require_relative 'helpers'
 
 class Chef::Resource
@@ -114,6 +110,10 @@ class Chef::Resource
   class NomadJob < Chef::Resource::LWRPBase
     self.resource_name = :nomad_job
     provides :nomad_job
+
+    attribute :path, kind_of: String, default: '/etc/nomad-jobs.d'
+    attribute :source, kind_of: String, required: true
+    attribute :variables, kind_of: Hash
   end
 end
 
@@ -152,13 +152,43 @@ class Chef::Provider
   end
 
   class NomadJob < Chef::Provider::LWRPBase
+    use_inline_resources
+
+    def whyrun_supported?
+      true
+    end
+
     provides :nomad_job
 
+    %i( create delete ).each do |a|
+      action a do
+        r = new_resource
+
+        directory r.path do
+          not_if { r.action == :delete }
+        end
+
+        t = template ::File.join(r.path, "#{r.name}.hcl") do
+          cookbook r.cookbook
+          source r.source
+          variables r.variables
+          action a
+          if Chef::VERSION.to_f >= 12
+            verify { |path| "nomad validate #{path}" }
+          end
+        end
+
+        new_resource.updated_by_last_action(t.updated_by_last_action?)
+      end
+    end
+
     action :run do
+      # Pending strategy for idempotency
       fail NotImplementedError
     end
 
     action :stop do
+      # Pending strategy for idempotency
       fail NotImplementedError
     end
   end
