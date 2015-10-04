@@ -111,6 +111,10 @@ class Chef::Resource
     self.resource_name = :nomad_job
     provides :nomad_job
 
+    actions :create, :delete, :run, :stop
+    default_action :create
+
+    attribute :cookbook, kind_of: String
     attribute :path, kind_of: String, default: '/etc/nomad-jobs.d'
     attribute :source, kind_of: String, required: true
     attribute :variables, kind_of: Hash
@@ -169,7 +173,7 @@ class Chef::Provider
         end
 
         t = template ::File.join(r.path, "#{r.name}.hcl") do
-          cookbook r.cookbook
+          cookbook r.cookbook || r.cookbook_name
           source r.source
           variables r.variables if r.variables
           action a
