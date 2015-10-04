@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Library:: Chef::Resource::Nomad{Base,Config,ClientConfig,ServerConfig}
+# Library:: Chef::Resource::Nomad{Base,Config,ClientConfig,ServerConfig,Job}
 #
 # Copyright 2015 The Authors
 #
@@ -19,6 +19,10 @@
 
 require 'chef/resource/lwrp_base'
 require 'chef/provider/lwrp_base'
+
+require 'chef/resource/template'
+require 'chef/provider/template'
+
 require_relative 'helpers'
 
 class Chef::Resource
@@ -35,9 +39,7 @@ class Chef::Resource
       options.each_pair { |name, opts| attribute name, opts }
     end
   end
-end
 
-class Chef::Resource
   class NomadConfig < Chef::Resource::NomadBase
     self.resource_name = :nomad_config
     provides :nomad_config
@@ -57,9 +59,7 @@ class Chef::Resource
       config.to_json
     end
   end
-end
 
-class Chef::Resource
   class NomadServerConfig < Chef::Resource::NomadBase
     self.resource_name = :nomad_server_config
     provides :nomad_server_config
@@ -76,9 +76,7 @@ class Chef::Resource
       config.to_json
     end
   end
-end
 
-class Chef::Resource
   class NomadClientConfig < Chef::Resource::NomadBase
     self.resource_name = :nomad_client_config
     provides :nomad_client_config
@@ -95,9 +93,7 @@ class Chef::Resource
       config.to_json
     end
   end
-end
 
-class Chef::Resource
   class NomadAtlasConfig < Chef::Resource::NomadBase
     self.resource_name = :nomad_atlas_config
     provides :nomad_atlas_config
@@ -114,19 +110,27 @@ class Chef::Resource
       config.to_json
     end
   end
+
+  class NomadJob < Chef::Resource::LWRPBase
+    self.resource_name = :nomad_job
+    provides :nomad_job
+  end
 end
 
 class Chef::Provider
-  class NomadConfig < Chef::Provider::LWRPBase
+  class NomadBase < Chef::Provider::LWRPBase
     use_inline_resources
 
     def whyrun_supported?
       true
     end
 
-    provides :nomad_config
-    %w( server client atlas ).each do |sec|
-      provides "nomad_#{sec}_config".to_sym
+    %w( base config ).each do |s|
+      provides "nomad_#{s}".to_sym
+    end
+
+    %w( client server atlas ).each do |s|
+      provides "nomad_#{s}_config".to_sym
     end
 
     %i( create delete ).each do |a|
@@ -144,6 +148,18 @@ class Chef::Provider
 
         new_resource.updated_by_last_action(f.updated_by_last_action?)
       end
+    end
+  end
+
+  class NomadJob < Chef::Provider::LWRPBase
+    provides :nomad_job
+
+    action :run do
+      fail NotImplementedError
+    end
+
+    action :stop do
+      fail NotImplementedError
     end
   end
 end

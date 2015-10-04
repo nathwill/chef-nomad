@@ -14,7 +14,9 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[test::prepare]
       - recipe[nomad::default]
+      - recipe[test::exercise]
     attributes:
       nomad:
         server_enabled: true

@@ -22,6 +22,12 @@ module Nomad
     CONFIG_ROOT ||= '/etc/nomad.d'
   end
 
+  module Job
+    def self.running?(job)
+      fail NotImplementedError, job
+    end
+  end
+
   module Config
     OPTIONS ||= {
       region: { kind_of: String },
