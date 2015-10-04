@@ -20,7 +20,7 @@
 module Nomad
   module Helpers
     CONFIG_ROOT ||= '/etc/nomad-conf.d'
-    JOB_ROOT    ||= '/etc/nomad-jobs.d'
+    JOB_ROOT ||= '/etc/nomad-jobs.d'
 
     def self.to_cli_arg(arg, val)
       if val.nil? || (val.respond_to?(:empty?) && val.empty?)
