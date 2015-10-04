@@ -23,7 +23,7 @@ require_relative 'helpers'
 
 class Chef::Resource
   class NomadBase < Chef::Resource::LWRPBase
-    self.resource_name = :nomad_base
+    resource_name :nomad_base
     provides :nomad_base
 
     actions :create, :delete
@@ -37,7 +37,7 @@ class Chef::Resource
   end
 
   class NomadConfig < Chef::Resource::NomadBase
-    self.resource_name = :nomad_config
+    resource_name :nomad_config
     provides :nomad_config
 
     option_attributes Nomad::Config::OPTIONS
@@ -57,7 +57,7 @@ class Chef::Resource
   end
 
   class NomadServerConfig < Chef::Resource::NomadBase
-    self.resource_name = :nomad_server_config
+    resource_name :nomad_server_config
     provides :nomad_server_config
 
     option_attributes Nomad::ServerConfig::OPTIONS
@@ -74,7 +74,7 @@ class Chef::Resource
   end
 
   class NomadClientConfig < Chef::Resource::NomadBase
-    self.resource_name = :nomad_client_config
+    resource_name :nomad_client_config
     provides :nomad_client_config
 
     option_attributes Nomad::ClientConfig::OPTIONS
@@ -91,7 +91,7 @@ class Chef::Resource
   end
 
   class NomadAtlasConfig < Chef::Resource::NomadBase
-    self.resource_name = :nomad_atlas_config
+    resource_name :nomad_atlas_config
     provides :nomad_atlas_config
 
     option_attributes Nomad::AtlasConfig::OPTIONS
@@ -108,7 +108,7 @@ class Chef::Resource
   end
 
   class NomadJob < Chef::Resource::LWRPBase
-    self.resource_name = :nomad_job
+    resource_name :nomad_job
     provides :nomad_job
 
     actions :create, :delete, :run, :stop
