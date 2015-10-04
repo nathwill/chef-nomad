@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Spec:: default
+# Spec:: manage
 #
 # Copyright 2015 The Authors
 #
@@ -18,17 +18,16 @@
 
 require 'spec_helper'
 
-describe 'nomad::default' do
+describe 'nomad::manage' do
   context 'When all attributes are default, on an unspecified platform' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new
       runner.converge(described_recipe)
     end
 
-    it 'includes the other recipes' do
-      %w( install configure manage ).each do |r|
-        expect(chef_run).to include_recipe "nomad::#{r}"
-      end
+    it 'manages nomad service' do
+      expect(chef_run).to enable_service('nomad')
+      expect(chef_run).to start_service('nomad')
     end
 
     it 'converges successfully' do
