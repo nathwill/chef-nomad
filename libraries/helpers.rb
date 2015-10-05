@@ -22,12 +22,10 @@ module Nomad
     CONFIG_ROOT ||= '/etc/nomad-conf.d'
     JOB_ROOT ||= '/etc/nomad-jobs.d'
 
-    def self.to_cli_arg(arg, val)
-      if val.nil? || (val.respond_to?(:empty?) && val.empty?)
-        "-#{arg}"
-      else
-        "-#{arg}=#{val}"
-      end
+    def self.hash_to_arg_string(opts = {})
+      opts.map do |arg, val|
+        val.nil? ? "-#{arg}" : "-#{arg}=#{val}"
+      end.sort.join(' ')
     end
   end
 

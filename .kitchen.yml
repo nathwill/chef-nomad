@@ -17,8 +17,3 @@ suites:
       - recipe[test::prepare]
       - recipe[nomad::default]
       - recipe[test::exercise]
-    attributes:
-      nomad:
-        server_enabled: true
-        daemon_args:
-          dev: []

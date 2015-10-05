@@ -16,9 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-args = node['nomad']['daemon_args'].map do |k, v|
-  Nomad::Helpers.to_cli_arg(k, v)
-end.join(' ')
+args = Nomad::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
 
 systemd_service 'nomad' do
   description 'Nomad System Scheduler'
