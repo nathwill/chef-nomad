@@ -40,5 +40,8 @@ template '/etc/init/nomad.conf' do
 end
 
 service 'nomad' do
+  if ::File.executable?('/sbin/initctl')
+    provider Chef::Provider::Service::Upstart
+  end
   action [:enable, :start]
 end
