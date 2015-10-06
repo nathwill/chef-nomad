@@ -18,18 +18,18 @@
 
 nomad = node['nomad']
 
-nomad_config '00-agent' do
+nomad_config '00-default' do
   data_dir nomad['data_dir']
 end
 
-nomad_server_config '00-server' do
+nomad_server_config '00-default' do
   enabled nomad['server_enabled']
 end
 
-nomad_client_config '00-client' do
+nomad_client_config '00-default' do
   enabled nomad['client_enabled']
 end
 
-nomad_atlas_config '00-atlas' do
+nomad_atlas_config '00-default' do
   join nomad['atlas_join']
 end

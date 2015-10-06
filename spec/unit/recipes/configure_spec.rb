@@ -26,19 +26,19 @@ describe 'nomad::configure' do
     end
 
     it 'configures nomad' do
-      expect(chef_run).to create_nomad_config('00-agent').with(
+      expect(chef_run).to create_nomad_config('00-default').with(
         data_dir: '/var/lib/nomad'
       )
 
-      expect(chef_run).to create_nomad_server_config('00-server').with(
+      expect(chef_run).to create_nomad_server_config('00-default').with(
         enabled: false
       )
 
-      expect(chef_run).to create_nomad_client_config('00-client').with(
+      expect(chef_run).to create_nomad_client_config('00-default').with(
         enabled: true
       )
 
-      expect(chef_run).to create_nomad_atlas_config('00-atlas').with(
+      expect(chef_run).to create_nomad_atlas_config('00-default').with(
         join: false
       )
     end

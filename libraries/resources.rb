@@ -33,6 +33,10 @@ class Chef::Resource
 
     attribute :path, kind_of: String, default: Nomad::Helpers::CONFIG_ROOT
 
+    def prefix
+      nil
+    end
+
     def self.option_attributes(options = {})
       options.each_pair { |name, opts| attribute name, opts }
     end
@@ -44,6 +48,10 @@ class Chef::Resource
 
     option_attributes Nomad::Config::OPTIONS
     attribute :agent_name, kind_of: String
+
+    def prefix
+      'agent'
+    end
 
     def to_json
       config = {}
@@ -64,6 +72,10 @@ class Chef::Resource
 
     option_attributes Nomad::ServerConfig::OPTIONS
 
+    def prefix
+      'server'
+    end
+
     def to_json
       config = { 'server' => {} }
 
@@ -81,6 +93,10 @@ class Chef::Resource
 
     option_attributes Nomad::ClientConfig::OPTIONS
 
+    def prefix
+      'client'
+    end
+
     def to_json
       config = { 'client' => {} }
 
@@ -97,6 +113,10 @@ class Chef::Resource
     provides :nomad_atlas_config
 
     option_attributes Nomad::AtlasConfig::OPTIONS
+
+    def prefix
+      'atlas'
+    end
 
     def to_json
       config = { 'atlas' => {} }
@@ -147,7 +167,7 @@ class Chef::Provider
           not_if { r.action == :delete }
         end
 
-        f = file ::File.join(r.path, "#{r.name}.hcl") do
+        f = file ::File.join(r.path, "#{r.prefix}_#{r.name}.hcl") do
           content r.to_json
           action a
         end
@@ -187,22 +207,15 @@ class Chef::Provider
     end
 
     # These actions are not idempotent!
-    action :run do
-      r = new_resource
-      path = ::File.join(r.path, "#{r.name}.hcl")
+    %i( run stop ).each do |a|
+      action a do
+        r = new_resource
+        path = ::File.join(r.path, "#{r.name}.hcl")
 
-      Mixlib::ShellOut.new("nomad run #{path}")
-        .tap(&:run_command)
-        .error!
-    end
-
-    action :stop do
-      r = new_resource
-      path = ::File.join(r.path, "#{r.name}.hcl")
-
-      Mixlib::ShellOut.new("nomad stop #{path}")
-        .tap(&:run_command)
-        .error!
+        Mixlib::ShellOut.new("nomad #{a} #{path}")
+          .tap(&:run_command)
+          .error!
+      end
     end
   end
 end
