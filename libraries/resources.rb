@@ -19,6 +19,7 @@
 
 require 'chef/resource/lwrp_base'
 require 'chef/provider/lwrp_base'
+require 'mixlib/shellout'
 
 require_relative 'helpers'
 
@@ -185,14 +186,23 @@ class Chef::Provider
       end
     end
 
+    # These actions are not idempotent!
     action :run do
-      # Pending strategy for idempotency
-      fail NotImplementedError
+      r = new_resource
+      path = ::File.join(r.path, "#{r.name}.hcl")
+
+      Mixlib::ShellOut.new("nomad run #{path}")
+        .tap(&:run_command)
+        .error!
     end
 
     action :stop do
-      # Pending strategy for idempotency
-      fail NotImplementedError
+      r = new_resource
+      path = ::File.join(r.path, "#{r.name}.hcl")
+
+      Mixlib::ShellOut.new("nomad stop #{path}")
+        .tap(&:run_command)
+        .error!
     end
   end
 end
