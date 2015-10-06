@@ -19,7 +19,6 @@
 
 require 'chef/resource/lwrp_base'
 require 'chef/provider/lwrp_base'
-require 'mixlib/shellout'
 
 require_relative 'helpers'
 
@@ -212,9 +211,7 @@ class Chef::Provider
         r = new_resource
         path = ::File.join(r.path, "#{r.name}.hcl")
 
-        Mixlib::ShellOut.new("nomad #{a} #{path}")
-          .tap(&:run_command)
-          .error!
+        execute "nomad #{a} #{path}"
       end
     end
   end

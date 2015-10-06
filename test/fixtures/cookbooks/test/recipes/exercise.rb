@@ -5,4 +5,8 @@ nomad_job 'redis' do
   notifies :run, 'nomad_job[redis]', :delayed
 end
 
-sleep 5 # lets the agent spin up before we try to use it
+ruby_block 'let-nomad-service-start' do
+  block do
+    sleep 5
+  end
+end
