@@ -1,10 +1,7 @@
 require 'spec_helper'
 
 describe 'nomad::default' do
-  describe service('nomad') do
-    unless os[:family] == 'redhat' && os[:release].match(/^6\.\d/)
-      it { should be_enabled }
-    end
-    it { should be_running }
+  describe command('curl localhost:4646/v1/allocations') do
+    its(:stdout) { should match /redis.*running/ }
   end
 end
