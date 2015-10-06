@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Library:: Nomad
+# Library:: Nomad::Helpers
 #
 # Copyright 2015 The Authors
 #
