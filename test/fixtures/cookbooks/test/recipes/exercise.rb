@@ -5,7 +5,9 @@ nomad_job 'redis' do
   notifies :run, 'nomad_job[redis]', :delayed
 end
 
-ruby_block 'let-nomad-service-start' do
+package 'curl'
+
+ruby_block 'let-nomad-service-settle' do
   block do
     sleep 5
   end
