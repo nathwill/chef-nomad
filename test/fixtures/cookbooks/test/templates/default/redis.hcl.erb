@@ -50,11 +50,11 @@ job "redis" {
 			# this task to ensure it runs on a machine with
 			# enough capacity.
 			resources {
-				cpu = 250 # 500 Mhz
+				cpu = 500 # 500 Mhz
 				memory = 256 # 256MB
 				network {
 					mbits = 10
-					dynamic_ports = ["redis"]
+					dynamic_ports = [6379]
 				}
 			}
 		}
