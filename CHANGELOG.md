@@ -1,3 +1,9 @@
+# 0.4.0 / 2015-10-06
+
+* job lifecycle management run/update via notify, stop
+* fixed potential for config resource file path collisions
+* testing fixes
+
 # 0.3.0 / 2015-10-05
 
 * update to latest release
