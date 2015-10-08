@@ -27,6 +27,17 @@ module Nomad
         val.nil? ? "-#{arg}" : "-#{arg}=#{val}"
       end.sort.join(' ')
     end
+
+    def self.conf_keys_include_opts(ok = %w())
+      {
+        kind_of: Hash,
+        callbacks: {
+          'contains only required keys' => lambda do |spec|
+            spec.keys.all? { |k| ok.include? k }
+          end
+        }
+      }
+    end
   end
 
   module Job
@@ -43,10 +54,12 @@ module Nomad
       log_level: { kind_of: String, equal_to: %w( WARN INFO DEBUG ) },
       bind_addr: { kind_of: String },
       enable_debug: { kind_of: [TrueClass, FalseClass] },
-      ports: { kind_of: Hash },
-      addresses: { kind_of: Hash },
-      advertise: { kind_of: Hash },
-      telemetry: { kind_of: Hash },
+      ports: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
+      addresses: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
+      advertise: Nomad::Helpers.conf_keys_include_opts(%w( rpc serf )),
+      telemetry: Nomad::Helpers.conf_keys_include_opts(
+        %w( statsite_address statsd_address disable_hostname )
+      ),
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
       enable_syslog: { kind_of: [TrueClass, FalseClass] },
@@ -59,10 +72,20 @@ module Nomad
   module ServerConfig
     OPTIONS ||= {
       enabled: { kind_of: [TrueClass, FalseClass] },
-      bootstrap_expect: { kind_of: Integer },
+      bootstrap_expect: {
+        kind_of: Integer,
+        callbacks: {
+          'is a positive integer' => ->(spec) { spec.abs == spec }
+        }
+      },
       data_dir: { kind_of: String },
       protocol_version: { kind_of: String },
-      num_schedulers: { kind_of: Integer },
+      num_schedulers: {
+        kind_of: Integer,
+        callbacks: {
+          'is a positive integer' => ->(spec) { spec.abs == spec }
+        }
+      },
       enabled_schedulers: { kind_of: Array }
     }
   end
@@ -77,7 +100,8 @@ module Nomad
       network_speed: { kind_of: Integer },
       node_id: { kind_of: String },
       node_class: { kind_of: String },
-      meta: { kind_of: Hash }
+      meta: { kind_of: Hash },
+      options: { kind_of: Hash }
     }
   end
 
