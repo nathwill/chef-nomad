@@ -34,29 +34,28 @@ module Nomad
         delete: Net::HTTP::Delete
       }
 
-      attr_accessor :config, :uri_base
-
-      def initialize(endpoint = 'http://127.0.0.1:4646', config = { version: 1 })
+      def initialize(endpoint = 'http://127.0.0.1:4646')
         uri = URI.parse(endpoint)
         @connection = Net::HTTP.new(uri.host, uri.port)
-        @config = config
       end
 
-      def get(path, params)
+      def get(path, params = {})
         request_json :get, path, params
       end
 
-      def post(path, params)
+      def post(path, params = {})
         request_json :post, path, params
       end
 
-      def put(path, params)
+      def put(path, params = {})
         request_json :put, path, params
       end
 
-      def delete(path, params)
+      def delete(path, params = {})
         request_json :delete, path, params
       end
+
+      private
 
       def request(method, path, params = {})
         case method
@@ -71,11 +70,11 @@ module Nomad
         @connection.request(request)
       end
 
-      private
-
       def request_json(method, path, params)
         response = request(method, path, params)
         OpenStruct.new(code: response.code, body: JSON.parse(response.body))
+      rescue JSON::ParserError
+        response
       end
 
       def encoded_params(path, params)
@@ -84,34 +83,38 @@ module Nomad
     end
 
     def self.jobs(params = {}, client = Nomad::API::Client.new)
-      client.get("/v#{client.config[:version]}/jobs", params).body
+      client.get("/v1/jobs", params).body
     end
 
     def self.nodes(params = {}, client = Nomad::API::Client.new)
-      client.get("/v#{client.config[:version]}/nodes", params).body
+      client.get("/v1/nodes", params).body
     end
 
     def self.allocations(params = {}, client = Nomad::API::Client.new)
-      client.get("/v#{client.config[:version]}/allocations", params).body
+      client.get("/v1/allocations", params).body
     end
 
+    def self.allocation(id, params = {}, client = Nomad::API::Client.new)
+      client.get("/v1/allocation/#{id}", params).body
+    end
+
+
     def self.evaluations(params = {}, client = Nomad::API::Client.new)
-      client.get("/v#{client.config[:version]}/evaluations", params).body
+      client.get("/v1/evaluations", params).body
     end
 
     def self.leader(params = {}, client = Nomad::API::Client.new)
-      client.request(
-        :get, "/v#{client.config[:version]}/status/leader", params
-      ).body
+      client.get("/v1/status/leader", params).body
     end
 
     def self.peers(params = {}, client = Nomad::API::Client.new)
-      client.get("/v#{client.config[:version]}/status/leader", params).body
+      client.get("/v1/status/leader",params).body
     end
 
     class Job
       attr_reader :name, :client
       attr_writer :data
+
       def initialize(name, client = Nomad::API::Client.new, data = nil)
         @name = name
         @client = client
@@ -120,32 +123,100 @@ module Nomad
 
       def data(params = {})
         @data ||= @client.get(
-          "/v#{@client.config[:version]}/job/#{@name}", params
+          "/v1/job/#{@name}", params
         ).body
       end
 
       def save(params = {})
-        @client.put("/v#{@client.config[:version]}/job/#{@name}", @data.merge(params))
+        fail NotImplementedError
       end
 
       def update(params = {})
-        @client.post("/v#{@client.config[:version]}/job/#{@name}", @data.merge(params))
+        fail NotImplementedError
       end
 
       def delete(params = {})
-        @client.delete("/v#{@client.config[:version]}/job/#{@name}", params)
+        @client.delete("/v1/job/#{@name}", params)
       end
 
       def allocations(params = {})
-        @client.get("/v#{@client.config[:version]}/job/#{@name}/allocations", params).body
+        @client.get("/v1/job/#{@name}/allocations", params).body
       end
 
       def evaluate(params = {})
-        @client.put("/v#{@client.config[:version]}/job/#{@name}/evaluate", params).body
+        @client.put("/v1/job/#{@name}/evaluate", params).body
       end
 
       def evaluations(params = {})
-        @client.get("/v#{@client.config[:version]}/job/#{@name}/evaluations", params).body
+        @client.get("/v1/job/#{@name}/evaluations", params).body
+      end
+    end
+
+    class Node
+      attr_reader :name, :client
+      attr_writer :data
+
+      def initialize(id, client = Nomad::API::Client.new, data = nil)
+        @id = id
+        @client = client
+        @data = data
+      end
+
+      def data(params = {})
+        @data ||= @client.get(
+          "/v1/node/#{@id}", params
+        ).body
+      end
+
+      def allocations(params = {})
+        @client.get("/v1/node/#{@id}/allocations", params).body
+      end
+
+      def evaluate(params = {})
+        @client.put("/v1/node/#{@id}/evaluate", params).body
+      end
+
+      def drain(params = { enable: true })
+        @client.put("/v1/node/#{@id}/drain", params).body
+      end
+    end
+
+    module Evaluation
+      def self.allocations(id, params = {}, client = Nomad::API::Client.new)
+        client.get("/v1/evaluation/#{id}/allocations", params).body
+      end
+    end
+
+    class Agent
+      attr_reader :client
+      attr_writer :data
+
+      def initialize(client = Nomad::API::Client.new)
+        @client = client
+      end
+
+      def data
+        @data ||= @client.get("/v1/agent/self").body
+      end
+
+      def join(address)
+        @client.put("/v1/agent/join", { address: address }).body
+      end
+
+      def members
+        @client.get("/v1/agent/members").body
+      end
+
+      def force_leave(node)
+        @client.put("/v1/agent/force-leave", { node: node }).code == 200
+      end
+
+      def servers
+        @client.get("/v1/agent/servers").body
+      end
+
+      def update_servers(servers)
+        @client.put("/v1/agent/servers", { address: servers }).code == 200
       end
     end
   end
