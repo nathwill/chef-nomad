@@ -28,15 +28,15 @@ module Nomad
   module API
     class Client
       VERB_MAP ||= {
-        :get => Net::HTTP::Get,
-        :post => Net::HTTP::Post,
-        :put => Net::HTTP::Put,
-        :delete => Net::HTTP::Delete
+        get: Net::HTTP::Get,
+        post: Net::HTTP::Post,
+        put: Net::HTTP::Put,
+        delete: Net::HTTP::Delete
       }
 
       attr_accessor :config, :uri_base
 
-      def initialize(endpoint = "http://127.0.0.1:4646", config = { version: 1 })
+      def initialize(endpoint = 'http://127.0.0.1:4646', config = { version: 1 })
         uri = URI.parse(endpoint)
         @connection = Net::HTTP.new(uri.host, uri.port)
         @config = config
@@ -75,7 +75,7 @@ module Nomad
 
       def request_json(method, path, params)
         response = request(method, path, params)
-        OpenStruct.new(:code => response.code, :body => JSON.parse(response.body))
+        OpenStruct.new(code: response.code, body: JSON.parse(response.body))
       end
 
       def encoded_params(path, params)
