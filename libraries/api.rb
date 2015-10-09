@@ -112,15 +112,15 @@ module Nomad
     class Job
       attr_reader :name, :client
       attr_writer :data
-      def initialize(name, client = Nomad::API::Client.new, data = {})
+      def initialize(name, client = Nomad::API::Client.new, data = nil)
         @name = name
         @client = client
         @data = data
       end
 
       def data(params = {})
-        @data || @client.get(
-          "/v#{@client.config[:version]}/job/#{@name}"
+        @data ||= @client.get(
+          "/v#{@client.config[:version]}/job/#{@name}", params
         ).body
       end
 
