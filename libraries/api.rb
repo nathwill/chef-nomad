@@ -83,32 +83,31 @@ module Nomad
     end
 
     def self.jobs(params = {}, client = Nomad::API::Client.new)
-      client.get("/v1/jobs", params).body
+      client.get('/v1/jobs', params).body
     end
 
     def self.nodes(params = {}, client = Nomad::API::Client.new)
-      client.get("/v1/nodes", params).body
+      client.get('/v1/nodes', params).body
     end
 
     def self.allocations(params = {}, client = Nomad::API::Client.new)
-      client.get("/v1/allocations", params).body
+      client.get('/v1/allocations', params).body
     end
 
     def self.allocation(id, params = {}, client = Nomad::API::Client.new)
       client.get("/v1/allocation/#{id}", params).body
     end
 
-
     def self.evaluations(params = {}, client = Nomad::API::Client.new)
-      client.get("/v1/evaluations", params).body
+      client.get('/v1/evaluations', params).body
     end
 
     def self.leader(params = {}, client = Nomad::API::Client.new)
-      client.get("/v1/status/leader", params).body
+      client.get('/v1/status/leader', params).body
     end
 
     def self.peers(params = {}, client = Nomad::API::Client.new)
-      client.get("/v1/status/leader",params).body
+      client.get('/v1/status/leader', params).body
     end
 
     class Job
@@ -127,11 +126,11 @@ module Nomad
         ).body
       end
 
-      def save(params = {})
+      def save(_params = {})
         fail NotImplementedError
       end
 
-      def update(params = {})
+      def update(_params = {})
         fail NotImplementedError
       end
 
@@ -196,27 +195,27 @@ module Nomad
       end
 
       def data
-        @data ||= @client.get("/v1/agent/self").body
+        @data ||= @client.get('/v1/agent/self').body
       end
 
       def join(address)
-        @client.put("/v1/agent/join", { address: address }).body
+        @client.put('/v1/agent/join', address: address).body
       end
 
       def members
-        @client.get("/v1/agent/members").body
+        @client.get('/v1/agent/members').body
       end
 
       def force_leave(node)
-        @client.put("/v1/agent/force-leave", { node: node }).code == 200
+        @client.put('/v1/agent/force-leave', node: node).code == 200
       end
 
       def servers
-        @client.get("/v1/agent/servers").body
+        @client.get('/v1/agent/servers').body
       end
 
       def update_servers(servers)
-        @client.put("/v1/agent/servers", { address: servers }).code == 200
+        @client.put('/v1/agent/servers', address: servers).code == 200
       end
     end
   end
