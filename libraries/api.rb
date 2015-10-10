@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Library:: Nomad::Helpers
+# Library:: Nomad::API
 #
 # Copyright 2015 The Authors
 #
@@ -25,7 +25,7 @@ require 'json'
 require 'uri'
 
 module Nomad
-  module API
+  module HTTP
     class Client
       VERB_MAP ||= {
         get: Net::HTTP::Get,
@@ -81,142 +81,163 @@ module Nomad
         [path, URI.encode_www_form(params)].join('?')
       end
     end
+  end
 
-    def self.jobs(params = {}, client = Nomad::API::Client.new)
-      client.get('/v1/jobs', params).body
-    end
-
-    def self.nodes(params = {}, client = Nomad::API::Client.new)
-      client.get('/v1/nodes', params).body
-    end
-
-    def self.allocations(params = {}, client = Nomad::API::Client.new)
-      client.get('/v1/allocations', params).body
-    end
-
-    def self.allocation(id, params = {}, client = Nomad::API::Client.new)
-      client.get("/v1/allocation/#{id}", params).body
-    end
-
-    def self.evaluations(params = {}, client = Nomad::API::Client.new)
-      client.get('/v1/evaluations', params).body
-    end
-
-    def self.leader(params = {}, client = Nomad::API::Client.new)
-      client.get('/v1/status/leader', params).body
-    end
-
-    def self.peers(params = {}, client = Nomad::API::Client.new)
-      client.get('/v1/status/leader', params).body
-    end
-
-    class Job
-      attr_reader :name, :client
-      attr_writer :data
-
-      def initialize(name, client = Nomad::API::Client.new, data = nil)
-        @name = name
-        @client = client
-        @data = data
+  module API
+    class Client
+      def initialize(endpoint = 'http://127.0.0.1:4646')
+        @connection = Nomad::HTTP::Client.new(endpoint)
       end
 
-      def data(params = {})
-        @data ||= @client.get(
-          "/v1/job/#{@name}", params
-        ).body
+      def jobs(params = {})
+        @connection.get('/v1/jobs', params).body.map do |job|
+          Nomad::Job.new(job['Name'], nil, @connection)
+        end
       end
 
-      def save(_params = {})
-        fail NotImplementedError
-      end
-
-      def update(_params = {})
-        fail NotImplementedError
-      end
-
-      def delete(params = {})
-        @client.delete("/v1/job/#{@name}", params)
+      def nodes(params = {})
+        @connection.get('/v1/nodes', params).body.map do |node|
+          Nomad::Node.new(node['ID'], @connection)
+        end
       end
 
       def allocations(params = {})
-        @client.get("/v1/job/#{@name}/allocations", params).body
+        @connection.get('/v1/allocations', params).body
       end
 
-      def evaluate(params = {})
-        @client.put("/v1/job/#{@name}/evaluate", params).body
+      def allocation(id, params = {})
+        @connection.get("/v1/allocation/#{id}", params).body
       end
 
       def evaluations(params = {})
-        @client.get("/v1/job/#{@name}/evaluations", params).body
+        @connection.get('/v1/evaluations', params).body.map do |eval|
+          Nomad::Evaluation.new(eval['ID'], @connection)
+        end
+      end
+
+      def leader(params = {})
+        @connection.get('/v1/status/leader', params).body
+      end
+
+      def peers(params = {})
+        get('/v1/status/peers', params).body
+      end
+    end
+  end
+
+  class Job
+    attr_reader :name, :client
+    attr_writer :data
+
+    def initialize(name, data = nil, client = Nomad::HTTP::Client.new)
+      @name = name
+      @client = client
+      @data = data
+    end
+
+    def data(params = {})
+      @data || @client.get("/v1/job/#{@name}", params).body
+    end
+
+    def save(_params = {})
+      fail NotImplementedError
+    end
+
+    def update(_params = {})
+      fail NotImplementedError
+    end
+
+    def delete(params = {})
+      @client.delete("/v1/job/#{@name}", params)
+    end
+
+    def allocations(params = {})
+      @client.get("/v1/job/#{@name}/allocations", params).body
+    end
+
+    def evaluate(params = {})
+      @client.put("/v1/job/#{@name}/evaluate", params).body
+    end
+
+    def evaluations(params = {})
+      @client.get("/v1/job/#{@name}/evaluations", params).body
+    end
+  end
+
+  class Node
+    attr_reader :name, :client
+    attr_writer :data
+
+    def initialize(id, client = Nomad::HTTP::Client.new)
+      @id = id
+      @client = client
+    end
+
+    def status(params = {})
+      @client.get("/v1/node/#{@id}", params).body
+    end
+
+    def allocations(params = {})
+      @client.get("/v1/node/#{@id}/allocations", params).body
+    end
+
+    def evaluate(params = {})
+      @client.put("/v1/node/#{@id}/evaluate", params).body
+    end
+
+    def drain(params = { "enable" => true })
+      @client.put("/v1/node/#{@id}/drain", params).body
+    end
+  end
+
+  class Evaluation
+    attr_reader :client, :id
+
+    def initialize(id, client = Nomad::HTTP::Client.new)
+      @id = id
+      @client = client
+    end
+
+    def data(params = {})
+      @client.get('/v1/evaluations', params).body.find do |eval|
+        eval['ID'] == @id
       end
     end
 
-    class Node
-      attr_reader :name, :client
-      attr_writer :data
+    def allocations(params = {})
+      @client.get("/v1/evaluation/#{@id}/allocations", params).body
+    end
+  end
 
-      def initialize(id, client = Nomad::API::Client.new, data = nil)
-        @id = id
-        @client = client
-        @data = data
-      end
+  class Agent
+    attr_reader :client
 
-      def data(params = {})
-        @data ||= @client.get(
-          "/v1/node/#{@id}", params
-        ).body
-      end
-
-      def allocations(params = {})
-        @client.get("/v1/node/#{@id}/allocations", params).body
-      end
-
-      def evaluate(params = {})
-        @client.put("/v1/node/#{@id}/evaluate", params).body
-      end
-
-      def drain(params = { enable: true })
-        @client.put("/v1/node/#{@id}/drain", params).body
-      end
+    def initialize(client = Nomad::HTTP::Client.new)
+      @client = client
     end
 
-    module Evaluation
-      def self.allocations(id, params = {}, client = Nomad::API::Client.new)
-        client.get("/v1/evaluation/#{id}/allocations", params).body
-      end
+    def status
+      @client.get('/v1/agent/self').body
     end
 
-    class Agent
-      attr_reader :client
-      attr_writer :data
+    def join(address)
+      @client.put('/v1/agent/join', address: address).body
+    end
 
-      def initialize(client = Nomad::API::Client.new)
-        @client = client
-      end
+    def members
+      @client.get('/v1/agent/members').body
+    end
 
-      def data
-        @data ||= @client.get('/v1/agent/self').body
-      end
+    def force_leave(node)
+      @client.put('/v1/agent/force-leave', node: node)
+    end
 
-      def join(address)
-        @client.put('/v1/agent/join', address: address).body
-      end
+    def servers
+      @client.get('/v1/agent/servers').body
+    end
 
-      def members
-        @client.get('/v1/agent/members').body
-      end
-
-      def force_leave(node)
-        @client.put('/v1/agent/force-leave', node: node).code == 200
-      end
-
-      def servers
-        @client.get('/v1/agent/servers').body
-      end
-
-      def update_servers(servers)
-        @client.put('/v1/agent/servers', address: servers).code == 200
-      end
+    def update_servers(servers)
+      @client.put('/v1/agent/servers', address: servers)
     end
   end
 end
