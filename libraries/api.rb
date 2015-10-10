@@ -185,7 +185,7 @@ module Nomad
       @client.put("/v1/node/#{@id}/evaluate", params).body
     end
 
-    def drain(params = { "enable" => true })
+    def drain(params = { 'enable' => true })
       @client.put("/v1/node/#{@id}/drain", params).body
     end
   end
