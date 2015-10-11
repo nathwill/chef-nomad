@@ -44,6 +44,7 @@ job "redis" {
 			# Configure Docker driver with the image
 			config {
 				image = "redis:latest"
+				network_mode = "host"
 			}
 
 			# We must specify the resources required for
