@@ -1,3 +1,9 @@
+# 0.5.0 / 2015-10-10
+
+* use latest nomad release
+* extended resource attribute validation
+* add inital api-related classes
+
 # 0.4.0 / 2015-10-06
 
 * job lifecycle management run/update via notify, stop
