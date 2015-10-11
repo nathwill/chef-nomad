@@ -82,49 +82,9 @@ module Nomad
       end
     end
   end
+end
 
-  module API
-    class Client
-      def initialize(endpoint = 'http://127.0.0.1:4646')
-        @connection = Nomad::HTTP::Client.new(endpoint)
-      end
-
-      def jobs(params = {})
-        @connection.get('/v1/jobs', params).body.map do |job|
-          Nomad::Job.new(job['Name'], nil, @connection)
-        end
-      end
-
-      def nodes(params = {})
-        @connection.get('/v1/nodes', params).body.map do |node|
-          Nomad::Node.new(node['ID'], @connection)
-        end
-      end
-
-      def allocations(params = {})
-        @connection.get('/v1/allocations', params).body
-      end
-
-      def allocation(id, params = {})
-        @connection.get("/v1/allocation/#{id}", params).body
-      end
-
-      def evaluations(params = {})
-        @connection.get('/v1/evaluations', params).body.map do |eval|
-          Nomad::Evaluation.new(eval['ID'], @connection)
-        end
-      end
-
-      def leader(params = {})
-        @connection.get('/v1/status/leader', params).body
-      end
-
-      def peers(params = {})
-        get('/v1/status/peers', params).body
-      end
-    end
-  end
-
+module Nomad
   class Job
     attr_reader :name, :client
     attr_writer :data
@@ -238,6 +198,48 @@ module Nomad
 
     def update_servers(servers)
       @client.put('/v1/agent/servers', address: servers)
+    end
+  end
+
+  module API
+    class Client
+      def initialize(endpoint = 'http://127.0.0.1:4646')
+        @connection = Nomad::HTTP::Client.new(endpoint)
+      end
+
+      def jobs(params = {})
+        @connection.get('/v1/jobs', params).body.map do |job|
+          Nomad::Job.new(job['Name'], nil, @connection)
+        end
+      end
+
+      def nodes(params = {})
+        @connection.get('/v1/nodes', params).body.map do |node|
+          Nomad::Node.new(node['ID'], @connection)
+        end
+      end
+
+      def allocations(params = {})
+        @connection.get('/v1/allocations', params).body
+      end
+
+      def allocation(id, params = {})
+        @connection.get("/v1/allocation/#{id}", params).body
+      end
+
+      def evaluations(params = {})
+        @connection.get('/v1/evaluations', params).body.map do |eval|
+          Nomad::Evaluation.new(eval['ID'], @connection)
+        end
+      end
+
+      def leader(params = {})
+        @connection.get('/v1/status/leader', params).body
+      end
+
+      def peers(params = {})
+        get('/v1/status/peers', params).body
+      end
     end
   end
 end
