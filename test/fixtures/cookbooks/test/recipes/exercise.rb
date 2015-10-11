@@ -9,6 +9,6 @@ package 'curl'
 
 ruby_block 'let-nomad-service-settle' do
   block do
-    sleep 5
+    sleep 10
   end
 end
