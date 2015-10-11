@@ -22,13 +22,13 @@ module Nomad
     CONFIG_ROOT ||= '/etc/nomad-conf.d'
     JOB_ROOT ||= '/etc/nomad-jobs.d'
 
-    def self.hash_to_arg_string(opts = {})
+    def hash_to_arg_string(opts = {})
       opts.map do |arg, val|
         val.nil? ? "-#{arg}" : "-#{arg}=#{val}"
       end.sort.join(' ')
     end
 
-    def self.conf_keys_include_opts(ok = %w())
+    def conf_keys_include_opts(ok = %w())
       {
         kind_of: Hash,
         callbacks: {
@@ -38,12 +38,8 @@ module Nomad
         }
       }
     end
-  end
 
-  module Job
-    def self.running?(job)
-      fail NotImplementedError, job
-    end
+    module_function :hash_to_arg_string, :conf_keys_include_opts
   end
 
   module Config

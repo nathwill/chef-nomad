@@ -9,6 +9,7 @@ version '0.4.0'
 depends 'ark'
 depends 'systemd'
 
+supports 'debian', '>= 8.0'
 supports 'ubuntu', '>= 12.04'
 %w( redhat centos scientific ).each do |p|
   supports p, '>= 7.0'
