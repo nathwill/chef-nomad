@@ -145,8 +145,8 @@ module Nomad
       @client.put("/v1/node/#{@id}/evaluate", params).body
     end
 
-    def drain(params = { 'enable' => true })
-      @client.put("/v1/node/#{@id}/drain", params).body
+    def drain(_params = { 'enable' => true })
+      fail NotImplementedError
     end
   end
 
@@ -180,24 +180,24 @@ module Nomad
       @client.get('/v1/agent/self').body
     end
 
-    def join(address)
-      @client.put('/v1/agent/join', address: address).body
+    def join(_address)
+      fail NotImplementedError
     end
 
     def members
       @client.get('/v1/agent/members').body
     end
 
-    def force_leave(node)
-      @client.put('/v1/agent/force-leave', node: node)
+    def force_leave(_node)
+      fail NotImplementedError
     end
 
     def servers
       @client.get('/v1/agent/servers').body
     end
 
-    def update_servers(servers)
-      @client.put('/v1/agent/servers', address: servers)
+    def update_servers(_servers)
+      fail NotImplementedError
     end
   end
 
