@@ -82,7 +82,15 @@ module Nomad
           'is a positive integer' => ->(spec) { spec.abs == spec }
         }
       },
-      enabled_schedulers: { kind_of: Array }
+      enabled_schedulers: { kind_of: Array },
+      node_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      }
     }
   end
 
@@ -97,7 +105,9 @@ module Nomad
       node_id: { kind_of: String },
       node_class: { kind_of: String },
       meta: { kind_of: Hash },
-      options: { kind_of: Hash }
+      options: { kind_of: Hash },
+      network_interface: { kind_of: String },
+      network_speed: { kind_of: Integer }
     }
   end
 
