@@ -17,17 +17,21 @@
 # limitations under the License.
 
 nomad = node['nomad']
+config = nomad['config']
 
 nomad_config '00-default' do
   data_dir nomad['data_dir']
+  bind_addr config['bind_addr']
 end
 
 nomad_server_config '00-default' do
   enabled nomad['server_enabled']
+  bootstrap_expect config['bootstrap_expect']
 end
 
 nomad_client_config '00-default' do
   enabled nomad['client_enabled']
+  servers config['server_list']
 end
 
 nomad_atlas_config '00-default' do

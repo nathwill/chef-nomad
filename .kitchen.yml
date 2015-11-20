@@ -2,7 +2,7 @@
 driver:
   name: vagrant
   customize:
-    memory: 1024
+    memory: 2048
     cpus: 2
 
 provisioner:
@@ -21,3 +21,25 @@ suites:
       - recipe[test::prepare]
       - recipe[nomad::default]
       - recipe[test::exercise]
+  - name: client
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.17.242"}]
+    run_list:
+      - recipe[nomad::client]
+    attributes:
+      nomad:
+        config:
+          server_list: [ '192.168.17.243' ]
+          bind_addr: '192.168.17.242'
+  - name: server
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.17.243"}]
+    run_list:
+      - recipe[nomad::server]
+    attributes:
+      nomad:
+        config:
+          bind_addr: '192.168.17.243'
+

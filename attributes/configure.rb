@@ -24,3 +24,10 @@ default['nomad'].tap do |nomad|
   nomad['client_enabled'] = true
   nomad['server_enabled'] = false
 end
+default['nomad']['config'].tap do |config|
+	config['server_list']=[] # Set for all clients, or set via consul
+	config['server'] = false
+	config['bootstrap_expect'] = 1
+	config['bind_addr'] = '0.0.0.0'
+end
+
