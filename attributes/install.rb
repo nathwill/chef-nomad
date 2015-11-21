@@ -17,23 +17,23 @@
 # limitations under the License.
 
 default['nomad'].tap do |nomad|
-  nomad['source_url'] = 'https://dl.bintray.com/mitchellh/nomad'
+  nomad['source_url'] = 'https://releases.hashicorp.com/nomad'
   nomad['package'], nomad['checksum'] =
     case node['os']
     when 'mac_os_x'
       %w(
-        nomad_0.1.2_darwin_amd64.zip
-        8fcff1029c6cc9bf24ee441d749ef1039a6132e62ef486561a8a8d9e6e519fbf
+        0.2.0/nomad_0.2.0_darwin_amd64.zip
+        1606cc268298852b0e413d3799843597a9aa0c47c53313ef2a523cc595ccb2f1
       )
     when 'windows'
       %w(
-        nomad_0.1.2_windows_amd64.zip
-        920d46687bb6adcf458c2dd2ad0956e36c9be18ebd4fa9cfd41d8461262f70fc
+        0.2.0/nomad_0.2.0_windows_amd64.zip
+        b2d25d22cb0511b9f2596f6b91a91796b96dd2124a6f0927bc91554f68681dcf
       )
     else
       %w(
-        nomad_0.1.2_linux_amd64.zip
-        3335f7acb0d5eacaaa19aea37d128418ace18e6ef03d38de0c2c52ce831d7934
+        0.2.0/nomad_0.2.0_linux_amd64.zip
+        f4525cbd99fd57ef607f9556be4f4bc39f82391947f40cc993538bba7da5bf90
       )
     end
 end
