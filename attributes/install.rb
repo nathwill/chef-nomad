@@ -22,18 +22,18 @@ default['nomad'].tap do |nomad|
     case node['os']
     when 'mac_os_x'
       %w(
-        0.2.0/nomad_0.2.0_darwin_amd64.zip
-        1606cc268298852b0e413d3799843597a9aa0c47c53313ef2a523cc595ccb2f1
+        0.2.1/nomad_0.2.1_darwin_amd64.zip
+        7f40f24c7c386bff4f97fad89c258ca7549d9629260d319a71a27fbb9e9ba31f
       )
     when 'windows'
       %w(
-        0.2.0/nomad_0.2.0_windows_amd64.zip
-        b2d25d22cb0511b9f2596f6b91a91796b96dd2124a6f0927bc91554f68681dcf
+        0.2.1/nomad_0.2.1_windows_amd64.zip
+        833fd3fd247ee80f38ed64a6900980833b32012785dc510896df1d4170052768
       )
     else
       %w(
-        0.2.0/nomad_0.2.0_linux_amd64.zip
-        f4525cbd99fd57ef607f9556be4f4bc39f82391947f40cc993538bba7da5bf90
+        0.2.1/nomad_0.2.1_linux_amd64.zip
+        a47881efc148cc37a8c94fb120c1d198371b9124e92668e8fc0badddef99cc2a
       )
     end
 end
