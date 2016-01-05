@@ -1,3 +1,11 @@
+# 0.6.1 / 2015-12-09
+
+* update for 0.2.1 release
+
+# 0.6.0 / 2015-11-20
+
+* update for 0.2.0 release
+
 # 0.5.0 / 2015-10-10
 
 * use latest nomad release

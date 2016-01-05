@@ -57,8 +57,8 @@ class Chef::Resource
 
       config['name'] = agent_name unless agent_name.nil?
 
-      Nomad::Config::OPTIONS.reject { |k, _| send(k).nil? }.each_pair do |k, _|
-        config[k] = send(k)
+      Nomad::Config::OPTIONS.keys.each do |k|
+        config[k] = send(k) unless send(k).nil?
       end
 
       config.to_json
@@ -78,8 +78,8 @@ class Chef::Resource
     def to_json
       config = { 'server' => {} }
 
-      Nomad::ServerConfig::OPTIONS.reject { |k, _| send(k).nil? }.each_pair do |k, _| # rubocop: disable LineLength
-        config['server'][k] = send(k)
+      Nomad::ServerConfig::OPTIONS.keys.each do |k|
+        config['server'][k] = send(k) unless send(k).nil?
       end
 
       config.to_json
@@ -99,8 +99,8 @@ class Chef::Resource
     def to_json
       config = { 'client' => {} }
 
-      Nomad::ClientConfig::OPTIONS.reject { |k, _| send(k).nil? }.each_pair do |k, _| # rubocop: disable LineLength
-        config['client'][k] = send(k)
+      Nomad::ClientConfig::OPTIONS.keys.each do |k|
+        config['client'][k] = send(k) unless send(k).nil?
       end
 
       config.to_json
@@ -120,8 +120,8 @@ class Chef::Resource
     def to_json
       config = { 'atlas' => {} }
 
-      Nomad::AtlasConfig::OPTIONS.reject { |k, _| send(k).nil? }.each_pair do |k, _| # rubocop: disable LineLength
-        config['atlas'][k] = send(k)
+      Nomad::AtlasConfig::OPTIONS.keys.each do |k|
+        config['atlas'][k] = send(k) unless send(k).nil?
       end
 
       config.to_json
