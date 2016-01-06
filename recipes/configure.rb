@@ -50,7 +50,7 @@ template "/etc/profile.d/nomad.sh" do
     variables ({
       :server_ip => "#{config['bind_addr']}:4646"
       })
-  elsif config.has_key?('server_list')
+  elsif config['server_list'].empty?
     variables ({
       :server_ip => config['server_list'].first.split(':')[0] + ":4646"
       })
