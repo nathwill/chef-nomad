@@ -21,21 +21,6 @@ suites:
       - recipe[test::prepare]
       - recipe[nomad::default]
       - recipe[test::exercise]
-  - name: client
-    driver:
-      network:
-        - ["private_network", {ip: "192.168.17.242"}]
-    run_list:
-      - recipe[nomad::client]
-    attributes:
-      ipaddress: '192.168.17.242'
-      nomad:
-        config:
-          server_list: [ '192.168.17.243:4647' ]
-          bind_addr: '192.168.17.242'
-      testkitchen:
-        ipaddress: '192.168.17.242'
-
   - name: server
     driver:
       network:
@@ -48,4 +33,42 @@ suites:
           bind_addr: '192.168.17.243'
       testkitchen:
         ipaddress: '192.168.17.243'
-
+  - name: client-1
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.17.242"}]
+    run_list:
+      - recipe[nomad::client]
+    attributes:
+      nomad:
+        config:
+          server_list: [ '192.168.17.243:4647' ]
+          bind_addr: '192.168.17.242'
+      testkitchen:
+        ipaddress: '192.168.17.242'
+  - name: client-2
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.17.242"}]
+    run_list:
+      - recipe[nomad::client]
+    attributes:
+      nomad:
+        config:
+          server_list: [ '192.168.17.243:4647' ]
+          bind_addr: '192.168.17.241'
+      testkitchen:
+        ipaddress: '192.168.17.241'
+  - name: client-3
+    driver:
+      network:
+        - ["private_network", {ip: "192.168.17.242"}]
+    run_list:
+      - recipe[nomad::client]
+    attributes:
+      nomad:
+        config:
+          server_list: [ '192.168.17.243:4647' ]
+          bind_addr: '192.168.17.240'
+      testkitchen:
+        ipaddress: '192.168.17.240'
