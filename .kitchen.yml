@@ -49,7 +49,7 @@ suites:
   - name: client-2
     driver:
       network:
-        - ["private_network", {ip: "192.168.17.242"}]
+        - ["private_network", {ip: "192.168.17.241"}]
     run_list:
       - recipe[nomad::client]
     attributes:
@@ -62,7 +62,7 @@ suites:
   - name: client-3
     driver:
       network:
-        - ["private_network", {ip: "192.168.17.242"}]
+        - ["private_network", {ip: "192.168.17.240"}]
     run_list:
       - recipe[nomad::client]
     attributes:
