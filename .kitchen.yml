@@ -28,10 +28,14 @@ suites:
     run_list:
       - recipe[nomad::client]
     attributes:
+      ipaddress: '192.168.17.242'
       nomad:
         config:
-          server_list: [ '192.168.17.243' ]
+          server_list: [ '192.168.17.243:4647' ]
           bind_addr: '192.168.17.242'
+      testkitchen:
+        ipaddress: '192.168.17.242'
+
   - name: server
     driver:
       network:
@@ -42,4 +46,6 @@ suites:
       nomad:
         config:
           bind_addr: '192.168.17.243'
+      testkitchen:
+        ipaddress: '192.168.17.243'
 
