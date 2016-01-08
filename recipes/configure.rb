@@ -55,6 +55,6 @@ template "/etc/profile.d/nomad.sh" do
       :server_ip => config['server_list'].first.split(':')[0] + ":4646"
       })
   else
-    variables({ :server_ip => '127.0.0.1' })
+    variables({ :server_ip => '127.0.0.1:4646' })
   end
 end
