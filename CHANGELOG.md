@@ -1,3 +1,8 @@
+# 0.6.2 / 2016-01-14
+
+* update for 0.2.3 release (thanks @ryanslade!)
+* update test suite platforms
+
 # 0.6.1 / 2015-12-09
 
 * update for 0.2.1 release
