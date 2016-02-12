@@ -90,7 +90,8 @@ module Nomad
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
           end
         }
-      }
+      },
+      start_join: { kind_of: Array }
     }
   end
 
