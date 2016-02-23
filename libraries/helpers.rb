@@ -19,8 +19,8 @@
 
 module Nomad
   module Helpers
-    CONFIG_ROOT ||= '/etc/nomad-conf.d'
-    JOB_ROOT ||= '/etc/nomad-jobs.d'
+    CONFIG_ROOT ||= '/etc/nomad-conf.d'.freeze
+    JOB_ROOT ||= '/etc/nomad-jobs.d'.freeze
 
     def hash_to_arg_string(opts = {})
       opts.map do |arg, val|
@@ -62,7 +62,7 @@ module Nomad
       syslog_facility: { kind_of: String },
       disable_update_check: { kind_of: [TrueClass, FalseClass] },
       disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] }
-    }
+    }.freeze
   end
 
   module ServerConfig
@@ -92,7 +92,7 @@ module Nomad
         }
       },
       start_join: { kind_of: Array }
-    }
+    }.freeze
   end
 
   module ClientConfig
@@ -107,7 +107,7 @@ module Nomad
       options: { kind_of: Hash },
       network_interface: { kind_of: String },
       network_speed: { kind_of: Integer }
-    }
+    }.freeze
   end
 
   module AtlasConfig
@@ -116,6 +116,6 @@ module Nomad
       token: { kind_of: String },
       join: { kind_of: [TrueClass, FalseClass] },
       endpoint: { kind_of: String }
-    }
+    }.freeze
   end
 end
