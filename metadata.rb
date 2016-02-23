@@ -4,7 +4,7 @@ maintainer_email 'nath.e.will@gmail.com'
 license 'apache2'
 description 'Installs/Configures nomad'
 long_description 'Installs/Configures nomad'
-version '0.6.2'
+version '0.6.3'
 
 depends 'ark'
 depends 'systemd'
