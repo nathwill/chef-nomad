@@ -49,9 +49,9 @@ template '/etc/profile.d/nomad.sh' do
   if nomad['server_enabled']
     variables(server_ip: "#{config['bind_addr']}:4646")
   elsif !config['server_list'].empty?
-    variables ({
+    variables(
       server_ip: config['server_list'].first.split(':')[0] + ':4646'
-    })
+    )
   else
     variables(server_ip: '127.0.0.1:4646')
   end

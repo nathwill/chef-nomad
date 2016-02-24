@@ -34,10 +34,10 @@ end
 
 template '/etc/init/nomad.conf' do
   source 'upstart.conf.erb'
-  variables ({
+  variables(
     daemon_args: args,
     server: node['nomad']['config']['server']
-  })
+  )
   action :create
   only_if { ::File.executable?('/sbin/initctl') }
 end
