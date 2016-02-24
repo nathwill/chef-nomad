@@ -28,10 +28,26 @@ Create the server with
 kitchen converge server-ubuntu-1404
 ```
 
-Create the client with
+Create the three clients with
 
 ```
-kitchen converge client-ubuntu-1404
+kitchen converge client-1-ubuntu-1404
+kitchen converge client-2-ubuntu-1404
+kitchen converge client-3-ubuntu-1404
+
 ```
 
-The server and client are bridged on your local machine, with the IP addresses 192.168.17.243 and 192.168.17.242 respectively.  
+The server and client are bridged on your local machine.  The server has the IP address 192.168.17.243.  The clients have the IP addresses 192.168.17.240-242 respectively.  
+
+Log in to the server via:
+
+```
+kitchen login server-ubuntu-1404
+```
+
+And view the status with the commands
+
+```
+nomad node-status
+nomad server-members
+```
