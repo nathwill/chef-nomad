@@ -26,10 +26,10 @@ nomad_config '00-default' do
 end
 
 if nomad['server_enabled']
-	nomad_server_config '00-default' do
-	  enabled nomad['server_enabled']
-	  bootstrap_expect config['bootstrap_expect']
-	end
+  nomad_server_config '00-default' do
+    enabled nomad['server_enabled']
+    bootstrap_expect config['bootstrap_expect']
+  end
 end
 
 nomad_client_config '00-default' do
@@ -47,14 +47,12 @@ template '/etc/profile.d/nomad.sh' do
   owner 'root'
   group 'root'
   if nomad['server_enabled']
-    variables({
-      server_ip: "#{config['bind_addr']}:4646"
-      })
+    variables(server_ip: "#{config['bind_addr']}:4646")
   elsif !config['server_list'].empty?
     variables ({
-      server_ip: config['server_list'].first.split(':')[0] + ":4646"
-      })
+      server_ip: config['server_list'].first.split(':')[0] + ':4646'
+    })
   else
-    variables( server_ip: '127.0.0.1:4646')
+    variables(server_ip: '127.0.0.1:4646')
   end
 end
