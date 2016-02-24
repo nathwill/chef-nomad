@@ -4,7 +4,9 @@ cookbook for installing/managing nomad
 
 ## Usage
 
-Use the recipes
+server.rb creates a nomad server.
+
+client.rb creates a nomad agent.
 
 ## Supports
 
