@@ -100,11 +100,11 @@ module Nomad
     end
 
     def save(_params = {})
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     def update(_params = {})
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     def delete(params = {})
@@ -146,7 +146,7 @@ module Nomad
     end
 
     def drain(_params = { 'enable' => true })
-      raise NotImplementedError
+      fail NotImplementedError
     end
   end
 
@@ -181,7 +181,7 @@ module Nomad
     end
 
     def join(_address)
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     def members
@@ -189,7 +189,7 @@ module Nomad
     end
 
     def force_leave(_node)
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     def servers
@@ -197,7 +197,7 @@ module Nomad
     end
 
     def update_servers(_servers)
-      raise NotImplementedError
+      fail NotImplementedError
     end
   end
 

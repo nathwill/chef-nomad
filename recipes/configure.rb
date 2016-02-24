@@ -41,20 +41,20 @@ nomad_atlas_config '00-default' do
   join nomad['atlas_join']
 end
 
-template "/etc/profile.d/nomad.sh" do
-  source "nomad.sh.erb"
+template '/etc/profile.d/nomad.sh' do
+  source 'nomad.sh.erb'
   mode '0755'
   owner 'root'
   group 'root'
   if nomad['server_enabled']
-    variables ({
-      :server_ip => "#{config['bind_addr']}:4646"
+    variables({
+      server_ip: "#{config['bind_addr']}:4646"
       })
-  elsif ! config['server_list'].empty?
+  elsif !config['server_list'].empty?
     variables ({
-      :server_ip => config['server_list'].first.split(':')[0] + ":4646"
+      server_ip: config['server_list'].first.split(':')[0] + ":4646"
       })
   else
-    variables({ :server_ip => '127.0.0.1:4646' })
+    variables( server_ip: '127.0.0.1:4646')
   end
 end
