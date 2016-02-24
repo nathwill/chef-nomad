@@ -32,7 +32,7 @@ module Nomad
         post: Net::HTTP::Post,
         put: Net::HTTP::Put,
         delete: Net::HTTP::Delete
-      }
+      }.freeze
 
       def initialize(endpoint = 'http://127.0.0.1:4646')
         uri = URI.parse(endpoint)
@@ -100,11 +100,11 @@ module Nomad
     end
 
     def save(_params = {})
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     def update(_params = {})
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     def delete(params = {})
@@ -146,7 +146,7 @@ module Nomad
     end
 
     def drain(_params = { 'enable' => true })
-      fail NotImplementedError
+      raise NotImplementedError
     end
   end
 
@@ -181,7 +181,7 @@ module Nomad
     end
 
     def join(_address)
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     def members
@@ -189,7 +189,7 @@ module Nomad
     end
 
     def force_leave(_node)
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     def servers
@@ -197,7 +197,7 @@ module Nomad
     end
 
     def update_servers(_servers)
-      fail NotImplementedError
+      raise NotImplementedError
     end
   end
 
