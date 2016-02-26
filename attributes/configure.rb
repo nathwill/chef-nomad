@@ -24,3 +24,20 @@ default['nomad'].tap do |nomad|
   nomad['client_enabled'] = true
   nomad['server_enabled'] = false
 end
+default['nomad']['config'].tap do |config|
+  config['server_list'] = [] # Set for all clients, or set via consul
+  config['server'] = false
+  config['bootstrap_expect'] = 1
+  config['bind_addr'] = '0.0.0.0'
+  if node.key?('testkitchen') && node['testkitchen'].key?('ipaddress')
+    config['advertise'] = {
+      'rpc' => "#{node.testkitchen.ipaddress}:4647",
+      'serf' => "#{node.testkitchen.ipaddress}:4648"
+    }
+  else
+    config['advertise'] = {
+      'rpc' => "#{node.ipaddress}:4647",
+      'serf' => "#{node.ipaddress}:4648"
+    }
+  end
+end

@@ -13,4 +13,8 @@ stop on runlevel [016]
 respawn
 
 # Start the process
+<% if @server %>
+exec /usr/local/bin/nomad agent <%= @daemon_args %> -server
+<% else %>
 exec /usr/local/bin/nomad agent <%= @daemon_args %>
+<% end %>
