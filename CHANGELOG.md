@@ -1,3 +1,10 @@
+# 0.6.4 / 2016-02-26
+
+* update to nomad 0.3.0
+
+# 0.6.3 / 2016-02-14
+
+* add start_join configuration
 # 0.6.2 / 2016-01-14
 
 * update for 0.2.3 release (thanks @ryanslade!)
