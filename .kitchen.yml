@@ -4,6 +4,8 @@ driver:
   customize:
     memory: 1024
     cpus: 2
+  network:
+    - ["forwarded_port", { guest: 8080, host: 8080 }]
 
 provisioner:
   name: chef_zero
