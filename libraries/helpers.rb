@@ -47,6 +47,7 @@ module Nomad
       region: { kind_of: String },
       datacenter: { kind_of: String },
       data_dir: { kind_of: String },
+      name: { kind_of: String },
       log_level: { kind_of: String, equal_to: %w( WARN INFO DEBUG ) },
       bind_addr: { kind_of: String },
       enable_debug: { kind_of: [TrueClass, FalseClass] },
@@ -61,7 +62,8 @@ module Nomad
       enable_syslog: { kind_of: [TrueClass, FalseClass] },
       syslog_facility: { kind_of: String },
       disable_update_check: { kind_of: [TrueClass, FalseClass] },
-      disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] }
+      disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] },
+      http_api_response_headers: { kind_of: Hash, default: {} },
     }.freeze
   end
 
@@ -91,7 +93,10 @@ module Nomad
           end
         }
       },
-      start_join: { kind_of: Array }
+      rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
+      retry_join: { kind_of: Array },
+      retry_interval: { kind_of: String },
+      start_join: { kind_of: Array },
     }.freeze
   end
 
@@ -106,7 +111,15 @@ module Nomad
       meta: { kind_of: Hash },
       options: { kind_of: Hash },
       network_interface: { kind_of: String },
-      network_speed: { kind_of: Integer }
+      network_speed: { kind_of: Integer },
+      max_kill_timeout: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time-string' => lambda do |spec|
+            spec.match(/^\d+(s|m|h)/)
+          end
+        },
+      },
     }.freeze
   end
 
