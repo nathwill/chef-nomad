@@ -47,7 +47,6 @@ module Nomad
       region: { kind_of: String },
       datacenter: { kind_of: String },
       data_dir: { kind_of: String },
-      name: { kind_of: String },
       log_level: { kind_of: String, equal_to: %w( WARN INFO DEBUG ) },
       bind_addr: { kind_of: String },
       enable_debug: { kind_of: [TrueClass, FalseClass] },
@@ -63,7 +62,7 @@ module Nomad
       syslog_facility: { kind_of: String },
       disable_update_check: { kind_of: [TrueClass, FalseClass] },
       disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] },
-      http_api_response_headers: { kind_of: Hash, default: {} }
+      http_api_response_headers: { kind_of: Hash }
     }.freeze
   end
 
