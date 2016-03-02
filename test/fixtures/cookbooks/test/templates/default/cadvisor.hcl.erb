@@ -32,7 +32,9 @@ job "cadvisor" {
         memory = 32
         network {
           mbits = 100
-          port "cadvisor" {}
+          port "cadvisor" {
+            static = 8080
+          }
         }
       }
     }
