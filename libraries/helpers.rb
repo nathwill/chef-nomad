@@ -63,7 +63,7 @@ module Nomad
       syslog_facility: { kind_of: String },
       disable_update_check: { kind_of: [TrueClass, FalseClass] },
       disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] },
-      http_api_response_headers: { kind_of: Hash, default: {} },
+      http_api_response_headers: { kind_of: Hash, default: {} }
     }.freeze
   end
 
@@ -96,7 +96,7 @@ module Nomad
       rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
       retry_join: { kind_of: Array },
       retry_interval: { kind_of: String },
-      start_join: { kind_of: Array },
+      start_join: { kind_of: Array }
     }.freeze
   end
 
@@ -118,8 +118,8 @@ module Nomad
           'is a valid time-string' => lambda do |spec|
             spec.match(/^\d+(s|m|h)/)
           end
-        },
-      },
+        }
+      }
     }.freeze
   end
 
