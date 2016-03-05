@@ -6,6 +6,10 @@ distributed, highly-available, datacenter-aware scheduler.
 Recipes
 =======
 
+nomad::default
+--------------
+Includes the install, configure, manage recipes.
+
 nomad::install
 --------------
 Downloads and installs nomad from the URL specified in `attributes/install.rb`.
