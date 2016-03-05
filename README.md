@@ -24,6 +24,9 @@ Installs a system service definition for nomad, using provided daemon args in
 Resources
 =========
 
+`nomad*config` resources are for configuring nomad. For full documentation,
+see the nomad [docs](https://www.nomadproject.io/docs/agent/config.html).
+
 nomad\_config
 -------------
 
@@ -93,6 +96,9 @@ nomad\_atlas\_config
 
 nomad\_job
 ----------
+
+Resource for managing nomad jobs via templates. For help configuring jobs,
+see the nomad [job spec](https://www.nomadproject.io/docs/jobspec/index.html).
 
 |attribute|kind_of|
 |---------|-------|
