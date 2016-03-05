@@ -206,13 +206,17 @@ class Chef::Provider
     end
 
     # These actions are not idempotent!
-    %i( run stop ).each do |a|
-      action a do
-        r = new_resource
-        path = ::File.join(r.path, "#{r.name}.hcl")
+    action :run do
+      r = new_resource
+      path = ::File.join(r.path, "#{r.name}.hcl")
 
-        execute "nomad #{a} #{path}"
-      end
+      execute "nomad run #{path}"
+    end
+
+    action :stop do
+      r = new_resource
+
+      execute "nomad stop #{r.name}"
     end
   end
 end
