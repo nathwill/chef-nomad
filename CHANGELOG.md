@@ -1,3 +1,12 @@
+# 0.7.0 / 2016-03-04
+
+* documentation!
+* use cadvisor job for testing instead of redis, as it downloads faster
+* add CentOS 6 to supported platforms
+* add additional configuration options as resource attributes,
+  now up to date with the options as of the 0.3.0 release.
+* fix nomad_job stop action to use resource name instead of hcl path
+
 # 0.6.4 / 2016-02-26
 
 * update to nomad 0.3.0

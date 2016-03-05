@@ -4,7 +4,7 @@ maintainer_email 'nath.e.will@gmail.com'
 license          'apache2'
 description      'installs/configures nomad'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.6.4'
+version          '0.7.0'
 
 depends 'ark'
 depends 'systemd'
