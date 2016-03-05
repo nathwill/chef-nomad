@@ -200,7 +200,7 @@ class Chef::Provider
           source r.source
           variables r.variables if r.variables
           action a
-          verify { |path| "nomad validate #{job_path}" } if Chef::VERSION.to_f >= 12
+          verify { |path| "nomad validate #{path}" } if Chef::VERSION.to_f >= 12
         end
 
         new_resource.updated_by_last_action(t.updated_by_last_action?)
