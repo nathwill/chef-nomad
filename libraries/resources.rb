@@ -193,7 +193,9 @@ class Chef::Provider
           not_if { r.action == :delete }
         end
 
-        t = template ::File.join(r.path, "#{r.name}.hcl") do
+        job_path = ::File.join(r.path, "#{r.name}.hcl")
+
+        t = template job_path do
           cookbook r.cookbook || r.cookbook_name
           source r.source
           variables r.variables if r.variables
@@ -206,13 +208,17 @@ class Chef::Provider
     end
 
     # These actions are not idempotent!
-    %i( run stop ).each do |a|
-      action a do
-        r = new_resource
-        path = ::File.join(r.path, "#{r.name}.hcl")
+    action :run do
+      r = new_resource
+      job_path = ::File.join(r.path, "#{r.name}.hcl")
 
-        execute "nomad #{a} #{path}"
-      end
+      execute "nomad run #{job_path}"
+    end
+
+    action :stop do
+      r = new_resource
+
+      execute "nomad stop #{r.name}"
     end
   end
 end

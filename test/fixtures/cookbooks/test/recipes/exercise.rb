@@ -1,8 +1,8 @@
 
 # Nice lightweight daemon for testing
-nomad_job 'redis' do
-  source 'redis.hcl.erb'
-  notifies :run, 'nomad_job[redis]', :delayed
+nomad_job 'cadvisor' do
+  source 'cadvisor.hcl.erb'
+  notifies :run, 'nomad_job[cadvisor]', :delayed
 end
 
 package 'curl'
