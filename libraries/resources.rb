@@ -193,12 +193,14 @@ class Chef::Provider
           not_if { r.action == :delete }
         end
 
-        t = template ::File.join(r.path, "#{r.name}.hcl") do
+        job_path = ::File.join(r.path, "#{r.name}.hcl")
+
+        t = template job_path do
           cookbook r.cookbook || r.cookbook_name
           source r.source
           variables r.variables if r.variables
           action a
-          verify { |path| "nomad validate #{path}" } if Chef::VERSION.to_f >= 12
+          verify { |path| "nomad validate #{job_path}" } if Chef::VERSION.to_f >= 12
         end
 
         new_resource.updated_by_last_action(t.updated_by_last_action?)
@@ -208,9 +210,9 @@ class Chef::Provider
     # These actions are not idempotent!
     action :run do
       r = new_resource
-      path = ::File.join(r.path, "#{r.name}.hcl")
+      job_path = ::File.join(r.path, "#{r.name}.hcl")
 
-      execute "nomad run #{path}"
+      execute "nomad run #{job_path}"
     end
 
     action :stop do
