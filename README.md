@@ -1,7 +1,7 @@
 # nomad
 
 Simple cookbook for installing/managing [Nomad](https://www.nomadproject.io/), a
-distributes, highly-available, datacenter-aware scheduler.
+distributed, highly-available, datacenter-aware scheduler.
 
 Recipes
 =======
