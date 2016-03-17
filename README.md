@@ -69,6 +69,7 @@ nomad\_server\_config
 |rejoin_after_leave|[TrueClass, FalseClass]|
 |retry_join|Array|
 |retry_interval|String|
+|retry_max|Integer|
 |start_join|Array|
 
 nomad\_client\_config
@@ -87,6 +88,7 @@ nomad\_client\_config
 |network_interface|String|
 |network_speed|Integer|
 |max_kill_timeout|String|
+|reserved|Hash|
 
 nomad\_atlas\_config
 --------------------

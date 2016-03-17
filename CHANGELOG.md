@@ -1,3 +1,8 @@
+# 0.8.0 / 2016-03-16
+
+* update to 0.3.1
+* add new config options reserved, and retry_max
+
 # 0.7.0 / 2016-03-04
 
 * documentation!
