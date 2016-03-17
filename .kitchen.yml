@@ -16,6 +16,8 @@ platforms:
   - name: ubuntu-14.04
   - name: centos-7.2
   - name: fedora-23
+    run_list:
+      - yum::dnf_yum_compat
 
 suites:
   - name: default
