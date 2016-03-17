@@ -95,6 +95,7 @@ module Nomad
       rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
       retry_join: { kind_of: Array },
       retry_interval: { kind_of: String },
+      retry_max: { kind_of: Integer },
       start_join: { kind_of: Array }
     }.freeze
   end
@@ -118,7 +119,10 @@ module Nomad
             spec.match(/^\d+(s|m|h)/)
           end
         }
-      }
+      },
+      reserved: Nomad::Helpers.conf_keys_include_opts(
+        %w( cpu memory disk reserved_ports )
+      )
     }.freeze
   end
 
