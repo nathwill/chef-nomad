@@ -52,7 +52,7 @@ module Nomad
       enable_debug: { kind_of: [TrueClass, FalseClass] },
       ports: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
       addresses: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
-      advertise: Nomad::Helpers.conf_keys_include_opts(%w( rpc serf )),
+      advertise: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
       telemetry: Nomad::Helpers.conf_keys_include_opts(
         %w( statsite_address statsd_address disable_hostname )
       ),
