@@ -10,3 +10,5 @@ Documentation:
   Enabled: false
 ClassAndModuleChildren:
   Enabled: false
+SpaceInsideArrayPercentLiteral:
+  Enabled: false
