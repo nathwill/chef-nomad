@@ -62,7 +62,12 @@ module Nomad
       syslog_facility: { kind_of: String },
       disable_update_check: { kind_of: [TrueClass, FalseClass] },
       disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] },
-      http_api_response_headers: { kind_of: Hash }
+      http_api_response_headers: { kind_of: Hash },
+      consul: Nomad::Helpers.conf_keys_include_opts(
+      %w( address token auth
+          ssl verify_ssl ca_file cert_file key_file
+          server_service_name client_service_name
+          auto_advertise server_auto_join client_auto_join ))
     }.freeze
   end
 
