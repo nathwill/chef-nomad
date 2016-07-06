@@ -29,7 +29,9 @@ systemd_service 'nomad' do
     restart 'on-failure'
   end
   action :create
-  only_if { IO.read('/proc/1/comm').chomp == 'systemd' }
+  only_if do
+    File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
+  end
 end
 
 template '/etc/init/nomad.conf' do
