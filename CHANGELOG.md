@@ -1,3 +1,8 @@
+# 0.9.0 / 2016-07-06
+
+* update to 0.4.0 release
+* add consul-related configuration options (thanks @akhoury6!)
+
 # 0.8.1 / 2016-04-29
 
 * update to 0.3.2
