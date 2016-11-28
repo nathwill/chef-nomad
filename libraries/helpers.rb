@@ -58,7 +58,7 @@ module Nomad
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
       log_level: { kind_of: String, equal_to: %w( WARN INFO DEBUG ) },
-      ports: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )), 
+      ports: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
       # Sub-configuration
@@ -84,7 +84,7 @@ module Nomad
   module ClientConfig
     OPTIONS ||= {
       alloc_dir: { kind_of: String },
-      chroot_env: { kind_of: Hash }.
+      chroot_env: { kind_of: Hash },
       enabled: { kind_of: [TrueClass, FalseClass] },
       max_kill_timeout: {
         kind_of: String,
@@ -101,7 +101,7 @@ module Nomad
       options: { kind_of: Hash },
       reserved: Nomad::Helpers.conf_keys_include_opts(
         %w( cpu memory disk reserved_ports )
-      )
+      ),
       servers: { kind_of: Array },
       state_dir: { kind_of: String }
     }.freeze
@@ -165,7 +165,7 @@ module Nomad
     OPTIONS ||= {
       address: { kind_of: String },
       allow_unauthenticated: { kind_of: [TrueClass, FalseClass] },
-      enabled: { kind_of: TrueClass, FalseClass] },
+      enabled: { kind_of: [TrueClass, FalseClass] },
       task_token_ttl: { kind_of: String },
       ca_file: { kind_of: String },
       ca_path: { kind_of: String },

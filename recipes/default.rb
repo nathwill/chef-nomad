@@ -16,6 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w( install configure manage ).each do |r|
+%w(install configure manage).each do |r|
   include_recipe "#{cookbook_name}::#{r}"
 end

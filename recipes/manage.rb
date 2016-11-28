@@ -22,7 +22,7 @@ systemd_service 'nomad' do
   description 'Nomad System Scheduler'
   documentation 'https://nomadproject.io/docs/index.html'
   install do
-    wanted_by %w( multi-user.target )
+    wanted_by %w(multi-user.target)
   end
   service do
     exec_start "/usr/local/bin/nomad agent #{args}"

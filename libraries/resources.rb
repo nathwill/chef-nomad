@@ -150,15 +150,15 @@ class Chef::Provider
       true
     end
 
-    %w( base config ).each do |s|
+    %w(base config).each do |s|
       provides "nomad_#{s}".to_sym
     end
 
-    %w( client server atlas ).each do |s|
+    %w(client server atlas).each do |s|
       provides "nomad_#{s}_config".to_sym
     end
 
-    %i( create delete ).each do |a|
+    %i(create delete).each do |a|
       action a do
         r = new_resource
 
@@ -185,7 +185,7 @@ class Chef::Provider
 
     provides :nomad_job
 
-    %i( create delete ).each do |a|
+    %i(create delete).each do |a|
       action a do
         r = new_resource
 
