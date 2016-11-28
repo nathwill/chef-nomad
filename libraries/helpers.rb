@@ -44,79 +44,48 @@ module Nomad
 
   module Config
     OPTIONS ||= {
-      region: { kind_of: String },
-      datacenter: { kind_of: String },
-      data_dir: { kind_of: String },
-      log_level: { kind_of: String, equal_to: %w( WARN INFO DEBUG ) },
-      bind_addr: { kind_of: String },
-      enable_debug: { kind_of: [TrueClass, FalseClass] },
-      ports: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
+      # General Options
       addresses: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
       advertise: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )),
-      telemetry: Nomad::Helpers.conf_keys_include_opts(
-        %w( statsite_address statsd_address disable_hostname )
-      ),
+      bind_addr: { kind_of: String },
+      datacenter: { kind_of: String },
+      data_dir: { kind_of: String },
+      disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] },
+      disable_update_check: { kind_of: [TrueClass, FalseClass] },
+      enable_debug: { kind_of: [TrueClass, FalseClass] },
+      enable_syslog: { kind_of: [TrueClass, FalseClass] },
+      http_api_response_headers: { kind_of: Hash },
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
-      enable_syslog: { kind_of: [TrueClass, FalseClass] },
+      log_level: { kind_of: String, equal_to: %w( WARN INFO DEBUG ) },
+      ports: Nomad::Helpers.conf_keys_include_opts(%w( http rpc serf )), 
+      region: { kind_of: String },
       syslog_facility: { kind_of: String },
-      disable_update_check: { kind_of: [TrueClass, FalseClass] },
-      disable_anonymous_signature: { kind_of: [TrueClass, FalseClass] },
-      http_api_response_headers: { kind_of: Hash },
-      consul: Nomad::Helpers.conf_keys_include_opts(
-        %w( address token auth
-            ssl verify_ssl ca_file cert_file key_file
-            server_service_name client_service_name
-            auto_advertise server_auto_join client_auto_join ))
+      # Sub-configuration
+      atlas: { kind_of: Hash },
+      client: { kind_of: Hash },
+      consul: { kind_of: Hash },
+      server: { kind_of: Hash },
+      telemetry: { kind_of: Hash },
+      tls: { kind_of: Hash },
+      vault: { kind_of: Hash }
     }.freeze
   end
 
-  module ServerConfig
+  module AtlasConfig
     OPTIONS ||= {
-      enabled: { kind_of: [TrueClass, FalseClass] },
-      bootstrap_expect: {
-        kind_of: Integer,
-        callbacks: {
-          'is a positive integer' => ->(spec) { spec.abs == spec }
-        }
-      },
-      data_dir: { kind_of: String },
-      protocol_version: { kind_of: String },
-      num_schedulers: {
-        kind_of: Integer,
-        callbacks: {
-          'is a positive integer' => ->(spec) { spec.abs == spec }
-        }
-      },
-      enabled_schedulers: { kind_of: Array },
-      node_gc_threshold: {
-        kind_of: String,
-        callbacks: {
-          'is a valid time expression' => lambda do |spec|
-            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
-      },
-      rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
-      retry_join: { kind_of: Array },
-      retry_interval: { kind_of: String },
-      retry_max: { kind_of: Integer },
-      start_join: { kind_of: Array }
+      infrastructure: { kind_of: String },
+      token: { kind_of: String, required: true },
+      join: { kind_of: [TrueClass, FalseClass] },
+      endpoint: { kind_of: String }
     }.freeze
   end
 
   module ClientConfig
     OPTIONS ||= {
-      enabled: { kind_of: [TrueClass, FalseClass] },
-      state_dir: { kind_of: String },
       alloc_dir: { kind_of: String },
-      servers: { kind_of: Array },
-      node_id: { kind_of: String },
-      node_class: { kind_of: String },
-      meta: { kind_of: Hash },
-      options: { kind_of: Hash },
-      network_interface: { kind_of: String },
-      network_speed: { kind_of: Integer },
+      chroot_env: { kind_of: Hash }.
+      enabled: { kind_of: [TrueClass, FalseClass] },
       max_kill_timeout: {
         kind_of: String,
         callbacks: {
@@ -125,18 +94,86 @@ module Nomad
           end
         }
       },
+      meta: { kind_of: Hash },
+      network_interface: { kind_of: String },
+      network_speed: { kind_of: Integer },
+      node_class: { kind_of: String },
+      options: { kind_of: Hash },
       reserved: Nomad::Helpers.conf_keys_include_opts(
         %w( cpu memory disk reserved_ports )
       )
+      servers: { kind_of: Array },
+      state_dir: { kind_of: String }
     }.freeze
   end
 
-  module AtlasConfig
+  module ConsulConfig
     OPTIONS ||= {
-      infrastructure: { kind_of: String },
+      address: { kind_of: String },
+      auth: { kind_of: String },
+      auto_advertise: { kind_of: [TrueClass, FalseClass] },
+      ca_file: { kind_of: String },
+      cert_file: { kind_of: String },
+      checks_use_advertise: { kind_of: [TrueClass, FalseClass] },
+      client_auto_join: { kind_of: [TrueClass, FalseClass] },
+      client_service_name: { kind_of: String },
+      key_file: { kind_of: String },
+      server_service_name: { kind_of: String },
+      server_auto_join: { kind_of: [TrueClass, FalseClass] },
+      ssl: { kind_of: [TrueClass, FalseClass] },
       token: { kind_of: String },
-      join: { kind_of: [TrueClass, FalseClass] },
-      endpoint: { kind_of: String }
+      verify_ssl: { kind_of: [TrueClass, FalseClass] }
+    }.freeze
+  end
+
+  module ServerConfig
+    OPTIONS ||= {
+      bootstrap_expect: {
+        kind_of: Integer,
+        callbacks: {
+          'is a positive integer' => ->(spec) { spec.abs == spec }
+        }
+      },
+      data_dir: { kind_of: String },
+      enabled: { kind_of: [TrueClass, FalseClass] },
+      enabled_schedulers: { kind_of: Array },
+      encrypt: { kind_of: String },
+      node_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      num_schedulers: {
+        kind_of: Integer,
+        callbacks: {
+          'is a positive integer' => ->(spec) { spec.abs == spec }
+        }
+      },
+      protocol_version: { kind_of: String },
+      rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
+      retry_join: { kind_of: Array },
+      retry_interval: { kind_of: String },
+      retry_max: { kind_of: Integer },
+      start_join: { kind_of: Array }
+    }.freeze
+  end
+
+  module VaultConfig
+    OPTIONS ||= {
+      address: { kind_of: String },
+      allow_unauthenticated: { kind_of: [TrueClass, FalseClass] },
+      enabled: { kind_of: TrueClass, FalseClass] },
+      task_token_ttl: { kind_of: String },
+      ca_file: { kind_of: String },
+      ca_path: { kind_of: String },
+      cert_file: { kind_of: String },
+      key_file: { kind_of: String },
+      tls_server_name: { kind_of: String },
+      tls_skip_verify: { kind_of: [TrueClass, FalseClass] },
+      token: { kind_of: String }
     }.freeze
   end
 end
