@@ -75,7 +75,7 @@ module Nomad
   module AtlasConfig
     OPTIONS ||= {
       infrastructure: { kind_of: String },
-      token: { kind_of: String, required: true },
+      token: { kind_of: String },
       join: { kind_of: [TrueClass, FalseClass] },
       endpoint: { kind_of: String }
     }.freeze
