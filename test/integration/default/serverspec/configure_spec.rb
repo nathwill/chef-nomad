@@ -16,4 +16,12 @@ describe 'nomad::configure' do
   describe file('/etc/nomad-conf.d/atlas_00-default.hcl') do
     its(:content) { should match /join/ }
   end
+
+  describe file('/etc/nomad-conf.d/consul_test.hcl') do
+    its(:content) { should match /false/ }
+  end
+
+  describe file('/etc/nomad-conf.d/vault_test.hcl') do
+    its(:content) { should match /false/ }
+  end
 end

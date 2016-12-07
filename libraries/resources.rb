@@ -128,6 +128,48 @@ class Chef::Resource
     end
   end
 
+  class NomadVaultConfig < Chef::Resource::NomadBase
+    resource_name :nomad_vault_config
+    provides :nomad_vault_config
+
+    option_attributes Nomad::VaultConfig::OPTIONS
+
+    def prefix
+      'vault'
+    end
+
+    def to_json
+      config = { 'vault' => {} }
+
+      Nomad::VaultConfig::OPTIONS.keys.each do |k|
+        config['vault'][k] = send(k) unless send(k).nil?
+      end
+
+      config.to_json
+    end
+  end
+
+  class NomadConsulConfig < Chef::Resource::NomadBase
+    resource_name :nomad_consul_config
+    provides :nomad_consul_config
+
+    option_attributes Nomad::ConsulConfig::OPTIONS
+
+    def prefix
+      'consul'
+    end
+
+    def to_json
+      config = { 'consul' => {} }
+
+      Nomad::ConsulConfig::OPTIONS.keys.each do |k|
+        config['consul'][k] = send(k) unless send(k).nil?
+      end
+
+      config.to_json
+    end
+  end
+
   class NomadJob < Chef::Resource::LWRPBase
     resource_name :nomad_job
     provides :nomad_job
@@ -150,15 +192,15 @@ class Chef::Provider
       true
     end
 
-    %w( base config ).each do |s|
+    %w(base config).each do |s|
       provides "nomad_#{s}".to_sym
     end
 
-    %w( client server atlas ).each do |s|
+    %w(client server atlas consul vault).each do |s|
       provides "nomad_#{s}_config".to_sym
     end
 
-    %i( create delete ).each do |a|
+    %i(create delete).each do |a|
       action a do
         r = new_resource
 
@@ -185,7 +227,7 @@ class Chef::Provider
 
     provides :nomad_job
 
-    %i( create delete ).each do |a|
+    %i(create delete).each do |a|
       action a do
         r = new_resource
 

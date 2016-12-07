@@ -100,6 +100,43 @@ nomad\_atlas\_config
 |join|[TrueClass, FalseClass]|
 |endpoint|String|
 
+nomad\_consul\_config
+---------------------
+
+|attribute|kind_of|
+|---------|-------|
+|address|String|
+|auth|String|
+|auto_advertise|[TrueClass, FalseClass]|
+|ca_file|String|
+|cert_file|String|
+|checks_use_advertise|[TrueClass, FalseClass]|
+|client_auto_join|[TrueClass, FalseClass]|
+|client_service_name|String|
+|key_file|String|
+|server_service_name|String|
+|server_auto_join|[TrueClass, FalseClass]|
+|ssl|[TrueClass, FalseClass]|
+|token|String|
+|verify_ssl|[TrueClass, FalseClass]|
+
+nomad\_vault\_config
+--------------------
+
+|attribute|kind_of|
+|---------|-------|
+|address|String|
+|allow_unauthenticated|[TrueClass, FalseClass]|
+|enabled|[TrueClass, FalseClass]|
+|task_token_ttl|String|
+|ca_file|String|
+|ca_path|String|
+|cert_file|String|
+|key_file|String|
+|tls_server_name|String|
+|tls_skip_verify|[TrueClass, FalseClass]|
+|token|String|
+
 nomad\_job
 ----------
 
