@@ -160,7 +160,7 @@ class Chef::Resource
     end
 
     def to_json
-      config = { 'consule' => {} }
+      config = { 'consul' => {} }
 
       Nomad::ConsulConfig::OPTIONS.keys.each do |k|
         config['consul'][k] = send(k) unless send(k).nil?
