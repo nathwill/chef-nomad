@@ -210,6 +210,8 @@ class Chef::Provider
 
         f = file ::File.join(r.path, "#{r.prefix}_#{r.name}.hcl") do
           content r.to_json
+          sensitive true
+          mode 0640
           action a
         end
 
