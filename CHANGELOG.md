@@ -1,4 +1,8 @@
-# 0.10.0 /2016-12-07
+# 0.10.1/ 2016-01-04
+
+* fix private data leak in nomad config files (thanks @evan2645!)
+
+# 0.10.0 / 2016-12-07
 
 * update to 0.5.0
 
