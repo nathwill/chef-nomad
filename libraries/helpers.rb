@@ -33,7 +33,7 @@ module Nomad
         kind_of: Hash,
         callbacks: {
           'contains only required keys' => lambda do |spec|
-            spec.keys.all? { |k| ok.include? k }
+            spec.keys.all? { |k| ok.include? k.to_s }
           end
         }
       }
