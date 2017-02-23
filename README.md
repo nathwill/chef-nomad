@@ -128,6 +128,7 @@ nomad\_vault\_config
 |address|String|
 |allow_unauthenticated|[TrueClass, FalseClass]|
 |enabled|[TrueClass, FalseClass]|
+|create_from_role|String|
 |task_token_ttl|String|
 |ca_file|String|
 |ca_path|String|

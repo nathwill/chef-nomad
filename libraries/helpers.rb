@@ -166,6 +166,7 @@ module Nomad
       address: { kind_of: String },
       allow_unauthenticated: { kind_of: [TrueClass, FalseClass] },
       enabled: { kind_of: [TrueClass, FalseClass] },
+      create_from_role: { kind_of: String },
       task_token_ttl: { kind_of: String },
       ca_file: { kind_of: String },
       ca_path: { kind_of: String },
