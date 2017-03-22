@@ -97,6 +97,7 @@ module Nomad
       meta: { kind_of: Hash },
       network_interface: { kind_of: String },
       network_speed: { kind_of: Integer },
+      cpu_total_compute: { kind_of: Integer },
       node_class: { kind_of: String },
       options: { kind_of: Hash },
       reserved: Nomad::Helpers.conf_keys_include_opts(
@@ -139,6 +140,22 @@ module Nomad
       enabled_schedulers: { kind_of: Array },
       encrypt: { kind_of: String },
       node_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      job_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      eval_gc_threshold: {
         kind_of: String,
         callbacks: {
           'is a valid time expression' => lambda do |spec|
