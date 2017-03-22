@@ -1,3 +1,7 @@
+# 0.12.0 / 2017-03-22
+
+* update for 0.5.5 (thanks @dbresson!)
+
 # 0.11.0 / 2017-02-23
 
 * update to 0.5.4 (thanks @erkki!)
