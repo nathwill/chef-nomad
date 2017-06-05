@@ -94,6 +94,7 @@ module Nomad
           end
         }
       },
+      no_host_uuid: { kind_of: [TrueClass, FalseClass] },
       meta: { kind_of: Hash },
       network_interface: { kind_of: String },
       network_speed: { kind_of: Integer },
