@@ -88,6 +88,7 @@ nomad\_client\_config
 |network_interface|String|
 |network_speed|Integer|
 |max_kill_timeout|String|
+|no_host_uuid|[TrueClass, FalseClass]|
 |reserved|Hash|
 
 nomad\_atlas\_config
