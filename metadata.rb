@@ -4,10 +4,9 @@ maintainer_email 'nath.e.will@gmail.com'
 license          'apache2'
 description      'installs/configures nomad'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.12.1'
+version          '1.0.0'
 
 depends 'ark'
-depends 'systemd'
 
 supports 'fedora'
 supports 'debian', '>= 8.0'

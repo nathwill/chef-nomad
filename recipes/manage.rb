@@ -18,20 +18,24 @@
 
 args = Nomad::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
 
-systemd_service 'nomad' do
-  description 'Nomad System Scheduler'
-  documentation 'https://nomadproject.io/docs/index.html'
-  install do
-    wanted_by %w(multi-user.target)
-  end
-  service do
-    exec_start "/usr/local/bin/nomad agent #{args}"
-    restart 'on-failure'
-  end
-  action :create
+systemd_unit 'nomad.service' do
+  content <<~EOT
+    [Unit]
+    Description = Nomad
+    Documentation = https://nomadproject.io/docs
+
+    [Service]
+    ExecStart = /usr/local/bin/nomad agent #{args}
+    ExecReload = /bin/kill -HUP $MAINPID
+    LimitNOFILE = 65536
+
+    [Install]
+    WantedBy = multi-user.target
+  EOT
   only_if do
     File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
   end
+  action :create
 end
 
 template '/etc/init/nomad.conf' do

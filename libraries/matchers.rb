@@ -1,5 +1,15 @@
 if defined?(ChefSpec)
-  %w(job config server_config client_config atlas_config vault_config consul_config).each do |r| # rubocop: disable LineLength
+  %w(
+    job
+    config
+    server_config
+    client_config
+    atlas_config
+    telemetry_config
+    tls_config
+    vault_config
+    consul_config
+  ).each do |r|
     ChefSpec.define_matcher("nomad_#{r}".to_sym)
 
     %w(create delete).each do |action|

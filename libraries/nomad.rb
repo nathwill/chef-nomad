@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: nomad
-# Library:: Nomad::Helpers
+# Library:: Nomad
 #
-# Copyright 2015 The Authors
+# Copyright 2015-2017 The
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -58,6 +58,7 @@ module Nomad
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
       log_level: { kind_of: String, equal_to: %w(WARN INFO DEBUG) },
+      name: { kind_of: String },
       ports: Nomad::Helpers.conf_keys_include_opts(%w(http rpc serf)),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
@@ -106,6 +107,18 @@ module Nomad
       ),
       servers: { kind_of: Array },
       state_dir: { kind_of: String }
+      gc_interval: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time-string' => lambda do |spec|
+            spec.match(/^\d+(s|m|h)/)
+          end
+        }
+      },
+      gc_disk_usage_threshold: { kind_of: Numeric },
+      gc_inode_usage_threshold : { kind_of: Numeric },
+      gc_max_allocs: { kind_of: Integer },
+      gc_parallel_destroys: { kind_of: Integer }
     }.freeze
   end
 
@@ -164,6 +177,31 @@ module Nomad
           end
         }
       },
+      deployment_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      heartbeat_grace: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      min_heartbeat_ttl: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      max_heartbeats_per_second: { kind_of: Numeric },
       num_schedulers: {
         kind_of: Integer,
         callbacks: {
@@ -176,6 +214,38 @@ module Nomad
       retry_interval: { kind_of: String },
       retry_max: { kind_of: Integer },
       start_join: { kind_of: Array }
+    }.freeze
+  end
+
+  module Telemetry
+    OPTIONS ||= {
+      disable_hostname: { kind_of: [TrueClass, FalseClass] }
+      collection_interval: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      use_node_name: { kind_of: [TrueClass, FalseClass] },
+      publish_allocation_metrics: { kind_of: [TrueClass, FalseClass] },
+      publish_node_metrics: { kind_of: [TrueClass, FalseClass] }
+      statsite_address: { kind_of: String },
+      statsd_address: { kind_of: String },
+      datadog_address: { kind_of: String },
+    }.freeze
+  end
+
+  module TLS
+    OPTIONS ||= {
+      ca_file: { kind_of: String },
+      cert_file: { kind_of: String },
+      key_file: { kind_of: String },
+      http: { kind_of: [TrueClass, FalseClass] },
+      rpc: { kind_of: [TrueClass, FalseClass] },
+      verify_https_client: { kind_of: [TrueClass, FalseClass] },
+      verify_server_hostname: { kind_of: [TrueClass, FalseClass] }
     }.freeze
   end
 
