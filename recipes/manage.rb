@@ -19,8 +19,10 @@
 args = Nomad::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
 
 systemd_service 'nomad' do
-  description 'Nomad System Scheduler'
-  documentation 'https://nomadproject.io/docs/index.html'
+  unit do
+    description 'Nomad System Scheduler'
+    documentation 'https://nomadproject.io/docs/index.html'
+  end
   install do
     wanted_by %w(multi-user.target)
   end
