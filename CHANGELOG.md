@@ -1,3 +1,7 @@
+# 0.13.0 / 2017-08-14
+
+* support latest systemd cookbook
+
 # 0.12.1 / 2017-06-05
 
 * add no_host_uuid option (thanks @potato20!)
