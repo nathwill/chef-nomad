@@ -7,7 +7,6 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.13.0'
 
 depends 'ark'
-depends 'systemd'
 
 supports 'fedora'
 supports 'debian', '>= 8.0'
