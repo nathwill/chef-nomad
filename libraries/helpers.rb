@@ -28,7 +28,7 @@ module Nomad
       end.sort.join(' ')
     end
 
-    def conf_keys_include_opts(ok = %w())
+    def conf_keys_include_opts(ok = %w[])
       {
         kind_of: Hash,
         callbacks: {
@@ -45,8 +45,8 @@ module Nomad
   module Config
     OPTIONS ||= {
       # General Options
-      addresses: Nomad::Helpers.conf_keys_include_opts(%w(http rpc serf)),
-      advertise: Nomad::Helpers.conf_keys_include_opts(%w(http rpc serf)),
+      addresses: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
+      advertise: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
       bind_addr: { kind_of: String },
       datacenter: { kind_of: String },
       data_dir: { kind_of: String },
@@ -57,8 +57,8 @@ module Nomad
       http_api_response_headers: { kind_of: Hash },
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
-      log_level: { kind_of: String, equal_to: %w(WARN INFO DEBUG) },
-      ports: Nomad::Helpers.conf_keys_include_opts(%w(http rpc serf)),
+      log_level: { kind_of: String, equal_to: %w[WARN INFO DEBUG] },
+      ports: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
       # Sub-configuration
@@ -102,7 +102,7 @@ module Nomad
       node_class: { kind_of: String },
       options: { kind_of: Hash },
       reserved: Nomad::Helpers.conf_keys_include_opts(
-        %w(cpu memory disk reserved_ports)
+        %w[cpu memory disk reserved_ports]
       ),
       servers: { kind_of: Array },
       state_dir: { kind_of: String }

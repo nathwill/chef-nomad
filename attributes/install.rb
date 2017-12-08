@@ -21,19 +21,19 @@ default['nomad'].tap do |nomad|
   nomad['package'], nomad['checksum'] =
     case node['os']
     when 'mac_os_x'
-      %w(
+      %w[
         0.5.6/nomad_0.5.6_darwin_amd64.zip
         235ddfd4c18c9875ae78607f9611a84ddf425a184fcb2359c734e7d117379ab3
-      )
+      ]
     when 'windows'
-      %w(
+      %w[
         0.5.6/nomad_0.5.6_windows_amd64.zip
         fc8c735ebfd6d14c439d52d64ada4af678d2685ef54cc8b819d714477675e2db
-      )
+      ]
     else
-      %w(
+      %w[
         0.5.6/nomad_0.5.6_linux_amd64.zip
         3f5210f0bcddf04e2cc04b14a866df1614b71028863fe17bcdc8585488f8cb0c
-      )
+      ]
     end
 end

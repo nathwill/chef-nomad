@@ -9,4 +9,3 @@ describe 'nomad::default' do
     it { should be_running }
   end
 end
-

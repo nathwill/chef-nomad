@@ -24,7 +24,7 @@ systemd_service 'nomad' do
     documentation 'https://nomadproject.io/docs/index.html'
   end
   install do
-    wanted_by %w(multi-user.target)
+    wanted_by %w[multi-user.target]
   end
   service do
     exec_start "/usr/local/bin/nomad agent #{args}"
@@ -47,5 +47,5 @@ service 'nomad' do
   if ::File.executable?('/sbin/initctl')
     provider Chef::Provider::Service::Upstart
   end
-  action [:enable, :start]
+  action %i[enable start]
 end

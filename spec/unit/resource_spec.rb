@@ -10,7 +10,7 @@ describe Chef::Resource::NomadConfig do
   end
 
   let(:json_str) do
-    "{\"datacenter\":\"IAD\",\"enable_syslog\":true,\"region\":\"US\"}"
+    '{"datacenter":"IAD","enable_syslog":true,"region":"US"}'
   end
 
   it 'generates proper json' do
@@ -27,7 +27,7 @@ describe Chef::Resource::NomadServerConfig do
   end
 
   let(:json_str) do
-    "{\"server\":{\"data_dir\":\"/var/lib/nomad\",\"enabled\":true}}"
+    '{"server":{"data_dir":"/var/lib/nomad","enabled":true}}'
   end
 
   it 'generates proper json' do
@@ -44,7 +44,7 @@ describe Chef::Resource::NomadClientConfig do
   end
 
   let(:json_str) do
-    "{\"client\":{\"enabled\":true,\"node_class\":\"SSD\"}}"
+    '{"client":{"enabled":true,"node_class":"SSD"}}'
   end
 
   it 'generates proper json' do
@@ -62,7 +62,7 @@ describe Chef::Resource::NomadAtlasConfig do
   end
 
   let(:json_str) do
-    "{\"atlas\":{\"infrastructure\":\"org/infra\",\"token\":\"A3WCiMO9Ccv9mXdpY9dn9W\",\"join\":true}}"
+    '{"atlas":{"infrastructure":"org/infra","token":"A3WCiMO9Ccv9mXdpY9dn9W","join":true}}'
   end
 
   it 'generates proper json' do
