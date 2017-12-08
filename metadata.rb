@@ -15,6 +15,8 @@ supports 'ubuntu', '>= 12.04'
   supports p, '>= 6.0'
 end
 
+gem 'nomad', '~> 0.1'
+
 unless defined?(Ridley::Chef::Cookbook::Metadata)
   source_url 'https://github.com/nathwill/chef-nomad'
   issues_url 'https://github.com/nathwill/chef-nomad/issues'
