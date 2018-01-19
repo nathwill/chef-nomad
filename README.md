@@ -17,8 +17,8 @@ Downloads and installs nomad from the URL specified in `attributes/install.rb`.
 nomad::configure
 ----------------
 Sets up minimal default configuration (controlled by `attributes/configure.rb`
-using the provided resources for global, server, client, and atlas
-configuration blocks.
+using the provided resources for global, server, and client, configuration
+blocks.
 
 nomad::manage
 -------------
@@ -90,16 +90,6 @@ nomad\_client\_config
 |max_kill_timeout|String|
 |no_host_uuid|[TrueClass, FalseClass]|
 |reserved|Hash|
-
-nomad\_atlas\_config
---------------------
-
-|attribute|kind_of|
-|---------|-------|
-|infrastructure|String|
-|token|String|
-|join|[TrueClass, FalseClass]|
-|endpoint|String|
 
 nomad\_consul\_config
 ---------------------

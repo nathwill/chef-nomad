@@ -37,10 +37,6 @@ describe 'nomad::configure' do
       expect(chef_run).to create_nomad_client_config('00-default').with(
         enabled: true
       )
-
-      expect(chef_run).to create_nomad_atlas_config('00-default').with(
-        join: false
-      )
     end
 
     it 'converges successfully' do
