@@ -31,5 +31,5 @@ nomad_client_config '00-default' do
 end
 
 nomad_atlas_config '00-default' do
-  join nomad['atlas_join']
+  action :delete
 end
