@@ -1,8 +1,8 @@
 #
 # Cookbook Name:: nomad
-# Library:: Nomad::Helpers
+# Library:: NomadCookbook
 #
-# Copyright 2015 The Authors
+# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,11 +34,12 @@ module NomadCookbook
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
       log_level: { kind_of: String, equal_to: %w[WARN INFO DEBUG] },
+      name: { { kind_of: String },
       ports: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
       # Sub-configuration
-      atlas: { kind_of: Hash },
+      acl: { kind_of: Hash },
       client: { kind_of: Hash },
       consul: { kind_of: Hash },
       server: { kind_of: Hash },
@@ -48,12 +49,25 @@ module NomadCookbook
     }.freeze
   end
 
-  module AtlasConfig
+  module AclConfig
     OPTIONS ||= {
-      infrastructure: { kind_of: String },
-      token: { kind_of: String },
-      join: { kind_of: [TrueClass, FalseClass] },
-      endpoint: { kind_of: String }
+      enabled: { kind_of: [TrueClass, FalseClass] },
+      token_ttl: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time-string' => lambda do |spec|
+            spec.match(/^\d+(s|m|h)/)
+          end
+        }
+      },
+      policy_ttl: {
+        callbacks: {
+          'is a valid time-string' => lambda do |spec|
+            spec.match(/^\d+(s|m|h)/)
+          end
+        }
+      },
+      replication_token: { kind_of: String }
     }.freeze
   end
 
@@ -81,7 +95,19 @@ module NomadCookbook
         %w[cpu memory disk reserved_ports]
       ),
       servers: { kind_of: Array },
-      state_dir: { kind_of: String }
+      state_dir: { kind_of: String },
+      gc_interval: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time-string' => lambda do |spec|
+            spec.match(/^\d+(s|m|h)/)
+          end
+        }
+      },
+      gc_disk_usage_threshold: { kind_of: Integer },
+      gc_inode_usage_threshold: { kind_of: Integer },
+      gc_max_allocs: { kind_of: Integer },
+      gc_parallel_destroys: { kind_of: Integer }
     }.freeze
   end
 
@@ -104,8 +130,15 @@ module NomadCookbook
     }.freeze
   end
 
+  module SentinelConfig
+    OPTIONS ||= {
+      import: Nomad::Helpers.conf_keys_include_opts(%w[path args]),
+    }.freeze
+  end
+
   module ServerConfig
     OPTIONS ||= {
+      authoritative_region: { kind_of: String },
       bootstrap_expect: {
         kind_of: Integer,
         callbacks: {
@@ -140,6 +173,31 @@ module NomadCookbook
           end
         }
       },
+      deployment_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      heartbeat_grace: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      min_heartbeat_ttl: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      max_heartbeats_per_second: { kind_of: Integer },
       num_schedulers: {
         kind_of: Integer,
         callbacks: {
@@ -152,6 +210,62 @@ module NomadCookbook
       retry_interval: { kind_of: String },
       retry_max: { kind_of: Integer },
       start_join: { kind_of: Array }
+    }.freeze
+  end
+
+  module TelemetryConfig
+    OPTIONS ||= {
+      disable_hostname: { kind_of: [TrueClass, FalseClass] },
+      collection_interval: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      use_node_name: { kind_of: [TrueClass, FalseClass] },
+      publish_allocation_metrics: { kind_of: [TrueClass, FalseClass] },
+      publish_node_metrics: { kind_of: [TrueClass, FalseClass] },
+      backwards_compatible_metrics: { kind_of: [TrueClass, FalseClass] },
+      disable_tagged_metrics: { kind_of: [TrueClass, FalseClass] }
+      statsite_address: { kind_of: String },
+      statsd_address: { kind_of: String },
+      datadog_address: { kind_of: String },
+      prometheus_metrics: { kind_of: [TrueClass, FalseClass] },
+      circonus_api_token: { kind_of: String },
+      circonus_api_app: { kind_of: String },
+      circonus_api_url: { kind_of: String },
+      circonus_submission_interval: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end
+        }
+      },
+      circonus_submission_url: { kind_of: String },
+      circonus_check_id: { kind_of: String },
+      circonus_check_force_metric_activation: { kind_of: [TrueClass, FalseClass] },
+      circonus_check_instance_id: { kind_of: String },
+      circonus_check_search_tag: { kind_of: String },
+      circonus_check_display_name: { kind_of: String },
+      circonus_check_tags: { kind_of: String },
+      circonus_broker_id: { kind_of: String },
+      circonus_broker_select_tag: { kind_of: String }
+    }.freeze
+  end
+
+  module TLSConfig
+    OPTIONS ||= {
+      ca_file: { kind_of: String },
+      cert_file: { kind_of: String },
+      key_file: { kind_of: String },
+      http: { kind_of: [TrueClass, FalseClass] },
+      rpc: { kind_of: [TrueClass, FalseClass] },
+      rpc_upgrade_mode: { kind_of: [TrueClass, FalseClass] },
+      verify_https_client: { kind_of: [TrueClass, FalseClass] },
+      verify_server_hostname: { kind_of: [TrueClass, FalseClass] }
     }.freeze
   end
 
