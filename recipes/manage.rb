@@ -19,19 +19,19 @@
 args = Nomad::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
 
 systemd_unit 'nomad.service' do
-  content({
+  content(
     'Unit' => {
       'Description' => 'Nomad Cluster Manager',
       'Documentation' => 'https://www.nomadproject.io/docs/index.html'
     },
     'Install' => {
-      'WantedBy' => 'multi-user.target',
+      'WantedBy' => 'multi-user.target'
     },
     'Service' => {
-      'ExecStart' => "/usr/local/bin/nomad agent #{args}"
+      'ExecStart' => "/usr/local/bin/nomad agent #{args}",
       'Restart' => 'on-failure'
     }
-  })
+  )
   only_if do
     File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
   end

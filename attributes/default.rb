@@ -17,15 +17,14 @@
 # limitations under the License.
 
 default['nomad'].tap do |nomad|
-
   nomad['data_dir'] = '/var/lib/nomad'
-
   nomad['atlas_join'] = false
-
   nomad['client_enabled'] = true
   nomad['server_enabled'] = false
-
   nomad['source_url'] = 'https://releases.hashicorp.com/nomad'
+  nomad['daemon_args'].tap do |args|
+    args['config'] = Nomad::Helpers::CONFIG_ROOT
+  end
   nomad['package'], nomad['checksum'] =
     case node['os']
     when 'mac_os_x'
@@ -44,8 +43,4 @@ default['nomad'].tap do |nomad|
         72b32799c2128ed9d2bb6cbf00c7600644a8d06c521a320e42d5493a5d8a789a
       ]
     end
-
-  nomad['daemon_args'].tap do |args|
-    args['config'] = Nomad::Helpers::CONFIG_ROOT
-  end
 end

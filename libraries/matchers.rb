@@ -1,15 +1,15 @@
 if defined?(ChefSpec)
   %w[
-      job
-      config
-      server_config
-      client_config
-      acl_config
-      vault_config
-      sentinel_config
-      telemetry_config
-      tls_config
-      consul_config
+    job
+    config
+    server_config
+    client_config
+    acl_config
+    vault_config
+    sentinel_config
+    telemetry_config
+    tls_config
+    consul_config
   ].each do |r|
     ChefSpec.define_matcher("nomad_#{r}".to_sym)
 

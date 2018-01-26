@@ -1,0 +1,20 @@
+AllCops:
+  Exclude:
+    - Rakefile
+    - Berksfile
+    - metadata.rb
+    - vendor/**/*
+    - spec/**/*
+    - test/**/*
+Documentation:
+  Enabled: false
+ClassAndModuleChildren:
+  Enabled: false
+Metrics/LineLength:
+  Max: 100
+Metrics/MethodLength:
+  Max: 20
+Metrics/ModuleLength:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false

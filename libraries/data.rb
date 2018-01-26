@@ -34,7 +34,7 @@ module NomadCookbook
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
       log_level: { kind_of: String, equal_to: %w[WARN INFO DEBUG] },
-      name: { { kind_of: String },
+      name: { kind_of: String },
       ports: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
@@ -132,7 +132,7 @@ module NomadCookbook
 
   module SentinelConfig
     OPTIONS ||= {
-      import: Nomad::Helpers.conf_keys_include_opts(%w[path args]),
+      import: Nomad::Helpers.conf_keys_include_opts(%w[path args])
     }.freeze
   end
 
@@ -228,7 +228,7 @@ module NomadCookbook
       publish_allocation_metrics: { kind_of: [TrueClass, FalseClass] },
       publish_node_metrics: { kind_of: [TrueClass, FalseClass] },
       backwards_compatible_metrics: { kind_of: [TrueClass, FalseClass] },
-      disable_tagged_metrics: { kind_of: [TrueClass, FalseClass] }
+      disable_tagged_metrics: { kind_of: [TrueClass, FalseClass] },
       statsite_address: { kind_of: String },
       statsd_address: { kind_of: String },
       datadog_address: { kind_of: String },
