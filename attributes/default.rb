@@ -2,7 +2,7 @@
 # Cookbook Name:: nomad
 # Attributes:: default
 #
-# Copyright 2015-2016, Nathan Williams <nath.e.will@gmail.com>
+# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,18 +30,18 @@ default['nomad'].tap do |nomad|
     case node['os']
     when 'mac_os_x'
       %w[
-        0.7.0/nomad_0.7.0_darwin_amd64.zip
-        53452f5bb27131f1fe5a5f9178324511bcbc54e4fef5bec4e25b049ac38e0632
+        0.7.1/nomad_0.7.1_darwin_amd64.zip
+        3b9dda1ca2abec01ee3f239fe5b5f678b3937d998f06d9e2b3629ce4aa6cb895
       ]
     when 'windows'
       %w[
-        0.7.0/nomad_0.7.0_windows_amd64.zip
-        b049e70f1d4bc1e8102c988dbd2816bada781b5823b449eaeee40049df71309e
+        0.7.1/nomad_0.7.1_windows_amd64.zip
+        ebd429036ae7b8629c05a72a278afa5a2cf9d816092f1485c4dcf9bdc9f4d436
       ]
     else
       %w[
-        0.7.0/nomad_0.7.0_linux_amd64.zip
-        b3b78dccbdbd54ddc7a5ffdad29bce2d745cac93ea9e45f94e078f57b756f511
+        0.7.1/nomad_0.7.1_linux_amd64.zip
+        72b32799c2128ed9d2bb6cbf00c7600644a8d06c521a320e42d5493a5d8a789a
       ]
     end
 
