@@ -49,7 +49,7 @@ module NomadCookbook
     }.freeze
   end
 
-  module AclConfig
+  module ACLConfig
     OPTIONS ||= {
       enabled: { kind_of: [TrueClass, FalseClass] },
       token_ttl: {

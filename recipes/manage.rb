@@ -2,7 +2,7 @@
 # Cookbook Name:: nomad
 # Recipe:: manage
 #
-# Copyright 2015-2016, Nathan Williams <nath.e.will@gmail.com>
+# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,22 +18,24 @@
 
 args = Nomad::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
 
-systemd_service 'nomad' do
-  unit do
-    description 'Nomad System Scheduler'
-    documentation 'https://nomadproject.io/docs/index.html'
-  end
-  install do
-    wanted_by %w[multi-user.target]
-  end
-  service do
-    exec_start "/usr/local/bin/nomad agent #{args}"
-    restart 'on-failure'
-  end
-  action :create
+systemd_unit 'nomad.service' do
+  content({
+    'Unit' => {
+      'Description' => 'Nomad Cluster Manager',
+      'Documentation' => 'https://www.nomadproject.io/docs/index.html'
+    },
+    'Install' => {
+      'WantedBy' => 'multi-user.target',
+    },
+    'Service' => {
+      'ExecStart' => "/usr/local/bin/nomad agent #{args}"
+      'Restart' => 'on-failure'
+    }
+  })
   only_if do
     File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
   end
+  action :create
 end
 
 template '/etc/init/nomad.conf' do
