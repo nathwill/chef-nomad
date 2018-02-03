@@ -17,12 +17,14 @@
 # limitations under the License.
 #
 
+require_relative 'helpers'
+
 module NomadCookbook
   module Config
     OPTIONS ||= {
       # General Options
-      addresses: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
-      advertise: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
+      addresses: NomadCookbook::Helpers.conf_keys_include_opts(%w[http rpc serf]),
+      advertise: NomadCookbook::Helpers.conf_keys_include_opts(%w[http rpc serf]),
       bind_addr: { kind_of: String },
       datacenter: { kind_of: String },
       data_dir: { kind_of: String },
@@ -35,7 +37,7 @@ module NomadCookbook
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
       log_level: { kind_of: String, equal_to: %w[WARN INFO DEBUG] },
       name: { kind_of: String },
-      ports: Nomad::Helpers.conf_keys_include_opts(%w[http rpc serf]),
+      ports: NomadCookbook::Helpers.conf_keys_include_opts(%w[http rpc serf]),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
       # Sub-configuration
@@ -91,7 +93,7 @@ module NomadCookbook
       cpu_total_compute: { kind_of: Integer },
       node_class: { kind_of: String },
       options: { kind_of: Hash },
-      reserved: Nomad::Helpers.conf_keys_include_opts(
+      reserved: NomadCookbook::Helpers.conf_keys_include_opts(
         %w[cpu memory disk reserved_ports]
       ),
       servers: { kind_of: Array },
@@ -132,7 +134,7 @@ module NomadCookbook
 
   module SentinelConfig
     OPTIONS ||= {
-      import: Nomad::Helpers.conf_keys_include_opts(%w[path args])
+      import: NomadCookbook::Helpers.conf_keys_include_opts(%w[path args])
     }.freeze
   end
 

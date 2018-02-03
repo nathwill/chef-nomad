@@ -39,6 +39,20 @@ module NomadCookbook
       }
     end
 
-    module_function :hash_to_arg_string, :conf_keys_include_opts
+    def property_hash(resource, options = {})
+      result = {}
+
+      conf = options.reject do |opt, _|
+        resource.send(opt).nil?
+      end
+
+      conf.each_pair do |opt, _val|
+        result[opt] = resource.send(opt)
+      end
+
+      result
+    end
+
+    module_function :hash_to_arg_string, :conf_keys_include_opts, :property_hash
   end
 end

@@ -1,15 +1,15 @@
 require 'spec_helper'
 
-describe Nomad::Helpers do
+describe NomadCookbook::Helpers do
   it '#hash_to_args' do
     expect(
-      Nomad::Helpers.hash_to_arg_string('config' => '/etc/nomad-conf.d',
+      NomadCookbook::Helpers.hash_to_arg_string('config' => '/etc/nomad-conf.d',
                                         'dev' => nil)
     ).to eq '-config=/etc/nomad-conf.d -dev'
   end
 
   it '#conf_keys_include_opts' do
-    validations = Nomad::Helpers.conf_keys_include_opts(%w[foo bar])
+    validations = NomadCookbook::Helpers.conf_keys_include_opts(%w[foo bar])
     good_conf = {
       'foo' => 'foo',
       :bar => 'bar'

@@ -23,7 +23,7 @@ default['nomad'].tap do |nomad|
   nomad['server_enabled'] = false
   nomad['source_url'] = 'https://releases.hashicorp.com/nomad'
   nomad['daemon_args'].tap do |args|
-    args['config'] = Nomad::Helpers::CONFIG_ROOT
+    args['config'] = NomadCookbook::Helpers::CONFIG_ROOT
   end
   nomad['package'], nomad['checksum'] =
     case node['os']

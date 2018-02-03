@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-args = Nomad::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
+args = ::NomadCookbook::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
 
 systemd_unit 'nomad.service' do
   content(
