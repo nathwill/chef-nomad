@@ -25,10 +25,11 @@ describe 'nomad::default' do
       runner.converge(described_recipe)
     end
 
-    it 'includes the other recipes' do
-      %w[install configure manage].each do |r|
-        expect(chef_run).to include_recipe "nomad::#{r}"
-      end
+    it 'configures nomad' do
+      expect(chef_run).to create_directory('/var/lib/nomad')
+      expect(chef_run).to create_nomad_config('00-default')
+      expect(chef_run).to create_nomad_client_config('00-default')
+      expect(chef_run).to create_nomad_server_config('00-default')
     end
 
     it 'converges successfully' do
