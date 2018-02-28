@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Spec:: configure
+# Spec:: default
 #
 # Copyright 2015 The Authors
 #
@@ -18,7 +18,7 @@
 
 require 'spec_helper'
 
-describe 'nomad::configure' do
+describe 'nomad::default' do
   context 'When all attributes are default, on an unspecified platform' do
     let(:chef_run) do
       runner = ChefSpec::ServerRunner.new
@@ -26,21 +26,10 @@ describe 'nomad::configure' do
     end
 
     it 'configures nomad' do
-      expect(chef_run).to create_nomad_config('00-default').with(
-        data_dir: '/var/lib/nomad'
-      )
-
-      expect(chef_run).to create_nomad_server_config('00-default').with(
-        enabled: false
-      )
-
-      expect(chef_run).to create_nomad_client_config('00-default').with(
-        enabled: true
-      )
-
-      expect(chef_run).to create_nomad_atlas_config('00-default').with(
-        join: false
-      )
+      expect(chef_run).to create_directory('/var/lib/nomad')
+      expect(chef_run).to create_nomad_config('00-default')
+      expect(chef_run).to create_nomad_client_config('00-default')
+      expect(chef_run).to create_nomad_server_config('00-default')
     end
 
     it 'converges successfully' do

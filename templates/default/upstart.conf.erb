@@ -1,6 +1,6 @@
 # nomad - nomad job file
 
-description "Nomad System Scheduler"
+description "Nomad Cluster Manager"
 author "Nathan Williams <nath.e.will@gmail.com>"
 
 # When to start the service
@@ -13,4 +13,4 @@ stop on runlevel [016]
 respawn
 
 # Start the process
-exec /usr/local/bin/nomad agent <%= @daemon_args %>
+exec /usr/local/sbin/nomad agent <%= @daemon_args %>

@@ -26,7 +26,7 @@ describe 'nomad::default' do
     end
 
     it 'includes the other recipes' do
-      %w( install configure manage ).each do |r|
+      %w(install configure manage).each do |r|
         expect(chef_run).to include_recipe "nomad::#{r}"
       end
     end

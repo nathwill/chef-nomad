@@ -2,7 +2,7 @@
 # Cookbook Name:: nomad
 # Recipe:: default
 #
-# Copyright 2015 The Authors
+# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w(install configure manage).each do |r|
-  include_recipe "#{cookbook_name}::#{r}"
+%w(install configure manage).each do |recipe|
+  include_recipe "#{cookbook_name}::#{recipe}"
 end

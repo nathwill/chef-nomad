@@ -2,7 +2,7 @@
 # Cookbook Name:: nomad
 # Recipe:: manage
 #
-# Copyright 2015-2016, Nathan Williams <nath.e.will@gmail.com>
+# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,36 +16,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-args = Nomad::Helpers.hash_to_arg_string(node['nomad']['daemon_args'])
+systemd_unit 'nomad.service' do
+  content <<~EOT.gsub('DAEMON_ARGS', node['nomad']['daemon_args'].to_args)
+    [Unit]
+    Description = Nomad Cluster Manager
+    Documentation = https://www.nomadproject.io/docs/index.html
 
-systemd_service 'nomad' do
-  unit do
-    description 'Nomad System Scheduler'
-    documentation 'https://nomadproject.io/docs/index.html'
-  end
-  install do
-    wanted_by %w(multi-user.target)
-  end
-  service do
-    exec_start "/usr/local/bin/nomad agent #{args}"
-    restart 'on-failure'
-  end
+    [Service]
+    ExecStart = /usr/local/sbin/nomad agent DAEMON_ARGS
+    Restart = on-failure
+
+    [Install]
+    WantedBy' => 'multi-user.target'
+  EOT
+  only_if { NomadCookbook::Helpers.systemd? }
+  notifies :restart, 'service[nomad]', :delayed
   action :create
-  only_if do
-    File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
-  end
 end
 
 template '/etc/init/nomad.conf' do
   source 'upstart.conf.erb'
-  variables daemon_args: args
+  variables daemon_args: node['nomad']['daemon_args'].to_args
+  only_if { NomadCookbook::Helpers.upstart? }
+  notifies :restart, 'service[nomad]', :delayed
   action :create
-  only_if { ::File.executable?('/sbin/initctl') }
 end
 
 service 'nomad' do
-  if ::File.executable?('/sbin/initctl')
-    provider Chef::Provider::Service::Upstart
-  end
-  action [:enable, :start]
+  provider(Chef::Provider::Service::Upstart) if NomadCookbook::Helpers.upstart?
+  action %i(enable start)
+  subscribes :restart, 'nomad_config[00-default]', :delayed
+  subscribes :restart, 'nomad_client_config[00-default]', :delayed
+  subscribes :restart, 'nomad_server_config[00-default]', :delayed
 end

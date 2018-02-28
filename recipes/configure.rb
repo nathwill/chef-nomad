@@ -2,7 +2,7 @@
 # Cookbook Name:: nomad
 # Recipe:: configure
 #
-# Copyright 2015-2016, Nathan Williams <nath.e.will@gmail.com>
+# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,20 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-nomad = node['nomad']
+directory node['nomad']['agent']['data_dir']
 
 nomad_config '00-default' do
-  data_dir nomad['data_dir']
-end
-
-nomad_server_config '00-default' do
-  enabled nomad['server_enabled']
+  config_name '00-default'
+  bind_addr node['nomad']['agent']['bind_addr']
+  data_dir node['nomad']['agent']['data_dir']
+  name node['nomad']['agent']['name']
 end
 
 nomad_client_config '00-default' do
-  enabled nomad['client_enabled']
+  enabled node['nomad']['agent']['client_enabled']
 end
 
-nomad_atlas_config '00-default' do
-  join nomad['atlas_join']
+nomad_server_config '00-default' do
+  enabled node['nomad']['agent']['server_enabled']
 end

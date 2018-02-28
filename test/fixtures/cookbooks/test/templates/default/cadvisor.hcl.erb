@@ -1,7 +1,7 @@
 job "cadvisor" {
   region = "global"
 
-  datacenters = ["dc1"]
+  datacenters = ["vagrant"]
 
   type = "system"
 
@@ -13,6 +13,9 @@ job "cadvisor" {
         image = "google/cadvisor"
         port_map {
           cadvisor = 8080
+        }
+        labels {
+          Service = "cadvisor"
         }
       }
 

@@ -1,12 +1,4 @@
 AllCops:
-  Exclude:
-    - Rakefile
-    - Berksfile
-    - metadata.rb
-    - vendor/**/*
-    - spec/**/*
-    - test/**/*
-Documentation:
-  Enabled: false
-ClassAndModuleChildren:
+  TargetRubyVersion: 2.4
+FrozenStringLiteralComment:
   Enabled: false
