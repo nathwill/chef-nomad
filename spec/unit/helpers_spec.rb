@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe NomadCookbook::Helpers do
   it '#conf_keys_include_opts' do
-    validations = NomadCookbook::Helpers.conf_keys_include_opts(%w[foo bar])
+    validations = NomadCookbook::Helpers.conf_keys_include_opts(%w(foo bar))
     good_conf = { 'foo' => 'foo', :bar => 'bar' }
     bad_conf = { 'baz' => 'baz' }
 

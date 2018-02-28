@@ -6,7 +6,7 @@ execute 'apt-get update' do
 end
 
 docker_service 'default' do
-  action %i[create start]
+  action %i(create start)
 end
 
 #

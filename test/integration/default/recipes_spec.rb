@@ -10,11 +10,11 @@ end
 
 control 'configure' do
   describe file('/etc/nomad.conf.d/00-default.client.json') do
-    its('content') { should match %r{{"client":{"enabled":true}}} }
+    its('content') { should match /{"client":{"enabled":true}}/ }
   end
 
   describe file('/etc/nomad.conf.d/00-default.server.json') do
-    its('content') { should match %r{{"server":{"enabled":false}}} }
+    its('content') { should match /{"server":{"enabled":false}}/ }
   end
 
   describe file('/etc/nomad.conf.d/00-default.json') do
