@@ -12,7 +12,8 @@ end
       not_if { new_resource.action == :delete }
     end
 
-    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT, "#{new_resource.config_name}.json") do
+    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
+                     "#{new_resource.config_name}.json") do
       content NomadCookbook::Helpers
         .property_hash(new_resource, NomadCookbook::Config::OPTIONS)
         .to_json

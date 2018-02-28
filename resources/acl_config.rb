@@ -12,7 +12,8 @@ end
       not_if { new_resource.action == :delete }
     end
 
-    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT, "#{new_resource.acl_name}.acl.json") do
+    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
+                     "#{new_resource.acl_name}.acl.json") do
       content({
         acl: NomadCookbook::Helpers
                .property_hash(new_resource, NomadCookbook::ACLConfig::OPTIONS)

@@ -23,8 +23,12 @@ module NomadCookbook
   module Config
     OPTIONS ||= {
       # General Options
-      addresses: NomadCookbook::Helpers.conf_keys_include_opts(%w[http rpc serf]),
-      advertise: NomadCookbook::Helpers.conf_keys_include_opts(%w[http rpc serf]),
+      addresses: NomadCookbook::Helpers.conf_keys_include_opts(
+        %w[http rpc serf]
+      ),
+      advertise: NomadCookbook::Helpers.conf_keys_include_opts(
+        %w[http rpc serf]
+      ),
       bind_addr: { kind_of: String },
       datacenter: { kind_of: String },
       data_dir: { kind_of: String },
@@ -242,7 +246,9 @@ module NomadCookbook
       },
       circonus_submission_url: { kind_of: String },
       circonus_check_id: { kind_of: String },
-      circonus_check_force_metric_activation: { kind_of: [TrueClass, FalseClass] },
+      circonus_check_force_metric_activation: {
+        kind_of: [TrueClass, FalseClass]
+      },
       circonus_check_instance_id: { kind_of: String },
       circonus_check_search_tag: { kind_of: String },
       circonus_check_display_name: { kind_of: String },

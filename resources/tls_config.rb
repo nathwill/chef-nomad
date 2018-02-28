@@ -12,7 +12,8 @@ end
       not_if { new_resource.action == :delete }
     end
 
-    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT, "#{new_resource.tls_name}.tls.json") do
+    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
+                     "#{new_resource.tls_name}.tls.json") do
       content({
         tls: NomadCookbook::Helpers
                .property_hash(new_resource, NomadCookbook::TLSConfig::OPTIONS)

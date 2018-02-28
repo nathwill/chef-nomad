@@ -1,0 +1,13 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - test/**/*
+    - spec/**/*
+Documentation:
+  Enabled: false
+ClassAndModuleChildren:
+  Enabled: false
+FrozenStringLiteralComment:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
