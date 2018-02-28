@@ -22,11 +22,7 @@ module NomadCookbook
     CONFIG_ROOT ||= '/etc/nomad-conf.d'.freeze
     JOB_ROOT ||= '/etc/nomad-jobs.d'.freeze
 
-    def hash_to_arg_string(opts = {})
-      opts.map do |arg, val|
-        val.nil? ? "-#{arg}" : "-#{arg}=#{val}"
-      end.sort.join(' ')
-    end
+    module_function
 
     def conf_keys_include_opts(ok = %w[])
       {
@@ -39,20 +35,34 @@ module NomadCookbook
       }
     end
 
-    def property_hash(resource, options = {})
+    def property_hash(res, options = {})
       result = {}
 
       conf = options.reject do |opt, _|
-        resource.send(opt).nil?
+        res.send(opt).nil?
       end
 
       conf.each_pair do |opt, _val|
-        result[opt] = resource.send(opt)
+        result[opt] = res.send(opt)
       end
 
       result
     end
 
-    module_function :hash_to_arg_string, :conf_keys_include_opts, :property_hash
+    def systemd?
+      File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
+    end
+
+    def upstart?
+      File.executable?('/sbin/initctl')
+    end
+  end
+end
+
+class Hash
+  def to_args
+    map { |arg, val| val.nil? ? "-#{arg}" : "-#{arg}=#{val}" }
+      .sort
+      .join(' ')
   end
 end

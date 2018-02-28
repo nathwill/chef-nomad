@@ -16,14 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-nomad = node['nomad']
-
 include_recipe 'ark'
 
 ark 'nomad' do
-  url ::File.join(nomad['source_url'], nomad['package'])
-  checksum nomad['checksum']
-  version nomad['package'].match(/\d+\.\d+\.\d+/).to_s
+  url ::File.join(node['nomad']['source_url'], node['nomad']['package'])
+  checksum node['nomad']['checksum']
+  version node['nomad']['package'].match(/\d+\.\d+\.\d+/).to_s
   strip_components 0
   has_binaries %w[nomad]
   action :install

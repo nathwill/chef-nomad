@@ -12,10 +12,11 @@ end
       not_if { new_resource.action == :delete }
     end
 
-    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT, new_resource.sentinel_name) do
-      content NomadCookbook::Helpers
-        .property_hash(self, NomadCookbook::SentinelConfig::OPTIONS)
-        .to_json
+    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT, "#{new_resource.sentinel_name}.sentinel.json") do
+      content({
+        sentinel: NomadCookbook::Helpers
+                    .property_hash(new_resource, NomadCookbook::SentinelConfig::OPTIONS)
+      }.to_json)
       action actn
     end
   end

@@ -5,11 +5,11 @@ license          'Apache-2.0'
 description      'installs/configures nomad'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.13.0'
-chef_version 	'>= 12.7' if respond_to?(:chef_version)
+chef_version	'>= 12.7' if respond_to?(:chef_version)
 
-gem 		'nomad', '~> 0.1'
+gem	'nomad', '~> 0.1'
 
-depends 	'ark'
+depends	'ark'
 
 supports 	'fedora'
 supports 	'debian', '>= 8.0'

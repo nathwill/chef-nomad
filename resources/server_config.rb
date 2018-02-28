@@ -12,10 +12,11 @@ end
       not_if { new_resource.action == :delete }
     end
 
-    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT, new_resource.server_name) do
-      content NomadCookbook::Helpers
-        .property_hash(self, NomadCookbook::ServerConfig::OPTIONS)
-        .to_json
+    file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT, "#{new_resource.server_name}.server.json") do
+      content({
+        server: NomadCookbook::Helpers
+                  .property_hash(new_resource, NomadCookbook::ServerConfig::OPTIONS)
+      }.to_json)
       action actn
     end
   end
