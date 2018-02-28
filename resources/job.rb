@@ -19,7 +19,7 @@ action_class do
   end
 end
 
-%i[create delete].each do |actn|
+%i(create delete).each do |actn|
   action actn do
     directory new_resource.path do
       not_if { new_resource.action == :delete }

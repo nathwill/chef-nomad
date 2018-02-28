@@ -24,10 +24,10 @@ module NomadCookbook
     OPTIONS ||= {
       # General Options
       addresses: NomadCookbook::Helpers.conf_keys_include_opts(
-        %w[http rpc serf]
+        %w(http rpc serf)
       ),
       advertise: NomadCookbook::Helpers.conf_keys_include_opts(
-        %w[http rpc serf]
+        %w(http rpc serf)
       ),
       bind_addr: { kind_of: String },
       datacenter: { kind_of: String },
@@ -39,9 +39,9 @@ module NomadCookbook
       http_api_response_headers: { kind_of: Hash },
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
-      log_level: { kind_of: String, equal_to: %w[WARN INFO DEBUG] },
+      log_level: { kind_of: String, equal_to: %w(WARN INFO DEBUG) },
       name: { kind_of: String },
-      ports: NomadCookbook::Helpers.conf_keys_include_opts(%w[http rpc serf]),
+      ports: NomadCookbook::Helpers.conf_keys_include_opts(%w(http rpc serf)),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
       # Sub-configuration
@@ -51,7 +51,7 @@ module NomadCookbook
       server: { kind_of: Hash },
       telemetry: { kind_of: Hash },
       tls: { kind_of: Hash },
-      vault: { kind_of: Hash }
+      vault: { kind_of: Hash },
     }.freeze
   end
 
@@ -63,17 +63,17 @@ module NomadCookbook
         callbacks: {
           'is a valid time-string' => lambda do |spec|
             spec.match(/^\d+(s|m|h)/)
-          end
-        }
+          end,
+        },
       },
       policy_ttl: {
         callbacks: {
           'is a valid time-string' => lambda do |spec|
             spec.match(/^\d+(s|m|h)/)
-          end
-        }
+          end,
+        },
       },
-      replication_token: { kind_of: String }
+      replication_token: { kind_of: String },
     }.freeze
   end
 
@@ -87,8 +87,8 @@ module NomadCookbook
         callbacks: {
           'is a valid time-string' => lambda do |spec|
             spec.match(/^\d+(s|m|h)/)
-          end
-        }
+          end,
+        },
       },
       no_host_uuid: { kind_of: [TrueClass, FalseClass] },
       meta: { kind_of: Hash },
@@ -98,7 +98,7 @@ module NomadCookbook
       node_class: { kind_of: String },
       options: { kind_of: Hash },
       reserved: NomadCookbook::Helpers.conf_keys_include_opts(
-        %w[cpu memory disk reserved_ports]
+        %w(cpu memory disk reserved_ports)
       ),
       servers: { kind_of: Array },
       state_dir: { kind_of: String },
@@ -107,13 +107,13 @@ module NomadCookbook
         callbacks: {
           'is a valid time-string' => lambda do |spec|
             spec.match(/^\d+(s|m|h)/)
-          end
-        }
+          end,
+        },
       },
       gc_disk_usage_threshold: { kind_of: Integer },
       gc_inode_usage_threshold: { kind_of: Integer },
       gc_max_allocs: { kind_of: Integer },
-      gc_parallel_destroys: { kind_of: Integer }
+      gc_parallel_destroys: { kind_of: Integer },
     }.freeze
   end
 
@@ -132,7 +132,7 @@ module NomadCookbook
       server_auto_join: { kind_of: [TrueClass, FalseClass] },
       ssl: { kind_of: [TrueClass, FalseClass] },
       token: { kind_of: String },
-      verify_ssl: { kind_of: [TrueClass, FalseClass] }
+      verify_ssl: { kind_of: [TrueClass, FalseClass] },
     }.freeze
   end
 
@@ -142,8 +142,8 @@ module NomadCookbook
       bootstrap_expect: {
         kind_of: Integer,
         callbacks: {
-          'is a positive integer' => ->(spec) { spec.abs == spec }
-        }
+          'is a positive integer' => ->(spec) { spec.abs == spec },
+        },
       },
       data_dir: { kind_of: String },
       enabled: { kind_of: [TrueClass, FalseClass] },
@@ -154,62 +154,62 @@ module NomadCookbook
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       job_gc_threshold: {
         kind_of: String,
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       eval_gc_threshold: {
         kind_of: String,
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       deployment_gc_threshold: {
         kind_of: String,
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       heartbeat_grace: {
         kind_of: String,
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       min_heartbeat_ttl: {
         kind_of: String,
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       max_heartbeats_per_second: { kind_of: Integer },
       num_schedulers: {
         kind_of: Integer,
         callbacks: {
-          'is a positive integer' => ->(spec) { spec.abs == spec }
-        }
+          'is a positive integer' => ->(spec) { spec.abs == spec },
+        },
       },
       protocol_version: { kind_of: String },
       rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
       retry_join: { kind_of: Array },
       retry_interval: { kind_of: String },
       retry_max: { kind_of: Integer },
-      start_join: { kind_of: Array }
+      start_join: { kind_of: Array },
     }.freeze
   end
 
@@ -221,8 +221,8 @@ module NomadCookbook
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       use_node_name: { kind_of: [TrueClass, FalseClass] },
       publish_allocation_metrics: { kind_of: [TrueClass, FalseClass] },
@@ -241,20 +241,20 @@ module NomadCookbook
         callbacks: {
           'is a valid time expression' => lambda do |spec|
             spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
-          end
-        }
+          end,
+        },
       },
       circonus_submission_url: { kind_of: String },
       circonus_check_id: { kind_of: String },
       circonus_check_force_metric_activation: {
-        kind_of: [TrueClass, FalseClass]
+        kind_of: [TrueClass, FalseClass],
       },
       circonus_check_instance_id: { kind_of: String },
       circonus_check_search_tag: { kind_of: String },
       circonus_check_display_name: { kind_of: String },
       circonus_check_tags: { kind_of: String },
       circonus_broker_id: { kind_of: String },
-      circonus_broker_select_tag: { kind_of: String }
+      circonus_broker_select_tag: { kind_of: String },
     }.freeze
   end
 
@@ -267,7 +267,7 @@ module NomadCookbook
       rpc: { kind_of: [TrueClass, FalseClass] },
       rpc_upgrade_mode: { kind_of: [TrueClass, FalseClass] },
       verify_https_client: { kind_of: [TrueClass, FalseClass] },
-      verify_server_hostname: { kind_of: [TrueClass, FalseClass] }
+      verify_server_hostname: { kind_of: [TrueClass, FalseClass] },
     }.freeze
   end
 
@@ -284,7 +284,7 @@ module NomadCookbook
       key_file: { kind_of: String },
       tls_server_name: { kind_of: String },
       tls_skip_verify: { kind_of: [TrueClass, FalseClass] },
-      token: { kind_of: String }
+      token: { kind_of: String },
     }.freeze
   end
 end

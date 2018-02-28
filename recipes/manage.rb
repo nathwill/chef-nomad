@@ -44,7 +44,7 @@ end
 
 service 'nomad' do
   provider(Chef::Provider::Service::Upstart) if NomadCookbook::Helpers.upstart?
-  action %i[enable start]
+  action %i(enable start)
   subscribes :restart, 'nomad_config[00-default]', :delayed
   subscribes :restart, 'nomad_client_config[00-default]', :delayed
   subscribes :restart, 'nomad_server_config[00-default]', :delayed

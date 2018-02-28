@@ -14,7 +14,7 @@ depends	'ark'
 supports 	'fedora'
 supports 	'debian', '>= 8.0'
 supports 	'ubuntu', '>= 12.04'
-%w[redhat centos scientific].each do |p|
+%w(redhat centos scientific).each do |p|
   supports p, '>= 6.0'
 end
 

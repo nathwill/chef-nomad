@@ -24,14 +24,14 @@ module NomadCookbook
 
     module_function
 
-    def conf_keys_include_opts(ok = %w[])
+    def conf_keys_include_opts(ok = %w())
       {
         kind_of: Hash,
         callbacks: {
           'contains only required keys' => lambda do |spec|
             spec.keys.all? { |k| ok.include? k.to_s }
-          end
-        }
+          end,
+        },
       }
     end
 
