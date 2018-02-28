@@ -23,6 +23,7 @@ ark 'nomad' do
   checksum node['nomad']['checksum']
   version node['nomad']['package'].match(/\d+\.\d+\.\d+/).to_s
   strip_components 0
+  prefix_bin '/usr/local/sbin'
   has_binaries %w[nomad]
   action :install
 end

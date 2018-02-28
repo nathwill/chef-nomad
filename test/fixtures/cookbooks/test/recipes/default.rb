@@ -20,12 +20,12 @@ nomad_consul_config 'test' do
   client_auto_join false
   server_auto_join false
   verify_ssl false
-  notifies :restart, 'service[nomad]', :delayed
+  notifies :restart, 'service[nomad]', :immediately
 end
 
 nomad_vault_config 'test' do
   enabled false
-  notifies :restart, 'service[nomad]', :delayed
+  notifies :restart, 'service[nomad]', :immediately
 end
 
 # Nice lightweight daemon for testing

@@ -19,8 +19,8 @@
 
 module NomadCookbook
   module Helpers
-    CONFIG_ROOT ||= '/etc/nomad-conf.d'.freeze
-    JOB_ROOT ||= '/etc/nomad-jobs.d'.freeze
+    CONFIG_ROOT ||= '/etc/nomad.conf.d'.freeze
+    JOB_ROOT ||= '/etc/nomad.jobs.d'.freeze
 
     module_function
 
