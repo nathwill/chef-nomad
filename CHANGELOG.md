@@ -1,3 +1,11 @@
+# 1.0.0 / 2018-02-28
+
+* rework to use custom resources
+* add new resources
+* remove atlas resource
+* use latest nomad
+* change config root for clean cutover from old cookbook
+
 # 0.13.0 / 2017-08-14
 
 * support latest systemd cookbook
