@@ -54,10 +54,25 @@ nomad_vault_config '10-test' do
   enabled false
 end
 
+# Allow agent settling before running job
+settle = ruby_block 'settle' do
+  block { sleep 5 }
+  action :nothing
+end
+
+wait = ruby_block 'wait' do
+  block { sleep 5 }
+  action :nothing
+end
+# pre-download to avoid race with port check
+docker_image 'google/cadvisor'
+
 # Nice lightweight daemon for testing
 nomad_job 'cadvisor' do
   source 'cadvisor.hcl.erb'
+  notifies :run, settle.to_s, :delayed
   notifies :run, to_s, :delayed
+  notifies :run, wait.to_s, :delayed
 end
 
 package 'curl'

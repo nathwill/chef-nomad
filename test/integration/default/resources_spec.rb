@@ -51,17 +51,11 @@ control 'job' do
     its('content') { should match(/cadvisor/) }
   end
 
-  describe port(8080) do
-    it { should be_listening }
-  end
-
   describe command('/usr/local/sbin/nomad status cadvisor') do
     its('stdout') { should match(/running/) }
   end
 
-  docker.containers.where { labels == 'Service=cadvisor' }.ids.each do |id|
-    describe docker.object(id) do
-      its('State.Status') { should eq 'running' }
-    end
+  describe command('docker ps') do
+    its('stdout') { should match(/cadvisor/) }
   end
 end

@@ -19,7 +19,7 @@ control 'configure' do
 
   describe file('/etc/nomad.conf.d/00-default.json') do
     its('content') do
-      should match %r{{"bind_addr":"0.0.0.0","data_dir":"/var/lib/nomad","name":"default-fedora-27"}}
+      should match %r{{"bind_addr":"0.0.0.0","data_dir":"/var/lib/nomad","name":"nomad-test"}}
     end
   end
 end
