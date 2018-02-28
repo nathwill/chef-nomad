@@ -17,14 +17,19 @@
 # limitations under the License.
 
 default['nomad'].tap do |nomad|
-  nomad['data_dir'] = '/var/lib/nomad'
-  nomad['atlas_join'] = false
-  nomad['client_enabled'] = true
-  nomad['server_enabled'] = false
-  nomad['source_url'] = 'https://releases.hashicorp.com/nomad'
+  nomad['agent'].tap do |agent|
+    agent['bind_addr'] = '0.0.0.0'
+    agent['data_dir'] = '/var/lib/nomad'
+    agent['name'] = node['hostname']
+    agent['client_enabled'] = true
+    agent['server_enabled'] = false
+  end
+
   nomad['daemon_args'].tap do |args|
     args['config'] = NomadCookbook::Helpers::CONFIG_ROOT
   end
+
+  nomad['source_url'] = 'https://releases.hashicorp.com/nomad'
   nomad['package'], nomad['checksum'] =
     case node['os']
     when 'mac_os_x'

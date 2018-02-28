@@ -15,7 +15,7 @@ action_class do
   end
 
   def nomad_bin
-    '/usr/local/bin/nomad'
+    '/usr/local/sbin/nomad'
   end
 end
 

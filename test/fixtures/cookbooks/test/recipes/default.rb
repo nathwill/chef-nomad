@@ -14,30 +14,50 @@ end
 #
 include_recipe 'nomad::default'
 
-nomad_consul_config 'test' do
+nomad_acl_config '10-test' do
+  enabled false
+  token_ttl '30s'
+end
+
+nomad_client_config '10-test' do
+  max_kill_timeout '30s'
+  node_class 'test'
+end
+
+nomad_config '10-test' do
+  datacenter 'vagrant'
+  ports 'http' => 4646, 'rpc' => 4647, 'serf' => 4648
+end
+
+nomad_consul_config '10-test' do
   address '127.0.0.1:8500'
   auto_advertise false
   client_auto_join false
   server_auto_join false
   verify_ssl false
-  notifies :restart, 'service[nomad]', :immediately
 end
 
-nomad_vault_config 'test' do
+nomad_server_config '10-test' do
+  node_gc_threshold '1h'
+  job_gc_threshold '1h'
+end
+
+nomad_telemetry_config '10-test' do
+  use_node_name true
+end
+
+nomad_tls_config '10-test' do
+  verify_server_hostname true
+end
+
+nomad_vault_config '10-test' do
   enabled false
-  notifies :restart, 'service[nomad]', :immediately
 end
 
 # Nice lightweight daemon for testing
 nomad_job 'cadvisor' do
   source 'cadvisor.hcl.erb'
-  notifies :run, 'nomad_job[cadvisor]', :delayed
+  notifies :run, to_s, :delayed
 end
 
 package 'curl'
-
-ruby_block 'let-nomad-service-settle' do
-  block do
-    sleep 10
-  end
-end

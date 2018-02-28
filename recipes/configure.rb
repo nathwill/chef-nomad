@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: nomad
-# Recipe:: default
+# Recipe:: configure
 #
 # Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
@@ -16,6 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-%w[install configure manage].each do |recipe|
-  include_recipe "#{cookbook_name}::#{recipe}"
+directory node['nomad']['agent']['data_dir']
+
+nomad_config '00-default' do
+  config_name '00-default'
+  bind_addr node['nomad']['agent']['bind_addr']
+  data_dir node['nomad']['agent']['data_dir']
+  name node['nomad']['agent']['name']
+end
+
+nomad_client_config '00-default' do
+  enabled node['nomad']['agent']['client_enabled']
+end
+
+nomad_server_config '00-default' do
+  enabled node['nomad']['agent']['server_enabled']
 end

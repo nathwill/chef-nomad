@@ -132,12 +132,6 @@ module NomadCookbook
     }.freeze
   end
 
-  module SentinelConfig
-    OPTIONS ||= {
-      import: NomadCookbook::Helpers.conf_keys_include_opts(%w[path args])
-    }.freeze
-  end
-
   module ServerConfig
     OPTIONS ||= {
       authoritative_region: { kind_of: String },
