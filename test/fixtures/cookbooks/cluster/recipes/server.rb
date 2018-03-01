@@ -13,7 +13,7 @@ end
 nomad_server_config 'demo' do
   bootstrap_expect 1 # This is dumb, don't do this in production
   enabled true
-# start_join [1.2.3.4, 1.2.3.5, 1.2.3.6] (if this were prod, this'd be a chef-search-populated list of servers)
+  # start_join [1.2.3.4, 1.2.3.5, 1.2.3.6] (if this were prod, this'd be a chef-search-populated list of servers)
   notifies :restart, 'service[nomad]', :delayed
 end
 
