@@ -1,5 +1,5 @@
 wait = ruby_block 'wait' do
-  block { sleep 10 }
+  block { sleep 60 }
   action :nothing
 end
 

@@ -20,6 +20,15 @@ suites:
   - name: default
     run_list:
       - recipe[test::default]
+  - name: cluster-client
+    driver:
+      network:
+        - - private_network
+          - ip: 192.168.120.201
+    includes:
+      - centos-7.4
+    run_list:
+      - recipe[cluster::client]
   - name: cluster-server
     driver:
       network:
@@ -33,12 +42,3 @@ suites:
     run_list:
       - recipe[cluster::server]
       - recipe[cluster::jobs]
-  - name: cluster-client
-    driver:
-      network:
-        - - private_network
-          - ip: 192.168.120.201
-    includes:
-      - centos-7.4
-    run_list:
-      - recipe[cluster::client]
