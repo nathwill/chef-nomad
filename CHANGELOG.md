@@ -1,3 +1,9 @@
+# 1.0.1 / 2018-02-28
+
+* update documentation
+* add cluster example suites in test-kitchen
+* remove name property for nomad_config
+
 # 1.0.0 / 2018-02-28
 
 * rework to use custom resources
