@@ -20,7 +20,6 @@ default['nomad'].tap do |nomad|
   nomad['agent'].tap do |agent|
     agent['bind_addr'] = '0.0.0.0'
     agent['data_dir'] = '/var/lib/nomad'
-    agent['name'] = node['hostname']
     agent['client_enabled'] = true
     agent['server_enabled'] = false
   end

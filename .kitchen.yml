@@ -1,11 +1,6 @@
 ---
 driver:
   name: vagrant
-  customize:
-    memory: 1024
-    cpus: 2
-  network:
-    - ["forwarded_port", { guest: 8080, host: 8080 }]
 
 provisioner:
   name: chef_zero
@@ -25,3 +20,21 @@ suites:
   - name: default
     run_list:
       - recipe[test::default]
+  - name: cluster-server
+    driver:
+      network:
+        - - private_network
+          - ip: 192.168.120.101
+    includes:
+      - centos-7.4
+    run_list:
+      - recipe[cluster::server]
+  - name: cluster-client
+    driver:
+      network:
+        - - private_network
+          - ip: 192.168.120.201
+    includes:
+      - centos-7.4
+    run_list:
+      - recipe[cluster::client]

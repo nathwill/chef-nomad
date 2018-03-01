@@ -12,7 +12,7 @@ end
 
 control 'config' do
   describe file('/etc/nomad.conf.d/10-test.json') do
-    its('content') { should match /{"datacenter":"vagrant","name":"10-test","ports":{"http":4646,"rpc":4647,"serf":4648}}/ }
+    its('content') { should match /{"datacenter":"vagrant","ports":{"http":4646,"rpc":4647,"serf":4648}}/ }
   end
 end
 

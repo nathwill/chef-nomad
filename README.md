@@ -12,100 +12,95 @@ Includes the install, configure, manage recipes.
 
 nomad::install
 --------------
-Downloads and installs nomad from the URL specified in `attributes/install.rb`.
+Downloads and installs nomad from the URL specified in attributes..
 
 nomad::configure
 ----------------
-Sets up minimal default configuration (controlled by `attributes/configure.rb`
-using the provided resources for global, server, client, and atlas
-configuration blocks.
+Sets up simple default configuration.
 
 nomad::manage
 -------------
-Installs a system service definition for nomad, using provided daemon args in
-`attributes/manage.rb`, and enable and start the service.
+configure the agent as a service, manage the service
 
 Resources
 =========
 
-`nomad*config` resources are for configuring nomad. For full documentation,
-see the nomad [docs](https://www.nomadproject.io/docs/agent/config.html).
+See the [docs](https://www.nomadproject.io/docs/agent/index.html) for full details.
 
-nomad\_config
--------------
+See `test/fixtures/cookbooks` and test-kitchen suites for example usage.
 
-|attribute|kind_of|
-|---------|-------|
-|region|String|
-|datacenter|String|
-|data_dir|String|
-|log_level|String|
-|bind_addr|String|
-|enable_debug|[TrueClass, FalseClass]|
-|ports|Hash|
+---
+nomad_config
+
+|property|type|
+|---------|----|
 |addresses|Hash|
 |advertise|Hash|
-|telemetry|Hash|
+|bind_addr|String|
+|datacenter|String|
+|data_dir|String|
+|disable_anonymous_signature|[TrueClass, FalseClass]|
+|disable_update_check|[TrueClass, FalseClass]|
+|enable_debug|[TrueClass, FalseClass]|
+|enable_syslog|[TrueClass, FalseClass]|
+|http_api_response_headers|Hash|
 |leave_on_interrupt|[TrueClass, FalseClass]|
 |leave_on_terminate|[TrueClass, FalseClass]|
-|enable_syslog|[TrueClass, FalseClass]|
+|log_level|String|
+|ports|Hash|
+|region|String|
 |syslog_facility|String|
-|disable_update_check|[TrueClass, FalseClass]|
-|disable_anonymous_signature|[TrueClass, FalseClass]|
-|http_api_response_headers|Hash|
+|acl|Hash|
+|client|Hash|
+|consul|Hash|
+|server|Hash|
+|telemetry|Hash|
+|tls|Hash|
+|vault|Hash|
 
-nomad\_server\_config
----------------------
+---
 
-|attribute|kind_of|
-|---------|-------|
+nomad_acl_config
+
+|property|type|
+|---------|----|
 |enabled|[TrueClass, FalseClass]|
-|bootstrap_expect|Integer|
-|data_dir|String|
-|protocol_version|String|
-|num_schedulers|Integer|
-|enabled_schedulers|Array|
-|node_gc_threshold|String|
-|rejoin_after_leave|[TrueClass, FalseClass]|
-|retry_join|Array|
-|retry_interval|String|
-|retry_max|Integer|
-|start_join|Array|
+|token_ttl|String|
+|policy_ttl|String|
+|replication_token|String|
 
-nomad\_client\_config
----------------------
+---
 
-|attribute|kind_of|
-|---------|-------|
-|enabled|[TrueClass, FalseClass]|
-|state_dir|String|
+nomad_client_config
+
+|property|type|
+|---------|----|
 |alloc_dir|String|
-|servers|Array|
-|node_id|String|
-|node_class|String|
-|meta|Hash|
-|options|Hash|
-|network_interface|String|
-|network_speed|Integer|
+|chroot_env|Hash|
+|enabled|[TrueClass, FalseClass]|
 |max_kill_timeout|String|
 |no_host_uuid|[TrueClass, FalseClass]|
+|meta|Hash|
+|network_interface|String|
+|network_speed|Integer|
+|cpu_total_compute|Integer|
+|node_class|String|
+|options|Hash|
 |reserved|Hash|
+|servers|Array|
+|state_dir|String|
+|gc_interval|String|
+|gc_disk_usage_threshold|Integer|
+|gc_inode_usage_threshold|Integer|
+|gc_max_allocs|Integer|
+|gc_parallel_destroys|Integer|
 
-nomad\_atlas\_config
---------------------
+---
 
-|attribute|kind_of|
-|---------|-------|
-|infrastructure|String|
-|token|String|
-|join|[TrueClass, FalseClass]|
-|endpoint|String|
+nomad_consul_config
 
-nomad\_consul\_config
----------------------
-
-|attribute|kind_of|
-|---------|-------|
+|property|type|
+|---------|----|
 |address|String|
 |auth|String|
 |auto_advertise|[TrueClass, FalseClass]|
@@ -121,11 +116,85 @@ nomad\_consul\_config
 |token|String|
 |verify_ssl|[TrueClass, FalseClass]|
 
-nomad\_vault\_config
---------------------
+---
 
-|attribute|kind_of|
-|---------|-------|
+nomad_server_config
+
+|property|type|
+|---------|----|
+|authoritative_region|String|
+|bootstrap_expect|Integer|
+|data_dir|String|
+|enabled|[TrueClass, FalseClass]|
+|enabled_schedulers|Array|
+|encrypt|String|
+|node_gc_threshold|String|
+|job_gc_threshold|String|
+|eval_gc_threshold|String|
+|deployment_gc_threshold|String|
+|heartbeat_grace|String|
+|min_heartbeat_ttl|String|
+|max_heartbeats_per_second|Integer|
+|num_schedulers|Integer|
+|protocol_version|String|
+|rejoin_after_leave|[TrueClass, FalseClass]|
+|retry_join|Array|
+|retry_interval|String|
+|retry_max|Integer|
+|start_join|Array|
+
+---
+
+nomad_telemetry_config
+
+|property|type|
+|---------|----|
+|disable_hostname|[TrueClass, FalseClass]|
+|collection_interval|String|
+|use_node_name|[TrueClass, FalseClass]|
+|publish_allocation_metrics|[TrueClass, FalseClass]|
+|publish_node_metrics|[TrueClass, FalseClass]|
+|backwards_compatible_metrics|[TrueClass, FalseClass]|
+|disable_tagged_metrics|[TrueClass, FalseClass]|
+|statsite_address|String|
+|statsd_address|String|
+|datadog_address|String|
+|prometheus_metrics|[TrueClass, FalseClass]|
+|circonus_api_token|String|
+|circonus_api_app|String|
+|circonus_api_url|String|
+|circonus_submission_interval|String|
+|circonus_submission_url|String|
+|circonus_check_id|String|
+|circonus_check_force_metric_activation|[TrueClass, FalseClass]|
+|circonus_check_instance_id|String|
+|circonus_check_search_tag|String|
+|circonus_check_display_name|String|
+|circonus_check_tags|String|
+|circonus_broker_id|String|
+|circonus_broker_select_tag|String|
+
+---
+
+nomad_tls_config
+
+|property|type|
+|---------|----|
+|ca_file|String|
+|cert_file|String|
+|key_file|String|
+|http|[TrueClass, FalseClass]|
+|rpc|[TrueClass, FalseClass]|
+|rpc_upgrade_mode|[TrueClass, FalseClass]|
+|verify_https_client|[TrueClass, FalseClass]|
+|verify_server_hostname|[TrueClass, FalseClass]|
+
+---
+
+nomad_vault_config
+
+|property|type|
+|---------|----|
 |address|String|
 |allow_unauthenticated|[TrueClass, FalseClass]|
 |enabled|[TrueClass, FalseClass]|
@@ -138,16 +207,3 @@ nomad\_vault\_config
 |tls_server_name|String|
 |tls_skip_verify|[TrueClass, FalseClass]|
 |token|String|
-
-nomad\_job
-----------
-
-Resource for managing nomad jobs via templates. For help configuring jobs,
-see the nomad [job spec](https://www.nomadproject.io/docs/jobspec/index.html).
-
-|attribute|kind_of|
-|---------|-------|
-|cookbook|String|
-|source|String|
-|path|String|
-|variables|Hash|

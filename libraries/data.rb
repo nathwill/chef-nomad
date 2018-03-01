@@ -40,7 +40,6 @@ module NomadCookbook
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
       log_level: { kind_of: String, equal_to: %w(WARN INFO DEBUG) },
-      name: { kind_of: String },
       ports: NomadCookbook::Helpers.conf_keys_include_opts(%w(http rpc serf)),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
@@ -67,6 +66,7 @@ module NomadCookbook
         },
       },
       policy_ttl: {
+        kind_of: String,
         callbacks: {
           'is a valid time-string' => lambda do |spec|
             spec.match(/^\d+(s|m|h)/)
