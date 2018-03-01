@@ -25,8 +25,11 @@ configure the agent as a service, manage the service
 Resources
 =========
 
+See the [docs](https://www.nomadproject.io/docs/agent/index.html) for full details.
+
 See `test/fixtures/cookbooks` and test-kitchen suites for example usage.
 
+---
 nomad_config
 
 |property|type|
@@ -55,6 +58,7 @@ nomad_config
 |tls|Hash|
 |vault|Hash|
 
+---
 
 nomad_acl_config
 
@@ -65,6 +69,7 @@ nomad_acl_config
 |policy_ttl||
 |replication_token|String|
 
+---
 
 nomad_client_config
 
@@ -90,6 +95,7 @@ nomad_client_config
 |gc_max_allocs|Integer|
 |gc_parallel_destroys|Integer|
 
+---
 
 nomad_consul_config
 
@@ -110,6 +116,7 @@ nomad_consul_config
 |token|String|
 |verify_ssl|[TrueClass, FalseClass]|
 
+---
 
 nomad_server_config
 
@@ -136,6 +143,7 @@ nomad_server_config
 |retry_max|Integer|
 |start_join|Array|
 
+---
 
 nomad_telemetry_config
 
@@ -166,6 +174,7 @@ nomad_telemetry_config
 |circonus_broker_id|String|
 |circonus_broker_select_tag|String|
 
+---
 
 nomad_tls_config
 
@@ -180,6 +189,7 @@ nomad_tls_config
 |verify_https_client|[TrueClass, FalseClass]|
 |verify_server_hostname|[TrueClass, FalseClass]|
 
+---
 
 nomad_vault_config
 
