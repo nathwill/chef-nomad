@@ -9,8 +9,6 @@ nomad_config 'demo' do
   advertise http: '192.168.120.201',
             rpc: '192.168.120.201',
             serf: '192.168.120.201'
-  config_name 'demo'
-  name node['hostname']
   notifies :restart, 'service[nomad]', :delayed
 end
 

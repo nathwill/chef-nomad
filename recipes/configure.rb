@@ -19,10 +19,8 @@
 directory node['nomad']['agent']['data_dir']
 
 nomad_config '00-default' do
-  config_name '00-default'
   bind_addr node['nomad']['agent']['bind_addr']
   data_dir node['nomad']['agent']['data_dir']
-  name node['nomad']['agent']['name']
 end
 
 nomad_client_config '00-default' do
