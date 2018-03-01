@@ -66,7 +66,7 @@ nomad_acl_config
 |---------|----|
 |enabled|[TrueClass, FalseClass]|
 |token_ttl|String|
-|policy_ttl||
+|policy_ttl|String|
 |replication_token|String|
 
 ---

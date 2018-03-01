@@ -66,6 +66,7 @@ module NomadCookbook
         },
       },
       policy_ttl: {
+        kind_of: String,
         callbacks: {
           'is a valid time-string' => lambda do |spec|
             spec.match(/^\d+(s|m|h)/)
