@@ -1,11 +1,11 @@
-job "cadvisor" {
+job "monitoring" {
   region = "global"
 
   datacenters = ["vagrant"]
 
   type = "system"
 
-  group "monitoring" {
+  group "agents" {
     task "cadvisor" {
       driver = "docker"
 

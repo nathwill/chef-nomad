@@ -51,7 +51,7 @@ control 'job' do
     its('content') { should match(/cadvisor/) }
   end
 
-  describe command('/usr/local/sbin/nomad status cadvisor') do
+  describe command('/usr/local/sbin/nomad status monitoring') do
     its('stdout') { should match(/running/) }
   end
 
