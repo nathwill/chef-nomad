@@ -47,6 +47,7 @@ module NomadCookbook
       acl: { kind_of: Hash },
       client: { kind_of: Hash },
       consul: { kind_of: Hash },
+      sentinel: { kind_of: Hash },
       server: { kind_of: Hash },
       telemetry: { kind_of: Hash },
       tls: { kind_of: Hash },
@@ -129,6 +130,9 @@ module NomadCookbook
       client_service_name: { kind_of: String },
       key_file: { kind_of: String },
       server_service_name: { kind_of: String },
+      server_http_check_name: { kind_of: String },
+      server_serf_check_name: { kind_of: String },
+      server_rpc_check_name: { kind_of: String },
       server_auto_join: { kind_of: [TrueClass, FalseClass] },
       ssl: { kind_of: [TrueClass, FalseClass] },
       token: { kind_of: String },
@@ -198,6 +202,7 @@ module NomadCookbook
         },
       },
       max_heartbeats_per_second: { kind_of: Integer },
+      non_voting_server: { kind_of: [TrueClass, FalseClass] },
       num_schedulers: {
         kind_of: Integer,
         callbacks: {
@@ -205,11 +210,14 @@ module NomadCookbook
         },
       },
       protocol_version: { kind_of: String },
+      raft_protocol: { kind_of: Integer },
+      redundancy_zone: { kind_of: String },
       rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
       retry_join: { kind_of: Array },
       retry_interval: { kind_of: String },
       retry_max: { kind_of: Integer },
       start_join: { kind_of: Array },
+      upgrade_version: { kind_of: String },
     }.freeze
   end
 
@@ -232,6 +240,7 @@ module NomadCookbook
       statsite_address: { kind_of: String },
       statsd_address: { kind_of: String },
       datadog_address: { kind_of: String },
+      datadog_tags: { kind_of: Array },
       prometheus_metrics: { kind_of: [TrueClass, FalseClass] },
       circonus_api_token: { kind_of: String },
       circonus_api_app: { kind_of: String },
