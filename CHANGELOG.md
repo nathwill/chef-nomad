@@ -1,3 +1,8 @@
+# 1.0.2 / 2018-04-17
+
+* add new options for 0.8
+* update to 0.8
+
 # 1.0.1 / 2018-02-28
 
 * update documentation

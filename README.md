@@ -53,6 +53,7 @@ nomad_config
 |acl|Hash|
 |client|Hash|
 |consul|Hash|
+|sentinel|Hash|
 |server|Hash|
 |telemetry|Hash|
 |tls|Hash|
@@ -111,6 +112,9 @@ nomad_consul_config
 |client_service_name|String|
 |key_file|String|
 |server_service_name|String|
+|server_http_check_name|String|
+|server_serf_check_name|String|
+|server_rpc_check_name|String|
 |server_auto_join|[TrueClass, FalseClass]|
 |ssl|[TrueClass, FalseClass]|
 |token|String|
@@ -135,13 +139,17 @@ nomad_server_config
 |heartbeat_grace|String|
 |min_heartbeat_ttl|String|
 |max_heartbeats_per_second|Integer|
+|non_voting_server|[TrueClass, FalseClass]|
 |num_schedulers|Integer|
 |protocol_version|String|
+|raft_protocol|Integer|
+|redundancy_zone|String|
 |rejoin_after_leave|[TrueClass, FalseClass]|
 |retry_join|Array|
 |retry_interval|String|
 |retry_max|Integer|
 |start_join|Array|
+|upgrade_version|String|
 
 ---
 
@@ -159,6 +167,7 @@ nomad_telemetry_config
 |statsite_address|String|
 |statsd_address|String|
 |datadog_address|String|
+|datadog_tags|Array|
 |prometheus_metrics|[TrueClass, FalseClass]|
 |circonus_api_token|String|
 |circonus_api_app|String|
