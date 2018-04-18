@@ -2,10 +2,10 @@ resource_name :nomad_job
 provides :nomad_job
 
 property :job_name, String, name_property: true, identity: true
-property :cookbook, kind_of: String
-property :path, kind_of: String, default: NomadCookbook::Helpers::JOB_ROOT
-property :source, kind_of: String, required: true
-property :variables, kind_of: Hash
+property :cookbook, String
+property :path, String, default: NomadCookbook::Helpers::JOB_ROOT
+property :source, String, required: true
+property :variables, Hash
 
 default_action :create
 
