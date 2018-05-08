@@ -27,7 +27,7 @@ systemd_unit 'nomad.service' do
     Restart = on-failure
 
     [Install]
-    WantedBy' => 'multi-user.target'
+    WantedBy = multi-user.target
   EOT
   only_if { NomadCookbook::Helpers.systemd? }
   notifies :restart, 'service[nomad]', :delayed
