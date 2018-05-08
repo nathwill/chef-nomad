@@ -1,3 +1,8 @@
+# 1.1.0 / 2018-05-08
+
+* update to 0.8.3
+* fix systemd unit problem (thanks @potato20!)
+
 # 1.0.2 / 2018-04-17
 
 * add new options for 0.8
