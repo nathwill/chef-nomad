@@ -14,10 +14,12 @@ end
 
     file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
                      "#{new_resource.acl_name}.acl.json") do
-      content({
-        acl: NomadCookbook::Helpers
-               .property_hash(new_resource, NomadCookbook::ACLConfig::OPTIONS),
-      }.to_json)
+      content(JSON.pretty_generate(
+        {
+          acl: NomadCookbook::Helpers
+                 .property_hash(new_resource, NomadCookbook::ACLConfig::OPTIONS),
+        }, quirks_mode: true)
+      )
       action actn
     end
   end
