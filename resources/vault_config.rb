@@ -15,12 +15,12 @@ end
     file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
                      "#{new_resource.vault_name}.vault.json") do
       content(JSON.pretty_generate(
-        {
-          vault: NomadCookbook::Helpers
-                   .property_hash(new_resource,
-                                  NomadCookbook::VaultConfig::OPTIONS),
-        }, quirks_mode: true)
-      )
+                {
+                  vault: NomadCookbook::Helpers
+                           .property_hash(new_resource,
+                                          NomadCookbook::VaultConfig::OPTIONS),
+                }, quirks_mode: true)
+             )
       action actn
     end
   end

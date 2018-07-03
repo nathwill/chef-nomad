@@ -15,11 +15,11 @@ end
     file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
                      "#{new_resource.tls_name}.tls.json") do
       content(JSON.pretty_generate(
-        {
-          tls: NomadCookbook::Helpers
-                 .property_hash(new_resource, NomadCookbook::TLSConfig::OPTIONS),
-        }, quirks_mode: true)
-      )
+                {
+                  tls: NomadCookbook::Helpers
+                         .property_hash(new_resource, NomadCookbook::TLSConfig::OPTIONS),
+                }, quirks_mode: true)
+             )
       action actn
     end
   end

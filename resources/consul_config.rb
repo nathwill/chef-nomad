@@ -15,12 +15,12 @@ end
     file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
                      "#{new_resource.consul_name}.consul.json") do
       content(JSON.pretty_generate(
-        {
-          consul: NomadCookbook::Helpers
-                    .property_hash(new_resource,
-                                   NomadCookbook::ConsulConfig::OPTIONS),
-        }, quirks_mode: true)
-      )
+                {
+                  consul: NomadCookbook::Helpers
+                            .property_hash(new_resource,
+                                           NomadCookbook::ConsulConfig::OPTIONS),
+                }, quirks_mode: true)
+             )
       action actn
     end
   end
