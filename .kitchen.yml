@@ -9,10 +9,10 @@ verifier:
   name: inspec
 
 platforms:
-  - name: debian-9.3
-  - name: ubuntu-16.04
-  - name: centos-7.4
-  - name: fedora-27
+  - name: debian-9.4
+  - name: ubuntu-18.04
+  - name: centos-7.5
+  - name: fedora-28
     run_list:
       - yum::dnf_yum_compat
 
@@ -26,7 +26,7 @@ suites:
         - - private_network
           - ip: 192.168.120.201
     includes:
-      - centos-7.4
+      - centos-7.5
     run_list:
       - recipe[cluster::client]
   - name: cluster-server
@@ -38,7 +38,7 @@ suites:
           - guest: 4646
             host: 4646
     includes:
-      - centos-7.4
+      - centos-7.5
     run_list:
       - recipe[cluster::server]
       - recipe[cluster::jobs]

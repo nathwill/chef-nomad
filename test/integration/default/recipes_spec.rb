@@ -10,17 +10,15 @@ end
 
 control 'configure' do
   describe file('/etc/nomad.conf.d/00-default.client.json') do
-    its('content') { should match /{"client":{"enabled":true}}/ }
+    its('content') { should match /{\n  \"client\": {\n    \"enabled\": true\n  }\n}/ }
   end
 
   describe file('/etc/nomad.conf.d/00-default.server.json') do
-    its('content') { should match /{"server":{"enabled":false}}/ }
+    its('content') { should match /{\n  \"server\": {\n    \"enabled\": false\n  }\n}/ }
   end
 
   describe file('/etc/nomad.conf.d/00-default.json') do
-    its('content') do
-      should match %r{{"bind_addr":"0.0.0.0","data_dir":"/var/lib/nomad"}}
-    end
+    its('content') { should match %r{{\n  \"bind_addr\": \"0.0.0.0\",\n  \"data_dir\": \"/var/lib/nomad\"\n}} }
   end
 end
 
