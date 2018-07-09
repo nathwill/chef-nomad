@@ -14,9 +14,12 @@ end
 
     file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
                      "#{new_resource.config_name}.json") do
-      content NomadCookbook::Helpers
-        .property_hash(new_resource, NomadCookbook::Config::OPTIONS)
-        .to_json
+      content(
+        JSON.pretty_generate(
+          NomadCookbook::Helpers
+          .property_hash(new_resource, NomadCookbook::Config::OPTIONS),
+        quirks_mode: true)
+      )
       action actn
     end
   end

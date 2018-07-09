@@ -14,11 +14,13 @@ end
 
     file ::File.join(NomadCookbook::Helpers::CONFIG_ROOT,
                      "#{new_resource.client_name}.client.json") do
-      content({
-        client: NomadCookbook::Helpers
-                  .property_hash(new_resource,
-                                 NomadCookbook::ClientConfig::OPTIONS),
-      }.to_json)
+      content(JSON.pretty_generate(
+                {
+                  client: NomadCookbook::Helpers
+                            .property_hash(new_resource,
+                                           NomadCookbook::ClientConfig::OPTIONS),
+                }, quirks_mode: true)
+             )
       action actn
     end
   end
