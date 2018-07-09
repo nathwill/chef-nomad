@@ -1,3 +1,8 @@
+# 1.2.0 / 2018-07-09
+
+* pretty print JSON config (thanks @scalp42!)
+* update test platforms
+
 # 1.1.0 / 2018-05-08
 
 * update to 0.8.3
