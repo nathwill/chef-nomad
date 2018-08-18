@@ -27,4 +27,9 @@ control 'manage' do
     it { should be_enabled }
     it { should be_running }
   end
+
+  describe bash('cat /proc/$(systemctl show -p MainPID nomad|cut -d = -f 2)/environ|tr "\0" "\n"') do
+    its('stdout') { should match /FOO\s*=\s*OOF/ }
+    its('stdout') { should match /BAR\s*=\s*RAB/ }
+  end
 end

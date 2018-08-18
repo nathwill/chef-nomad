@@ -28,6 +28,8 @@ default['nomad'].tap do |nomad|
     args['config'] = NomadCookbook::Helpers::CONFIG_ROOT
   end
 
+  nomad['environment'] = {}
+
   nomad['source_url'] = 'https://releases.hashicorp.com/nomad'
   nomad['package'], nomad['checksum'] =
     case node['os']
