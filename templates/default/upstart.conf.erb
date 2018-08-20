@@ -12,5 +12,12 @@ stop on runlevel [016]
 # Automatically restart if crashed
 respawn
 
+<% if !@environment.empty? %>
+# Set environment variables for the service
+  <%- @environment.each do |k, v| %>
+env <%= @k %>=<%= @v %>
+  <%- end %>
+
+<% end %>
 # Start the process
 exec /usr/local/sbin/nomad agent <%= @daemon_args %>

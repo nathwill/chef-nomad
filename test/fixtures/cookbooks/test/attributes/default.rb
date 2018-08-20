@@ -5,5 +5,7 @@ default['nomad'].tap do |nomad|
     da['network-interface'] = node['network']['default_interface']
   end
 
+  nomad['environment'] = { FOO: 'OOF', BAR: 'RAB' }
+
   nomad['agent']['name'] = 'nomad-test'
 end

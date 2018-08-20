@@ -16,19 +16,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-systemd_unit 'nomad.service' do
-  content <<~EOT.gsub('DAEMON_ARGS', node['nomad']['daemon_args'].to_args)
+unit_environment = ''
+node['nomad']['environment'].each do |k, v|
+  unit_environment += "Environment = \"#{k}=#{v}\"\n"
+end
+
+systemd_unit_content = <<~EOT
     [Unit]
     Description = Nomad Cluster Manager
     Documentation = https://www.nomadproject.io/docs/index.html
 
     [Service]
+EOT
+
+systemd_unit_content += unit_environment
+
+systemd_unit_content += <<~EOT.gsub('DAEMON_ARGS', node['nomad']['daemon_args'].to_args)
     ExecStart = /usr/local/sbin/nomad agent DAEMON_ARGS
     Restart = on-failure
 
     [Install]
     WantedBy = multi-user.target
-  EOT
+EOT
+
+systemd_unit 'nomad.service' do
+  content systemd_unit_content
   only_if { NomadCookbook::Helpers.systemd? }
   notifies :restart, 'service[nomad]', :delayed
   action :create
@@ -36,7 +48,7 @@ end
 
 template '/etc/init/nomad.conf' do
   source 'upstart.conf.erb'
-  variables daemon_args: node['nomad']['daemon_args'].to_args
+  variables daemon_args: node['nomad']['daemon_args'].to_args, environment: node['nomad']['environment']
   only_if { NomadCookbook::Helpers.upstart? }
   notifies :restart, 'service[nomad]', :delayed
   action :create
