@@ -18,12 +18,7 @@
 
 directory node['nomad']['agent']['data_dir']
 
-begin
-  env = data_bag_item('nomad', 'environment').to_hash
-rescue StandardError
-  Chef::Log.info('data_bag_item("nomad", "environment") not found.')
-  env = {}
-end
+env = node.run_state['nomad_environment'] || {}
 
 file '/etc/nomad.env' do
   sensitive true
