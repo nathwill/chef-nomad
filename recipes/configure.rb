@@ -18,6 +18,20 @@
 
 directory node['nomad']['agent']['data_dir']
 
+begin
+  env = data_bag_item('nomad', 'environment').to_hash
+rescue StandardError
+  Chef::Log.info('data_bag_item("nomad", "environment") not found.')
+  env = {}
+end
+
+file '/etc/nomad.env' do
+  sensitive true
+  mode '0640'
+  content env.map { |k, v| "#{k}=#{v}" }
+             .join("\n")
+end
+
 nomad_config '00-default' do
   bind_addr node['nomad']['agent']['bind_addr']
   data_dir node['nomad']['agent']['data_dir']

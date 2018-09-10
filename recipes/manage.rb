@@ -24,6 +24,7 @@ systemd_unit 'nomad.service' do
 
     [Service]
     ExecStart = /usr/local/sbin/nomad agent DAEMON_ARGS
+    EnvironmentFile = -/etc/nomad.env
     Restart = on-failure
 
     [Install]
@@ -34,16 +35,7 @@ systemd_unit 'nomad.service' do
   action :create
 end
 
-template '/etc/init/nomad.conf' do
-  source 'upstart.conf.erb'
-  variables daemon_args: node['nomad']['daemon_args'].to_args
-  only_if { NomadCookbook::Helpers.upstart? }
-  notifies :restart, 'service[nomad]', :delayed
-  action :create
-end
-
 service 'nomad' do
-  provider(Chef::Provider::Service::Upstart) if NomadCookbook::Helpers.upstart?
   action %i(enable start)
   subscribes :restart, 'nomad_config[00-default]', :delayed
   subscribes :restart, 'nomad_client_config[00-default]', :delayed

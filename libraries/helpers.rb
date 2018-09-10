@@ -52,10 +52,6 @@ module NomadCookbook
     def systemd?
       File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
     end
-
-    def upstart?
-      File.executable?('/sbin/initctl')
-    end
   end
 end
 
