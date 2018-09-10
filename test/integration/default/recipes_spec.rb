@@ -9,6 +9,11 @@ control 'install' do
 end
 
 control 'configure' do
+  describe file('/etc/nomad.env') do
+    its('content') { should match /FOO=foo/ }
+    its('content') { should match /BAR=bar/ }
+  end
+
   describe file('/etc/nomad.conf.d/00-default.client.json') do
     its('content') { should match /{\n  \"client\": {\n    \"enabled\": true\n  }\n}/ }
   end

@@ -1,0 +1,17 @@
+{
+  "id": "environment",
+  "FOO": {
+    "encrypted_data": "9XzFIlSY5yw9bXkMUc1XVg+LVQBq/Q==\n",
+    "iv": "ph0Nv8VLMe1lA/jc\n",
+    "auth_tag": "Xi1HyqQTmLZ8Qfgc+4GBiA==\n",
+    "version": 3,
+    "cipher": "aes-256-gcm"
+  },
+  "BAR": {
+    "encrypted_data": "FGIC4CC31zsPnpw2sYVZhtSdL6+qmA==\n",
+    "iv": "vR14D4+CbFyDBBkQ\n",
+    "auth_tag": "sHKEC4qyhbaPyPHrHuCN8Q==\n",
+    "version": 3,
+    "cipher": "aes-256-gcm"
+  }
+}

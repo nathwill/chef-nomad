@@ -18,6 +18,15 @@
 
 directory node['nomad']['agent']['data_dir']
 
+env = node.run_state['nomad_environment'] || {}
+
+file '/etc/nomad.env' do
+  sensitive true
+  mode '0640'
+  content env.map { |k, v| "#{k}=#{v}" }
+             .join("\n")
+end
+
 nomad_config '00-default' do
   bind_addr node['nomad']['agent']['bind_addr']
   data_dir node['nomad']['agent']['data_dir']

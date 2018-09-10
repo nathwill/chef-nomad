@@ -12,6 +12,8 @@ end
 #
 # Set up nomad
 #
+node.run_state['nomad_environment'] = data_bag_item('nomad', 'environment').to_hash
+
 include_recipe 'nomad::default'
 
 nomad_acl_config '10-test' do

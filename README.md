@@ -16,7 +16,8 @@ Downloads and installs nomad from the URL specified in attributes..
 
 nomad::configure
 ----------------
-Sets up simple default configuration.
+Sets up simple default configuration. Optionally sets up nomad agent environment
+via `node.run_state['nomad_environment']`.
 
 nomad::manage
 -------------
