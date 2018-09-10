@@ -1,3 +1,8 @@
+# 2.0.0 / 2018-09-10
+
+* support setting nomad agent environment via node run_state (thanks @dbresson!)
+* drop upstart config creation
+
 # 1.2.0 / 2018-07-09
 
 * pretty print JSON config (thanks @scalp42!)
