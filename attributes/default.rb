@@ -30,21 +30,21 @@ default['nomad'].tap do |nomad|
 
   nomad['source_url'] = 'https://releases.hashicorp.com/nomad'
   nomad['package'], nomad['checksum'] =
-    case node['os']
-    when 'mac_os_x'
-      %w(
-        0.8.3/nomad_0.8.3_darwin_amd64.zip
-        d7fdfaf95155f1c28adbd781a6c9afa528a7cb1b2387633fa986eed63f0a14f8
+      case node['os']
+      when 'mac_os_x'
+        %w(
+        0.8.5/nomad_0.8.5_darwin_amd64.zip
+        b213aca736d6aff3cb897a325e39240172b4c2f117be5be4805deb838e25ab1d
       )
-    when 'windows'
-      %w(
-        0.8.3/nomad_0.8.3_windows_amd64.zip
-        3a7861daf83289f49276847fcdafd1501adb3bf7b57e3b1ce40bc4b782e0dacf
+      when 'windows'
+        %w(
+        0.8.5/nomad_0.8.5_windows_amd64.zip
+        c30ce30311be1cedfe3bc3b76d22b2273d115a9fb64d7bf88faccfa949c9e6e7
       )
-    else
-      %w(
-        0.8.3/nomad_0.8.3_linux_amd64.zip
-        c7faaee8fad0f6a74df01b9283253ee565f85791adca1d6a38462e0387dee175
+      else
+        %w(
+        0.8.5/nomad_0.8.5_linux_amd64.zip
+        e56c0e95e7a724b4fadd8eba32da5a3f2846f67e22e2352b19d1ada2066e063b
       )
-    end
+      end
 end

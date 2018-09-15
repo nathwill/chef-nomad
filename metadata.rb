@@ -4,7 +4,7 @@ maintainer_email 'nath.e.will@gmail.com'
 license          'Apache-2.0'
 description      'installs/configures nomad'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '2.0.0'
+version          '2.1.0'
 chef_version '>= 12.7' if respond_to?(:chef_version)
 
 gem 'nomad', '~> 0.1'

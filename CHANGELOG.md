@@ -1,3 +1,7 @@
+# 2.1.0 / 2018-09-15
+
+* update to 0.8.5
+
 # 2.0.0 / 2018-09-10
 
 * support setting nomad agent environment via node run_state (thanks @dbresson!)
