@@ -24,7 +24,7 @@ file '/etc/nomad.env' do
   sensitive true
   mode '0640'
   content env.map { |k, v| "#{k}=#{v}" }
-             .join("\n")
+    .join("\n")
 end
 
 nomad_config '00-default' do
