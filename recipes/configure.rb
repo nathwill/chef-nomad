@@ -39,3 +39,7 @@ end
 nomad_server_config '00-default' do
   enabled node['nomad']['agent']['server_enabled']
 end
+
+nomad_acl_config '00-default' do
+  enabled node['nomad']['agent']['acl_enabled']
+end
