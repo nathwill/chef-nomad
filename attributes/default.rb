@@ -22,6 +22,7 @@ default['nomad'].tap do |nomad|
     agent['data_dir'] = '/var/lib/nomad'
     agent['client_enabled'] = true
     agent['server_enabled'] = false
+    agent['acl_enabled'] = false
   end
 
   nomad['daemon_args'].tap do |args|
