@@ -30,7 +30,7 @@ systemd_unit 'nomad.service' do
     [Install]
     WantedBy = multi-user.target
   EOT
-  only_if { NomadCookbook::Helpers.systemd? }
+  only_if { node['init_package'] == 'systemd' }
   notifies :restart, 'service[nomad]', :delayed
   action :create
 end
@@ -40,4 +40,5 @@ service 'nomad' do
   subscribes :restart, 'nomad_config[00-default]', :delayed
   subscribes :restart, 'nomad_client_config[00-default]', :delayed
   subscribes :restart, 'nomad_server_config[00-default]', :delayed
+  subscribes :restart, 'nomad_acl_config[00-default]', :delayed
 end

@@ -48,10 +48,6 @@ module NomadCookbook
 
       result
     end
-
-    def systemd?
-      node['init_package'] == 'systemd'
-    end
   end
 end
 
