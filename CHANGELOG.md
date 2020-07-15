@@ -1,3 +1,9 @@
+# 2.3.0 / 2020-07-14
+
+* update default install to 0.11.3
+* add acl config to default
+* testing update
+
 # 2.2.0 / 2019-01-22
 
 * update to 0.8.7

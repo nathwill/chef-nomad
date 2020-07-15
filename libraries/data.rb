@@ -39,14 +39,28 @@ module NomadCookbook
       http_api_response_headers: { kind_of: Hash },
       leave_on_interrupt: { kind_of: [TrueClass, FalseClass] },
       leave_on_terminate: { kind_of: [TrueClass, FalseClass] },
+      limits: NomadCookbook::Helpers.conf_keys_include_opts(
+        %w(https_handshake_timeout
+           http_max_conns_per_client
+           rpc_handshake_timeout
+           rpc_max_conns_per_client)
+      )
       log_level: { kind_of: String, equal_to: %w(WARN INFO DEBUG) },
+      log_json: { kind_of: [TrueClass, FalseClass] },
+      log_file: { kind_of: [String] },
+      log_rotate_bytes: { kind_of: Integer },
+      log_rotate_duration: { kind_of: String },
+      log_rotate_max_files: { kind_of: Integer },
+      plugin_dir: { kind_of: String },
       ports: NomadCookbook::Helpers.conf_keys_include_opts(%w(http rpc serf)),
       region: { kind_of: String },
       syslog_facility: { kind_of: String },
       # Sub-configuration
       acl: { kind_of: Hash },
+      audit: { kind_of: Hash },
       client: { kind_of: Hash },
       consul: { kind_of: Hash },
+      plugin: { kind_of: Hash },
       sentinel: { kind_of: Hash },
       server: { kind_of: Hash },
       telemetry: { kind_of: Hash },
@@ -78,6 +92,14 @@ module NomadCookbook
     }.freeze
   end
 
+  module AuditConfig
+    OPTIONS ||= {
+      enabled: { kind_of: [TrueClass, FalseClass] },
+      sink: { kind_of: Hash },
+      filter: { kind_of: Array }
+    }.freeze
+  end
+
   module ClientConfig
     OPTIONS ||= {
       alloc_dir: { kind_of: String },
@@ -91,17 +113,31 @@ module NomadCookbook
           end,
         },
       },
+      disable_remote_exec: { kind_of: [TrueClass, FalseClass] },
       no_host_uuid: { kind_of: [TrueClass, FalseClass] },
       meta: { kind_of: Hash },
       network_interface: { kind_of: String },
       network_speed: { kind_of: Integer },
       cpu_total_compute: { kind_of: Integer },
+      memory_total_mb: { kind_of: Integer },
       node_class: { kind_of: String },
-      options: { kind_of: Hash },
+      options: NomadCookbook::Helpers.conf_keys_include_opts(
+        %w(driver.whitelist
+           driver.blacklist
+           env.blacklist
+           user.blacklist
+           user.checked_drivers
+           fingerprint.whitelist
+           fingerprint.blacklist
+           fingerprint.network.disallow_link_local)
+      ),
       reserved: NomadCookbook::Helpers.conf_keys_include_opts(
         %w(cpu memory disk reserved_ports)
       ),
       servers: { kind_of: Array },
+      server_join: NomadCookbook::Helpers.conf_keys_include_opts(
+        %w(retry_join retry_interval retry_max start_join)
+      ),
       state_dir: { kind_of: String },
       gc_interval: {
         kind_of: String,
@@ -115,12 +151,22 @@ module NomadCookbook
       gc_inode_usage_threshold: { kind_of: Integer },
       gc_max_allocs: { kind_of: Integer },
       gc_parallel_destroys: { kind_of: Integer },
+      cni_path: { kind_of: String },
+      cni_config_dir: { kind_of: String },
+      bridge_network_name: { kind_of: String },
+      bridge_network_subnet: { kind_of: String },
+      template: NomadCookbook::Helpers.conf_keys_include_opts(
+        %w(function_blacklist disable_file_sandbox)
+      ),
+      host_volume: { kind_of: Hash },
+      host_network: { kind_of: Hash }
     }.freeze
   end
 
   module ConsulConfig
     OPTIONS ||= {
       address: { kind_of: String },
+      allow_unauthenticated: { kind_of: [TrueClass, FalseClass] },
       auth: { kind_of: String },
       auto_advertise: { kind_of: [TrueClass, FalseClass] },
       ca_file: { kind_of: String },
@@ -134,9 +180,24 @@ module NomadCookbook
       server_serf_check_name: { kind_of: String },
       server_rpc_check_name: { kind_of: String },
       server_auto_join: { kind_of: [TrueClass, FalseClass] },
+      share_ssl: { kind_of: [TrueClass, FalseClass] },
       ssl: { kind_of: [TrueClass, FalseClass] },
+      tags: { kind_of: Array ] },
       token: { kind_of: String },
       verify_ssl: { kind_of: [TrueClass, FalseClass] },
+    }.freeze
+  end
+
+  module PluginConfig
+    OPTIONS ||= {
+      args: { kind_of: Array },
+      config: { kind_of: Hash }
+    }.freeze
+  end
+
+  module SentinelConfig
+    OPTIONS ||= {
+      import: NomadCookbook::Helpers.conf_keys_include_opts(%w(path args))
     }.freeze
   end
 
@@ -154,6 +215,14 @@ module NomadCookbook
       enabled_schedulers: { kind_of: Array },
       encrypt: { kind_of: String },
       node_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end,
+        },
+      },
+      job_gc_interval: {
         kind_of: String,
         callbacks: {
           'is a valid time expression' => lambda do |spec|
@@ -185,6 +254,15 @@ module NomadCookbook
           end,
         },
       },
+      csi_plugin_gc_threshold: {
+        kind_of: String,
+        callbacks: {
+          'is a valid time expression' => lambda do |spec|
+            spec.match(/^\d+(ns|us|µs|ms|s|m|h)$/)
+          end,
+        },
+      },
+      default_scheduler_config: { kind_of: Hash },
       heartbeat_grace: {
         kind_of: String,
         callbacks: {
@@ -211,11 +289,15 @@ module NomadCookbook
       },
       protocol_version: { kind_of: String },
       raft_protocol: { kind_of: Integer },
+      raft_multiplier: { kind_of: Integer },
       redundancy_zone: { kind_of: String },
       rejoin_after_leave: { kind_of: [TrueClass, FalseClass] },
       retry_join: { kind_of: Array },
       retry_interval: { kind_of: String },
       retry_max: { kind_of: Integer },
+      server_join: NomadCookbook::Helpers.conf_keys_include_opts(
+        %w(retry_join retry_interval retry_max start_join)
+      ),
       start_join: { kind_of: Array },
       upgrade_version: { kind_of: String },
     }.freeze
@@ -237,8 +319,12 @@ module NomadCookbook
       publish_node_metrics: { kind_of: [TrueClass, FalseClass] },
       backwards_compatible_metrics: { kind_of: [TrueClass, FalseClass] },
       disable_tagged_metrics: { kind_of: [TrueClass, FalseClass] },
+      filter_default: { kind_of: [TrueClass, FalseClass] },
       statsite_address: { kind_of: String },
+      prefix_filter: { kind_of: Array },
+      disable_dispatched_job_summary_metrics: { kind_of: [TrueClass, FalseClass] },
       statsd_address: { kind_of: String },
+      statsite_address: { kind_of: String },
       datadog_address: { kind_of: String },
       datadog_tags: { kind_of: Array },
       prometheus_metrics: { kind_of: [TrueClass, FalseClass] },
@@ -275,6 +361,9 @@ module NomadCookbook
       http: { kind_of: [TrueClass, FalseClass] },
       rpc: { kind_of: [TrueClass, FalseClass] },
       rpc_upgrade_mode: { kind_of: [TrueClass, FalseClass] },
+      tls_cipher_suites: { kind_of: String },
+      tls_min_version: { kind_of: String },
+      tls_prefer_server_cipher_suites: { kind_of: String },
       verify_https_client: { kind_of: [TrueClass, FalseClass] },
       verify_server_hostname: { kind_of: [TrueClass, FalseClass] },
     }.freeze
@@ -291,6 +380,7 @@ module NomadCookbook
       ca_path: { kind_of: String },
       cert_file: { kind_of: String },
       key_file: { kind_of: String },
+      namespace: { kind_of: String },
       tls_server_name: { kind_of: String },
       tls_skip_verify: { kind_of: [TrueClass, FalseClass] },
       token: { kind_of: String },
