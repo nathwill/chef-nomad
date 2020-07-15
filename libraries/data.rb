@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: nomad
+# Cookbook:: nomad
 # Library:: NomadCookbook
 #
-# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
+# Copyright:: 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ module NomadCookbook
            http_max_conns_per_client
            rpc_handshake_timeout
            rpc_max_conns_per_client)
-      )
+      ),
       log_level: { kind_of: String, equal_to: %w(WARN INFO DEBUG) },
       log_json: { kind_of: [TrueClass, FalseClass] },
       log_file: { kind_of: [String] },
@@ -96,7 +96,7 @@ module NomadCookbook
     OPTIONS ||= {
       enabled: { kind_of: [TrueClass, FalseClass] },
       sink: { kind_of: Hash },
-      filter: { kind_of: Array }
+      filter: { kind_of: Array },
     }.freeze
   end
 
@@ -159,7 +159,7 @@ module NomadCookbook
         %w(function_blacklist disable_file_sandbox)
       ),
       host_volume: { kind_of: Hash },
-      host_network: { kind_of: Hash }
+      host_network: { kind_of: Hash },
     }.freeze
   end
 
@@ -182,7 +182,7 @@ module NomadCookbook
       server_auto_join: { kind_of: [TrueClass, FalseClass] },
       share_ssl: { kind_of: [TrueClass, FalseClass] },
       ssl: { kind_of: [TrueClass, FalseClass] },
-      tags: { kind_of: Array ] },
+      tags: { kind_of: Array },
       token: { kind_of: String },
       verify_ssl: { kind_of: [TrueClass, FalseClass] },
     }.freeze
@@ -191,13 +191,13 @@ module NomadCookbook
   module PluginConfig
     OPTIONS ||= {
       args: { kind_of: Array },
-      config: { kind_of: Hash }
+      config: { kind_of: Hash },
     }.freeze
   end
 
   module SentinelConfig
     OPTIONS ||= {
-      import: NomadCookbook::Helpers.conf_keys_include_opts(%w(path args))
+      import: NomadCookbook::Helpers.conf_keys_include_opts(%w(path args)),
     }.freeze
   end
 
@@ -320,7 +320,6 @@ module NomadCookbook
       backwards_compatible_metrics: { kind_of: [TrueClass, FalseClass] },
       disable_tagged_metrics: { kind_of: [TrueClass, FalseClass] },
       filter_default: { kind_of: [TrueClass, FalseClass] },
-      statsite_address: { kind_of: String },
       prefix_filter: { kind_of: Array },
       disable_dispatched_job_summary_metrics: { kind_of: [TrueClass, FalseClass] },
       statsd_address: { kind_of: String },

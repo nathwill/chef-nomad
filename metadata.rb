@@ -3,9 +3,8 @@ maintainer       'Nathan Williams'
 maintainer_email 'nath.e.will@gmail.com'
 license          'Apache-2.0'
 description      'installs/configures nomad'
-long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '2.2.0'
-chef_version '>= 12.7' if respond_to?(:chef_version)
+chef_version '>= 12.7'
 
 gem 'nomad', '~> 0.1'
 
@@ -18,7 +17,5 @@ supports   'ubuntu', '>= 12.04'
   supports p, '>= 6.0'
 end
 
-unless defined?(Ridley::Chef::Cookbook::Metadata)
-  source_url 'https://github.com/nathwill/chef-nomad'
-  issues_url 'https://github.com/nathwill/chef-nomad/issues'
-end
+source_url 'https://github.com/nathwill/chef-nomad'
+issues_url 'https://github.com/nathwill/chef-nomad/issues'

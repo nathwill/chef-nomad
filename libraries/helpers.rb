@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: nomad
+# Cookbook:: nomad
 # Library:: NomadCookbook::Helpers
 #
-# Copyright 2015-2018, Nathan Williams <nath.e.will@gmail.com>
+# Copyright:: 2015-2018, Nathan Williams <nath.e.will@gmail.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ module NomadCookbook
     end
 
     def systemd?
-      File.exist?('/proc/1/comm') && IO.read('/proc/1/comm').chomp == 'systemd'
+      node['init_package'] == 'systemd'
     end
   end
 end

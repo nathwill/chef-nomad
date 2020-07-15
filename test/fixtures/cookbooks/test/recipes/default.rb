@@ -1,9 +1,7 @@
 #
 # Prepare node
 #
-execute 'apt-get update' do
-  only_if { platform_family?('debian') }
-end
+apt_update if platform_family?('debian')
 
 docker_service 'default' do
   action %i(create start)

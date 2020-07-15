@@ -3,6 +3,7 @@
 * update default install to 0.11.3
 * add acl config to default
 * testing update
+* add new config blocks and related resources
 
 # 2.2.0 / 2019-01-22
 
