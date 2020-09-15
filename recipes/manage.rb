@@ -21,11 +21,14 @@ systemd_unit 'nomad.service' do
     [Unit]
     Description = Nomad Cluster Manager
     Documentation = https://www.nomadproject.io/docs/index.html
+    Wants=network-online.target
+    After=network-online.target
 
     [Service]
     ExecStart = /usr/local/sbin/nomad agent DAEMON_ARGS
     EnvironmentFile = -/etc/nomad.env
     Restart = on-failure
+    RestartSec=2
 
     [Install]
     WantedBy = multi-user.target
