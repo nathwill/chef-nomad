@@ -16,7 +16,7 @@ platforms:
   - name: ubuntu-20.04
   - name: centos-7.8
   - name: centos-8.2
-  - name: fedora-31
+  - name: fedora-32
     run_list:
       - yum::dnf_yum_compat
 

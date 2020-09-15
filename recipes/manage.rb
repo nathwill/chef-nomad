@@ -19,16 +19,25 @@
 systemd_unit 'nomad.service' do
   content <<~EOT.gsub('DAEMON_ARGS', node['nomad']['daemon_args'].to_args)
     [Unit]
-    Description = Nomad Cluster Manager
-    Documentation = https://www.nomadproject.io/docs/index.html
+    Description = Nomad
+    Documentation = https://www.nomadproject.io/docs/
     Wants=network-online.target
     After=network-online.target
 
     [Service]
+    EnvironmentFile = -/etc/nomad.env
+    ExecReload = /bin/kill -HUP $MAINPID
     ExecStart = /usr/local/sbin/nomad agent DAEMON_ARGS
+    KillMode = process
+    KillSignal = SIGINT
+    LimitNOFILE = infinity
+    LimitNPROC = infinity
     EnvironmentFile = -/etc/nomad.env
     Restart = on-failure
-    RestartSec=2
+    RestartSec = 2
+    StartLimitBurst = 3
+    StartLimitIntervalSec = 10
+    TasksMax = infinity
 
     [Install]
     WantedBy = multi-user.target
