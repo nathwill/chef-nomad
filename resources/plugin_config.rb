@@ -16,8 +16,12 @@ end
                      "#{new_resource.plugin_name}.plugin.json") do
       content(JSON.pretty_generate(
                 {
-                  plugin: NomadCookbook::Helpers
+                  plugin: [{
+                    new_resource.plugin_name => [
+                      NomadCookbook::Helpers
                          .property_hash(new_resource, NomadCookbook::PluginConfig::OPTIONS),
+                    ],
+                  }],
                 }, quirks_mode: true)
              )
       action actn

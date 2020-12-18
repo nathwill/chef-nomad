@@ -191,7 +191,7 @@ module NomadCookbook
   module PluginConfig
     OPTIONS ||= {
       args: { kind_of: Array },
-      config: { kind_of: Hash },
+      config: { kind_of: Array },
     }.freeze
   end
 
