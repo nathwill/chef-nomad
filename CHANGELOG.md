@@ -1,3 +1,7 @@
+# 3.0.0 / 2020-12-18
+
+* fix plugin config format
+
 # 2.3.0 / 2020-07-14
 
 * update default install to 0.11.3
