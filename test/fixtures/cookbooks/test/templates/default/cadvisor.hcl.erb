@@ -6,14 +6,19 @@ job "monitoring" {
   type = "system"
 
   group "agents" {
+    network {
+      port "cadvisor" {
+        static = 8080
+        to = "8080"
+      }
+    }
+
     task "cadvisor" {
       driver = "docker"
 
       config {
         image = "google/cadvisor"
-        port_map {
-          cadvisor = 8080
-        }
+        ports = ["cadvisor"]
         labels {
           Service = "cadvisor"
         }
@@ -33,12 +38,6 @@ job "monitoring" {
       resources {
         cpu = 100
         memory = 32
-        network {
-          mbits = 100
-          port "cadvisor" {
-            static = 8080
-          }
-        }
       }
     }
   }

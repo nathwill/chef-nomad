@@ -120,6 +120,7 @@ module NomadCookbook
       network_speed: { kind_of: Integer },
       cpu_total_compute: { kind_of: Integer },
       memory_total_mb: { kind_of: Integer },
+      reservable_cores: { kind_of: String },
       node_class: { kind_of: String },
       options: NomadCookbook::Helpers.conf_keys_include_opts(
         %w(driver.whitelist
@@ -132,7 +133,7 @@ module NomadCookbook
            fingerprint.network.disallow_link_local)
       ),
       reserved: NomadCookbook::Helpers.conf_keys_include_opts(
-        %w(cpu memory disk reserved_ports)
+        %w(cpu memory disk reserved_ports cores)
       ),
       servers: { kind_of: Array },
       server_join: NomadCookbook::Helpers.conf_keys_include_opts(
@@ -156,10 +157,12 @@ module NomadCookbook
       bridge_network_name: { kind_of: String },
       bridge_network_subnet: { kind_of: String },
       template: NomadCookbook::Helpers.conf_keys_include_opts(
-        %w(function_blacklist disable_file_sandbox)
+        %w(function_denylist function_blacklist disable_file_sandbox)
       ),
       host_volume: { kind_of: Hash },
       host_network: { kind_of: Hash },
+      bind_wildcard_default_host_network: { kind_of: [TrueClass, FalseClass] },
+      cgroup_parent: { kind_of: String }
     }.freeze
   end
 
@@ -263,6 +266,10 @@ module NomadCookbook
         },
       },
       default_scheduler_config: { kind_of: Hash },
+      enable_event_broker: { kind_of: [TrueClass, FalseClass] },
+      event_buffer_size: { kind_of: Integer },
+      license_path: { kind_of: String },
+      search: { kind_of: Hash },
       heartbeat_grace: {
         kind_of: String,
         callbacks: {
@@ -317,8 +324,6 @@ module NomadCookbook
       use_node_name: { kind_of: [TrueClass, FalseClass] },
       publish_allocation_metrics: { kind_of: [TrueClass, FalseClass] },
       publish_node_metrics: { kind_of: [TrueClass, FalseClass] },
-      backwards_compatible_metrics: { kind_of: [TrueClass, FalseClass] },
-      disable_tagged_metrics: { kind_of: [TrueClass, FalseClass] },
       filter_default: { kind_of: [TrueClass, FalseClass] },
       prefix_filter: { kind_of: Array },
       disable_dispatched_job_summary_metrics: { kind_of: [TrueClass, FalseClass] },
