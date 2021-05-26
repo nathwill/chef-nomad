@@ -1,3 +1,8 @@
+# 4.0.0 / 2021-05-26
+
+* upgrade to Nomad 1.1.0 (thanks @dbresson!)
+* support for Chef 17
+
 # 3.0.0 / 2020-12-18
 
 * fix plugin config format
