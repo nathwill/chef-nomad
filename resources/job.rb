@@ -9,6 +9,8 @@ property :variables, Hash
 
 default_action :create
 
+unified_mode true
+
 action_class do
   def job_file
     ::File.join(new_resource.path, "#{new_resource.job_name}.hcl")
