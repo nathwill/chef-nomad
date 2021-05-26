@@ -3,8 +3,10 @@ provides :nomad_vault_config
 
 property :vault_name, String, name_property: true, identity: true
 NomadCookbook::VaultConfig::OPTIONS.each do |opt, conf|
-  property opt, conf
+  property opt, conf.delete(:kind_of), **conf
 end
+
+unified_mode true
 
 %i(create delete).each do |actn|
   action actn do
