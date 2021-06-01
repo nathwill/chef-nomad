@@ -3,8 +3,8 @@ maintainer       'Nathan Williams'
 maintainer_email 'nath.e.will@gmail.com'
 license          'Apache-2.0'
 description      'installs/configures nomad'
-version          '4.0.0'
-chef_version '>= 17.0'
+version          '4.0.1'
+chef_version     '>= 14.15'
 
 gem 'nomad', '~> 0.1'
 
